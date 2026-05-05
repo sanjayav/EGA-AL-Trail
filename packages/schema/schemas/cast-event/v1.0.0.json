@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dpp.ega.ae/cast-event/v1.0.0.json",
+  "title": "Canonical Cast Event",
+  "description": "The canonical event emitted by every ingestion source — simulator, public-data importer, manual entry, and (in v2) live MES. Every source produces an identical payload regardless of origin. The DPP generator consumes this to mint a canonical DPP record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "trackingId",
+    "source",
+    "occurredAt",
+    "tenantId",
+    "cast"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "trackingId": {
+      "type": "string",
+      "description": "Idempotency key — repeat submissions with the same trackingId return the prior result.",
+      "minLength": 8,
+      "maxLength": 128
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["simulator", "public_data", "manual_entry", "csv_import", "mes_rest", "mes_kafka", "mes_opcua"]
+        },
+        "actor": { "type": "string", "description": "User or system that fired the event" },
+        "presetId": { "type": "string", "description": "If kind=simulator, the preset that was fired" },
+        "publicSourceUrl": { "type": "string", "format": "uri", "description": "If kind=public_data, the URL the values were extracted from" }
+      }
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the cast event physically occurred (not when ingested)."
+    },
+    "tenantId": { "type": "integer", "minimum": 1 },
+    "cast": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "castNumber",
+        "alloyEn",
+        "brand",
+        "form",
+        "weightKg",
+        "casthouseUfi"
+      ],
+      "properties": {
+        "castNumber": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "description": "MES-issued heat/cast number"
+        },
+        "alloyEn": {
+          "type": "string",
+          "pattern": "^EN A[WC]-[0-9]{4}[A-Z]?$"
+        },
+        "alloyAa": {
+          "type": "string",
+          "pattern": "^AA [0-9]{4}[A-Z]?$"
+        },
+        "brand": {
+          "type": "string",
+          "enum": ["CelestiAL", "CelestiAL-R", "Standard", "High-Purity", "Foundry Alloy"]
+        },
+        "form": {
+          "type": "string",
+          "enum": [
+            "extrusion_billet",
+            "sheet_ingot",
+            "foundry_ingot",
+            "t_bar",
+            "sow",
+            "standard_ingot",
+            "properzi",
+            "hdc_small",
+            "b_ingot"
+          ]
+        },
+        "temper": { "type": "string", "pattern": "^(F|O|H[0-9]{2,3}|T[0-9]{1,2})$" },
+        "weightKg": { "type": "number", "exclusiveMinimum": 0 },
+        "diameterMm": { "type": "number", "exclusiveMinimum": 0 },
+        "lengthMm": { "type": "number", "exclusiveMinimum": 0 },
+        "widthMm": { "type": "number", "exclusiveMinimum": 0 },
+        "thicknessMm": { "type": "number", "exclusiveMinimum": 0 },
+        "casthouseUfi": {
+          "type": "string",
+          "pattern": "^[0-9]{13}$",
+          "description": "GLN of the casthouse that produced the cast"
+        },
+        "smelterUfi": { "type": "string", "pattern": "^[0-9]{13}$" },
+        "purityGrade": { "type": "string" },
+        "customerReference": { "type": "string", "description": "Optional shipment / order reference" }
+      }
+    },
+    "overrides": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Free-form overrides for workshop / configurator scenarios. Generator merges over reference data."
+    }
+  }
+}

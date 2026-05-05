@@ -1,0 +1,32 @@
+{
+  "name": "@dpp/schema",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Canonical DPP JSON Schema (Draft 2020-12) and version manifests. Source of truth for all type generation.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./dpp/v1.0.0": "./schemas/dpp/v1.0.0.json",
+    "./cast-event/v1.0.0": "./schemas/cast-event/v1.0.0.json",
+    "./envelope/v1.0.0": "./schemas/envelope/v1.0.0.json",
+    "./presets/celestial": "./presets/celestial.json",
+    "./presets/celestial-r": "./presets/celestial-r.json",
+    "./presets/standard": "./presets/standard.json"
+  },
+  "files": ["schemas", "presets", "src"],
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "codegen": "node scripts/codegen-ts.mjs && node scripts/codegen-py.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^15.0.2",
+    "typescript": "^5.6.2"
+  }
+}

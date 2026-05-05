@@ -1,0 +1,191 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   EGA DPP design tokens
+   --------------------------------------------------------------------------
+   Two distinct themes:
+     [data-theme='enterprise'] — Stripe / Linear / Notion restraint, signature
+                                  blue accent. Used by all six authenticated
+                                  surfaces (Tenant Console, DPP Mgmt, Customer
+                                  Portal, Authority, Verifier, Super Admin).
+     [data-theme='editorial']  — Apple Environmental Report aesthetic, Fraunces
+                                  serif + desert-sun gold. Used exclusively by
+                                  the Public Viewer (apps/web-public).
+   Switch themes via <html data-theme="enterprise"> at the document root.
+   --------------------------------------------------------------------------
+   Spec sources:
+     §4 (Design System), §10 (Public Viewer Implementation), §13 (Surface Map)
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme='enterprise'] {
+  /* Palette — monochrome with one signature accent (§4.3) */
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #404040;
+  --color-graphite: #6b7280;
+  --color-silver: #d1d5db;
+  --color-fog: #f3f4f6;
+  --color-paper: #ffffff;
+  --color-cream: #fafaf7;
+  --color-accent: #0f4c81;
+  --color-accent-soft: #e6eef7;
+  --color-green: #10b981;
+  --color-amber: #f59e0b;
+  --color-red: #ef4444;
+
+  /* Surfaces */
+  --surface-page: var(--color-paper);
+  --surface-canvas: var(--color-cream);
+  --surface-recessed: var(--color-cream);
+  --surface-hover: var(--color-fog);
+  --surface-selected: var(--color-accent-soft);
+  --surface-overlay: rgba(10, 10, 10, 0.4);
+  --surface-border: var(--color-silver);
+  --surface-divider: rgba(10, 10, 10, 0.06);
+
+  /* Foreground */
+  --fg-default: var(--color-ink);
+  --fg-muted: var(--color-ink-soft);
+  --fg-subtle: var(--color-graphite);
+  --fg-on-accent: var(--color-paper);
+  --fg-link: var(--color-accent);
+
+  /* Type — see §4.2. Inter for evaluation; Söhne or GT America for production. */
+  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+
+  /* Shadows — used sparingly. Focus rings only by default. */
+  --shadow-focus: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-accent);
+  --shadow-overlay: 0 12px 32px -8px rgba(10, 10, 10, 0.16), 0 4px 8px -4px rgba(10, 10, 10, 0.08);
+  --shadow-popover: 0 8px 24px -6px rgba(10, 10, 10, 0.12), 0 2px 6px -2px rgba(10, 10, 10, 0.06);
+
+  /* Motion — §4.6: 150ms states, 240ms layout, 480ms hero */
+  --motion-fast: 150ms;
+  --motion-base: 240ms;
+  --motion-hero: 480ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Layout */
+  --container-max: 1280px;
+  --rail-collapsed: 64px;
+  --rail-expanded: 240px;
+  --topbar-height: 56px;
+  --right-rail-width: 320px;
+  --grid-gutter-desktop: 24px;
+  --grid-gutter-tablet: 16px;
+  --grid-gutter-mobile: 12px;
+}
+
+/* Dark mode for enterprise — opt-in via [data-theme='enterprise'][data-mode='dark'].
+   Held back from default; not all dashboards have invested in dark variants yet. */
+[data-theme='enterprise'][data-mode='dark'] {
+  --color-ink: #f5f5f5;
+  --color-ink-soft: #d4d4d4;
+  --color-graphite: #a3a3a3;
+  --color-silver: #404040;
+  --color-fog: #1f1f1f;
+  --color-paper: #0a0a0a;
+  --color-cream: #141414;
+  --color-accent: #5b9bd5;
+  --color-accent-soft: rgba(91, 155, 213, 0.16);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Editorial theme — Public Viewer signature surface (§10)
+   Reference: Apple Environmental Report, Patagonia Footprint Chronicles,
+              Stripe Annual Letter, NYT "Snow Fall" scroll-driven journalism.
+   ────────────────────────────────────────────────────────────────────────── */
+[data-theme='editorial'] {
+  /* Palette — warm cream + ink + desert-sun gold accent (§10.3) */
+  --color-ink: #0a0908;
+  --color-ink-soft: #1f1b16;
+  --color-graphite: #6b6055;
+  --color-paper: #f5f1e8;
+  --color-paper-soft: #ede6d6;
+  --color-paper-muted: #ddd3bd;
+  --color-gold: #d4a574;
+  --color-gold-deep: #b8895a;
+  --color-gold-soft: #f2e2c4;
+  --color-green: #5a7a3a;
+  --color-line: rgba(10, 9, 8, 0.12);
+  --color-line-soft: rgba(10, 9, 8, 0.06);
+
+  --surface-page: var(--color-paper);
+  --surface-canvas: var(--color-paper-soft);
+  --surface-recessed: var(--color-paper-soft);
+  --surface-hover: var(--color-paper-muted);
+  --surface-selected: var(--color-gold-soft);
+  --surface-overlay: rgba(10, 9, 8, 0.6);
+  --surface-border: var(--color-line);
+  --surface-divider: var(--color-line-soft);
+
+  --fg-default: var(--color-ink);
+  --fg-muted: var(--color-ink-soft);
+  --fg-subtle: var(--color-graphite);
+  --fg-on-accent: var(--color-paper);
+  --fg-link: var(--color-gold-deep);
+
+  /* Three-font system — §10.2 */
+  --font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-body: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Motion — §10.4: longer durations, more orchestrated */
+  --motion-fast: 200ms;
+  --motion-base: 400ms;
+  --motion-hero: 1200ms;
+  --motion-bar-fill: 1600ms;
+  --motion-orchestrated: 3000ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-focus: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-gold);
+  --shadow-overlay: 0 24px 64px -16px rgba(10, 9, 8, 0.24), 0 8px 16px -8px rgba(10, 9, 8, 0.12);
+
+  /* Selection colour reinforces brand at every text interaction (§10.3) */
+}
+
+[data-theme='editorial'] ::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Reduced motion — honoured globally.
+   §4.6, §10.4.1: collapse animation to instant; preserve final state.
+   ────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Numerical data is first-class (§4.1)
+   Apply tabular figures wherever numbers carry meaning.
+   ────────────────────────────────────────────────────────────────────────── */
+.tabular {
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Print stylesheet — §10.10. Editorial only; enterprise rarely prints. */
+@media print {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-hero: 0ms;
+  }
+}

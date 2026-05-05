@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dpp
+resources:
+  - namespace.yaml
+  - api/serviceaccount.yaml
+  - api/configmap.yaml
+  - api/deployment.yaml
+  - api/service.yaml
+  - api/hpa.yaml
+  - api/pdb.yaml
+  - api/networkpolicy.yaml
+  - web-console/deployment.yaml
+  - web-console/service.yaml
+  - web-console/hpa.yaml
+  - web-public/deployment.yaml
+  - web-public/service.yaml
+  - web-public/hpa.yaml
+  - ingress.yaml
+commonLabels:
+  app.kubernetes.io/part-of: ega-dpp
+images:
+  - name: ghcr.io/ega/dpp-api
+    newTag: latest
+  - name: ghcr.io/ega/dpp-web-console
+    newTag: latest
+  - name: ghcr.io/ega/dpp-web-public
+    newTag: latest

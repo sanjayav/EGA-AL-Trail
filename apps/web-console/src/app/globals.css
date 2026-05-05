@@ -1,0 +1,145 @@
+@import 'tailwindcss';
+@import '@dpp/ui/tokens.css';
+
+@theme {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-graphite: var(--color-graphite);
+  --color-paper: var(--color-paper);
+  --color-cream: var(--color-cream);
+  --color-fog: var(--color-fog);
+  --color-accent: var(--color-accent);
+  --color-accent-soft: var(--color-accent-soft);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--surface-page);
+  color: var(--fg-default);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 78% 6%, rgba(15, 76, 129, 0.04), transparent 40%),
+    radial-gradient(circle at 18% 92%, rgba(16, 185, 129, 0.03), transparent 35%),
+    var(--surface-page);
+}
+
+/* Selection */
+::selection {
+  background: rgba(15, 76, 129, 0.15);
+  color: var(--color-ink);
+}
+
+/* Scrollbar — thin, Stripe-style */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-silver); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-graphite); }
+
+/* Tabular numbers */
+.tabular {
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* ── Utility classes ─────────────────────────────────────────────── */
+
+/* Stripe-style elevated card */
+.card-elevated {
+  background: var(--color-paper);
+  border: 1px solid var(--color-fog);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 16px rgba(0,0,0,0.04);
+  transition: box-shadow 240ms var(--ease-standard), transform 240ms var(--ease-standard);
+}
+.card-elevated:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* Stripe-style soft badge */
+.badge-soft {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.badge-blue { background: #e6eef7; color: #0f4c81; }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-amber { background: #fef3c7; color: #92400e; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+.badge-gray { background: var(--color-fog); color: var(--color-graphite); }
+
+/* Glass button - primary */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #0f4c81, #1565a0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.12);
+  transition: all 150ms var(--ease-standard);
+  cursor: pointer;
+  border: none;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0d4070, #1259a0);
+  box-shadow: 0 2px 6px rgba(15,76,129,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+  transform: translateY(-0.5px);
+}
+
+/* Ghost button */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  background: transparent;
+  border: 1px solid var(--surface-border);
+  transition: all 150ms var(--ease-standard);
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  background: var(--color-fog);
+  color: var(--fg-default);
+  border-color: var(--color-graphite);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-hero: 0ms;
+  }
+}

@@ -1,0 +1,604 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.dpp.ega.ae/dpp/v1.0.0.json",
+  "title": "EGA Aluminium Digital Product Passport",
+  "description": "Canonical DPP record schema. Implements ESPR Annex III mandatory subset, JRC Steel DPP §7 methodology adapted for aluminium, ASI Performance V3.1 + CoC V2.1, IAI v2.0, ISO 14067:2018. 106 attributes total — see EGA_DPP_Version_Manifests.xlsx for per-attribute provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "dppVersion",
+    "upi",
+    "identification",
+    "producer",
+    "origin",
+    "product",
+    "physical",
+    "chemistry",
+    "carbon",
+    "recycledContent",
+    "compliance",
+    "circularity",
+    "espr",
+    "sustainability",
+    "soc",
+    "useAndLife",
+    "documentation",
+    "meta"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Semver of this canonical schema. Pinned per record so historical DPPs remain readable as the schema evolves."
+    },
+    "dppVersion": {
+      "type": "string",
+      "enum": ["1.0", "1.5", "2", "3", "4"],
+      "description": "Tenant-selected manifest version. v1.0 is the trust-building foundation."
+    },
+    "upi": { "$ref": "#/$defs/UPI" },
+    "identification": { "$ref": "#/$defs/Identification" },
+    "producer": { "$ref": "#/$defs/Producer" },
+    "origin": { "$ref": "#/$defs/Origin" },
+    "product": { "$ref": "#/$defs/Product" },
+    "physical": { "$ref": "#/$defs/Physical" },
+    "chemistry": { "$ref": "#/$defs/Chemistry" },
+    "carbon": { "$ref": "#/$defs/Carbon" },
+    "recycledContent": { "$ref": "#/$defs/RecycledContent" },
+    "compliance": { "$ref": "#/$defs/Compliance" },
+    "circularity": { "$ref": "#/$defs/Circularity" },
+    "espr": { "$ref": "#/$defs/EsprAspects" },
+    "sustainability": { "$ref": "#/$defs/Sustainability" },
+    "soc": { "$ref": "#/$defs/SubstancesOfConcern" },
+    "useAndLife": { "$ref": "#/$defs/UseAndLife" },
+    "documentation": { "$ref": "#/$defs/Documentation" },
+    "meta": { "$ref": "#/$defs/Meta" }
+  },
+  "$defs": {
+    "Iso8601DateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp in UTC, e.g. 2026-04-12T08:14:33Z"
+    },
+    "Iso8601Date": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 calendar date, e.g. 2026-04-12"
+    },
+    "Iso639Lang": {
+      "type": "string",
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+      "description": "BCP-47 / ISO 639-1 language tag"
+    },
+    "Iso3166Country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "Did": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._:%-]+$",
+      "description": "W3C Decentralized Identifier (did:web, did:key, etc.)"
+    },
+    "Gtin": {
+      "type": "string",
+      "pattern": "^[0-9]{14}$",
+      "description": "GS1 GTIN-14"
+    },
+    "Gln": {
+      "type": "string",
+      "pattern": "^[0-9]{13}$",
+      "description": "GS1 GLN-13"
+    },
+    "GsDigitalLink": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://[^/]+/01/[0-9]{14}(/10/[^/]+)?(/21/[^/]+)?(\\?.*)?$",
+      "description": "GS1 Digital Link 1.4 URL"
+    },
+    "Url": { "type": "string", "format": "uri" },
+    "Percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage value 0–100"
+    },
+    "MassKg": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Mass in kilograms"
+    },
+    "LengthMm": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "Length in millimetres"
+    },
+    "AccessTier": {
+      "type": "string",
+      "enum": ["public", "legitimate", "authority"],
+      "description": "Per-field access tier per ESPR Article 9(2)(f)"
+    },
+    "Granularity": {
+      "type": "string",
+      "enum": ["operator", "facility", "model", "batch", "item"],
+      "description": "Per-field granularity per JRC §9.1"
+    },
+    "ComplianceStatus": {
+      "type": "string",
+      "enum": ["compliant", "non_compliant", "n_a", "pending"]
+    },
+    "VerifierReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["did", "name"],
+      "properties": {
+        "did": { "$ref": "#/$defs/Did" },
+        "name": { "type": "string", "minLength": 1 },
+        "credentialId": { "type": "string" },
+        "validFrom": { "$ref": "#/$defs/Iso8601Date" },
+        "validUntil": { "$ref": "#/$defs/Iso8601Date" }
+      }
+    },
+    "UPI": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["castNumber", "gtin", "digitalLinkUrl"],
+      "description": "Unique Product Identifier — GS1 Digital Link composite",
+      "properties": {
+        "castNumber": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64,
+          "description": "Heat / cast number from casthouse MES (Annex III(b))"
+        },
+        "gtin": { "$ref": "#/$defs/Gtin" },
+        "lotNumber": { "type": "string", "maxLength": 64 },
+        "itemSerial": { "type": "string", "maxLength": 64 },
+        "digitalLinkUrl": { "$ref": "#/$defs/GsDigitalLink" },
+        "taricCode": { "type": "string", "pattern": "^[0-9]{4}\\.[0-9]{2}$" },
+        "hsCode": { "type": "string", "pattern": "^[0-9]{4,8}$" },
+        "esprProductCategory": { "type": "string" }
+      }
+    },
+    "Identification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["alloyEn", "alloyAa", "designationNumber", "productionRoute", "brand", "form", "applicableStandards"],
+      "properties": {
+        "alloyEn": {
+          "type": "string",
+          "pattern": "^EN A[WC]-[0-9]{4}[A-Z]?$",
+          "description": "EN 573-3 alloy designation, e.g. EN AW-6063"
+        },
+        "alloyAa": {
+          "type": "string",
+          "pattern": "^AA [0-9]{4}[A-Z]?$",
+          "description": "AA Teal Sheets registered designation, e.g. AA 6063"
+        },
+        "designationNumber": {
+          "type": "string",
+          "description": "Full alloy chemical designation, e.g. EN AW-6063 (AlMg0.7Si)"
+        },
+        "temper": {
+          "type": "string",
+          "pattern": "^(F|O|H[0-9]{2,3}|T[0-9]{1,2})$",
+          "description": "EN 515 temper designation"
+        },
+        "productionRoute": {
+          "type": "string",
+          "enum": ["primary_solar", "primary_grid", "secondary", "mixed"],
+          "description": "IAI v2.0 production route classification"
+        },
+        "brand": {
+          "type": "string",
+          "enum": ["CelestiAL", "CelestiAL-R", "Standard", "High-Purity", "Foundry Alloy"]
+        },
+        "form": {
+          "type": "string",
+          "enum": [
+            "extrusion_billet",
+            "sheet_ingot",
+            "foundry_ingot",
+            "t_bar",
+            "sow",
+            "standard_ingot",
+            "properzi",
+            "hdc_small",
+            "b_ingot"
+          ]
+        },
+        "applicableStandards": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "EN/AA/ASTM standards the product conforms to"
+        }
+      }
+    },
+    "Producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uoi", "name", "registeredAddress", "trademark"],
+      "properties": {
+        "uoi": { "$ref": "#/$defs/Gln", "description": "Unique Operator Identifier (GLN)" },
+        "name": { "type": "string", "minLength": 1 },
+        "trademark": { "type": "string", "minLength": 1 },
+        "registeredAddress": { "type": "string", "minLength": 1 },
+        "regulatoryContact": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "team": { "type": "string" },
+            "email": { "type": "string", "format": "email" },
+            "phone": { "type": "string" }
+          }
+        },
+        "authorisedRepresentative": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "address": { "type": "string" }
+          }
+        }
+      }
+    },
+    "Origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["country", "meltAndPourCountry", "manufacturingDate", "facilities"],
+      "properties": {
+        "country": { "$ref": "#/$defs/Iso3166Country" },
+        "meltAndPourCountry": { "$ref": "#/$defs/Iso3166Country" },
+        "manufacturingDate": { "$ref": "#/$defs/Iso8601Date" },
+        "facilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["ufi", "name", "role"],
+            "properties": {
+              "ufi": { "$ref": "#/$defs/Gln" },
+              "name": { "type": "string" },
+              "role": {
+                "type": "string",
+                "enum": ["mine", "refinery", "smelter", "casthouse", "rolling_mill"]
+              },
+              "country": { "$ref": "#/$defs/Iso3166Country" }
+            }
+          }
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "purposeStatement"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "purposeStatement": { "type": "string" },
+        "intendedMarket": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "e.g. automotive, packaging, aerospace, construction"
+        }
+      }
+    },
+    "Physical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["netWeightKg"],
+      "properties": {
+        "netWeightKg": { "$ref": "#/$defs/MassKg" },
+        "diameterMm": { "$ref": "#/$defs/LengthMm" },
+        "lengthMm": { "$ref": "#/$defs/LengthMm" },
+        "widthMm": { "$ref": "#/$defs/LengthMm" },
+        "thicknessMm": { "$ref": "#/$defs/LengthMm" },
+        "tolerances": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "diameter": { "type": "string" },
+            "lengthBow": { "type": "string" },
+            "squareness": { "type": "string" }
+          }
+        }
+      }
+    },
+    "Chemistry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purityGrade"],
+      "description": "v1.0 declares only headline purity grade. Full elemental breakdown is introduced at v1.5.",
+      "properties": {
+        "purityGrade": {
+          "type": "string",
+          "description": "AA registered grade, e.g. P1020, P0507A"
+        }
+      }
+    },
+    "Carbon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valueKgCo2ePerTonne",
+        "declaredUnit",
+        "systemBoundary",
+        "methodology",
+        "reportingPeriod",
+        "verifier",
+        "assuranceLevel"
+      ],
+      "description": "Product Carbon Footprint per ISO 14067:2018, IAI v2.0, PCR 2022:08 v1.0",
+      "properties": {
+        "valueKgCo2ePerTonne": { "type": "number", "minimum": 0 },
+        "declaredUnit": {
+          "type": "string",
+          "default": "1000 kg of aluminium ingot (factory gate)"
+        },
+        "systemBoundary": {
+          "type": "string",
+          "enum": ["cradle_to_gate", "cradle_to_grave", "gate_to_gate"]
+        },
+        "methodology": { "type": "string" },
+        "reportingPeriod": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["from", "to"],
+          "properties": {
+            "from": { "$ref": "#/$defs/Iso8601Date" },
+            "to": { "$ref": "#/$defs/Iso8601Date" }
+          }
+        },
+        "verifier": { "$ref": "#/$defs/VerifierReference" },
+        "verificationStatementRef": {
+          "type": "string",
+          "description": "Verifier statement ID, e.g. DNV-2024-ASR-C730945-CelestiAL"
+        },
+        "assuranceLevel": {
+          "type": "string",
+          "enum": ["limited", "reasonable"]
+        },
+        "industryAverageKgCo2ePerTonne": {
+          "type": "number",
+          "description": "IAI 2024 global industry baseline for context (~14600 kg CO2e/t)"
+        }
+      }
+    },
+    "RecycledContent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["totalPercent", "chainOfCustodyModel", "verifier"],
+      "description": "Recycled content per ISO 14021:2016, EN 45557:2020, ASI CoC V2.1",
+      "properties": {
+        "totalPercent": { "$ref": "#/$defs/Percent" },
+        "chainOfCustodyModel": {
+          "type": "string",
+          "enum": ["mass_balance", "controlled_blending", "physical_segregation", "book_and_claim"]
+        },
+        "verifier": { "$ref": "#/$defs/VerifierReference" },
+        "asiCertificateRef": {
+          "type": "string",
+          "description": "e.g. ASI CoC #428"
+        }
+      }
+    },
+    "ComplianceEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "status"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "reference": { "type": "string", "description": "e.g. EC 1907/2006, ISO 9001:2015" },
+        "status": { "$ref": "#/$defs/ComplianceStatus" },
+        "issuer": { "type": "string" },
+        "certificateRef": { "type": "string" },
+        "validFrom": { "$ref": "#/$defs/Iso8601Date" },
+        "validUntil": { "$ref": "#/$defs/Iso8601Date" }
+      }
+    },
+    "Compliance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["regulations", "certifications"],
+      "description": "Minimum 14 entries per the Definition of Done in §8.5",
+      "properties": {
+        "regulations": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "$ref": "#/$defs/ComplianceEntry" },
+          "description": "REACH, RoHS, TSCA, Conflict Minerals, PFAS minimum"
+        },
+        "certifications": {
+          "type": "array",
+          "minItems": 5,
+          "items": { "$ref": "#/$defs/ComplianceEntry" },
+          "description": "ASI Performance, ASI CoC, ISO 9001/14001/45001 minimum"
+        },
+        "complianceDocumentationUrl": { "$ref": "#/$defs/Url" }
+      }
+    },
+    "Circularity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recyclabilityIndicator",
+        "materialRecoveryPotential",
+        "reuseInformation",
+        "recyclingInformation",
+        "disposalInformation"
+      ],
+      "properties": {
+        "recyclabilityIndicator": {
+          "type": "string",
+          "default": "100% — aluminium is infinitely recyclable"
+        },
+        "materialRecoveryPotential": { "type": "string" },
+        "endOfLifeUrl": { "$ref": "#/$defs/Url" },
+        "reuseInformation": { "type": "string" },
+        "recyclingInformation": { "type": "string" },
+        "disposalInformation": { "type": "string" },
+        "treatmentFacilityInfo": { "type": "string" },
+        "disassemblyInformation": { "type": "string" }
+      }
+    },
+    "EsprAspects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "durability",
+        "reliability",
+        "reusability",
+        "energyEfficiency",
+        "resourceEfficiency"
+      ],
+      "description": "ESPR Article 5(1) product-aspect declarations",
+      "properties": {
+        "durability": { "type": "string" },
+        "reliability": { "type": "string" },
+        "reusability": { "type": "string" },
+        "upgradability": { "type": "string" },
+        "repairability": { "type": "string" },
+        "maintenance": { "type": "string" },
+        "energyEfficiency": { "type": "string" },
+        "resourceEfficiency": { "type": "string" }
+      }
+    },
+    "Sustainability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sustainablePurchasing", "handling"],
+      "properties": {
+        "sustainablePurchasing": { "type": "string" },
+        "handling": { "type": "string" },
+        "esgProgramUrl": { "$ref": "#/$defs/Url" }
+      }
+    },
+    "SocEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["iupacName"],
+      "properties": {
+        "iupacName": { "type": "string" },
+        "otherNames": { "type": "array", "items": { "type": "string" } },
+        "ecNumber": { "type": "string", "pattern": "^[0-9]{3}-[0-9]{3}-[0-9]$" },
+        "casNumber": { "type": "string", "pattern": "^[0-9]{2,7}-[0-9]{2}-[0-9]$" },
+        "locationInProduct": {
+          "type": "string",
+          "enum": ["homogeneous", "coating", "core", "interface"]
+        },
+        "concentrationDescriptor": { "type": "string" },
+        "value": { "type": "number" },
+        "unit": { "type": "string", "default": "wt%" },
+        "safeUseInstructions": { "type": "string" },
+        "endOfLifeInstructions": { "type": "string" },
+        "scipNotificationId": { "type": "string" }
+      }
+    },
+    "SubstancesOfConcern": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summaryStatement"],
+      "description": "ESPR Article 7(5) substances-of-concern declaration",
+      "properties": {
+        "summaryStatement": {
+          "type": "string",
+          "enum": ["no_svhc_above_threshold", "svhc_above_threshold", "not_applicable"],
+          "default": "no_svhc_above_threshold"
+        },
+        "entries": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SocEntry" }
+        }
+      }
+    },
+    "UseAndLife": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "installationInformation": { "type": "string" },
+        "useInstructions": { "type": "string" },
+        "maintenanceInformation": { "type": "string" },
+        "repairInformation": { "type": "string" },
+        "warnings": { "type": "string" },
+        "safetyInformation": { "type": "string" }
+      }
+    },
+    "DocumentRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "url"],
+      "properties": {
+        "title": { "type": "string" },
+        "url": { "$ref": "#/$defs/Url" },
+        "type": {
+          "type": "string",
+          "enum": ["mtc", "lca_report", "verification_statement", "certificate", "user_manual", "sds", "other"]
+        },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "Documentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "documents": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DocumentRef" }
+        }
+      }
+    },
+    "Meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "createdAt",
+        "lastUpdated",
+        "expiresAt",
+        "lifecycleState",
+        "languages",
+        "issuerDid",
+        "accessRights"
+      ],
+      "properties": {
+        "createdAt": { "$ref": "#/$defs/Iso8601DateTime" },
+        "lastUpdated": { "$ref": "#/$defs/Iso8601DateTime" },
+        "expiresAt": {
+          "$ref": "#/$defs/Iso8601DateTime",
+          "description": "createdAt + 10 years per ESPR Art 10(3)"
+        },
+        "lifecycleState": {
+          "type": "string",
+          "enum": ["draft", "published", "revised", "withdrawn", "expired"]
+        },
+        "languages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/Iso639Lang" }
+        },
+        "issuerDid": { "$ref": "#/$defs/Did" },
+        "accessRights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["model"],
+          "properties": {
+            "model": {
+              "type": "string",
+              "enum": ["three_tier_vc_gated"]
+            },
+            "publicFields": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "tenantId": { "type": "integer", "minimum": 1 },
+        "revisionOf": { "type": "string", "description": "UPI of prior DPP if this is a revision" },
+        "revisionReason": { "type": "string" }
+      }
+    }
+  }
+}

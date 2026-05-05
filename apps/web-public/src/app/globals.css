@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@import '@dpp/ui/tokens.css';
+
+/* Tailwind v4 — pull our shared tokens into Tailwind's @theme layer so utility
+   classes like `text-ink`, `bg-paper`, `font-display` work everywhere. */
+@theme {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-graphite: var(--color-graphite);
+  --color-paper: var(--color-paper);
+  --color-paper-soft: var(--color-paper-soft);
+  --color-paper-muted: var(--color-paper-muted);
+  --color-gold: var(--color-gold);
+  --color-gold-deep: var(--color-gold-deep);
+  --color-gold-soft: var(--color-gold-soft);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--surface-page);
+  color: var(--fg-default);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+  font-feature-settings: 'ss01' 1;
+}
+
+/* Custom scrollbar — gold-deep against paper-soft (§10.3) */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-paper-soft);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-gold-deep);
+    border-radius: 6px;
+  }
+}

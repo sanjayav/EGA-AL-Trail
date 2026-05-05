@@ -1,0 +1,8 @@
+packages:
+  - "apps/web-public"
+  - "apps/web-console"
+  - "packages/schema"
+  - "packages/ui"
+  - "packages/viewer-blocks"
+  - "packages/ts-types"
+  - "packages/sim"

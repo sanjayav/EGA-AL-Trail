@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "20.18.0"
+
+jobs:
+  schema:
+    name: Schema validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm schema:validate
+
+  ts-typecheck:
+    name: TypeScript typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+
+  python:
+    name: Python lint + migration + test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: dpp
+          POSTGRES_USER: dpp
+          POSTGRES_PASSWORD: dpp_local_dev_only
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U dpp"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+asyncpg://dpp:dpp_local_dev_only@localhost:5432/dpp
+      DATABASE_URL_SYNC: postgresql+psycopg://dpp:dpp_local_dev_only@localhost:5432/dpp
+      DATABASE_URL_TEST: postgresql+asyncpg://dpp:dpp_local_dev_only@localhost:5432/dpp
+      REDIS_URL: redis://localhost:6379/0
+      DPP_ENV: development
+      # Pinned dev secret matches conftest.py — required for HTTP-level tests.
+      DPP_JWT_DEV_SECRET: test-jwt-secret-not-for-production-use
+      DPP_JWT_ISSUER: https://idp.dpp.test
+      DPP_JWT_AUDIENCE: dpp-api
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      - name: Sync dependencies
+        run: uv sync --all-extras
+      - name: Lint
+        run: uv run ruff check dpp_api tests
+      - name: Format check
+        run: uv run ruff format --check dpp_api tests
+      # Apply Alembic migrations against the live Postgres so RLS policies
+      # are present + downgrade paths exercise. Tests then run against this
+      # migrated schema (instead of metadata.create_all) — see ADR 0003.
+      - name: Apply migrations
+        run: uv run alembic upgrade head
+      - name: Verify migration round-trip (down → up)
+        run: |
+          uv run alembic downgrade -1
+          uv run alembic upgrade head
+      - name: Tests
+        run: uv run pytest -v
