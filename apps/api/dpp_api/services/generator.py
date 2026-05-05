@@ -166,13 +166,21 @@ def build_dpp_from_cast_event(
         "useAndLife": {
             "safetyInformation": "ISO 45001-certified OH&S system.",
         },
+        # `documentation.documents` carries the verification statement plus
+        # the bundled per-cert/per-reg evidence list. Each entry now has an
+        # `id` so the public viewer can resolve `documentId` references on
+        # cert/reg rows to a concrete download.
         "documentation": {
             "documents": [
                 {
+                    "id": "doc-cfp",
                     "title": carbon["verificationStatementRef"],
-                    "url": f"https://www.dnv.com/statements/{carbon['verificationStatementRef']}.pdf",
+                    "url": "/dpp-assets/docs/certs/doc-cfp.pdf",
                     "type": "verification_statement",
-                }
+                    "issuer": "DNV AS",
+                    "sizeKb": 1430,
+                },
+                *_bundled_documents(),
             ]
         },
         "meta": {
@@ -282,13 +290,41 @@ def _default_recycled() -> dict[str, Any]:
 
 
 def _compliance_block() -> dict[str, Any]:
+    # Every cert + reg carries a `documentId` so the public viewer can
+    # render a downloadable evidence link beside it. Document URLs are
+    # bundled at apps/<app>/public/dpp-assets/docs/.
     return {
         "regulations": [
-            {"name": "REACH", "reference": "EC 1907/2006", "status": "compliant"},
-            {"name": "RoHS 2", "reference": "2011/65/EU", "status": "compliant"},
-            {"name": "TSCA", "reference": "US TSCA", "status": "compliant"},
-            {"name": "Conflict Minerals", "reference": "Reg (EU) 2017/821", "status": "compliant"},
-            {"name": "PFAS", "reference": "REACH PFAS restriction", "status": "compliant"},
+            {
+                "name": "REACH",
+                "reference": "EC 1907/2006",
+                "status": "compliant",
+                "documentId": "doc-reg-reach",
+            },
+            {
+                "name": "RoHS 2",
+                "reference": "2011/65/EU",
+                "status": "compliant",
+                "documentId": "doc-reg-rohs",
+            },
+            {
+                "name": "TSCA",
+                "reference": "US TSCA",
+                "status": "compliant",
+                "documentId": "doc-reg-tsca",
+            },
+            {
+                "name": "Conflict Minerals",
+                "reference": "Reg (EU) 2017/821",
+                "status": "compliant",
+                "documentId": "doc-reg-3tg",
+            },
+            {
+                "name": "PFAS",
+                "reference": "REACH PFAS restriction",
+                "status": "compliant",
+                "documentId": "doc-reg-pfas",
+            },
         ],
         "certifications": [
             {
@@ -297,6 +333,7 @@ def _compliance_block() -> dict[str, Any]:
                 "status": "compliant",
                 "certificateRef": "ASI Performance #27",
                 "issuer": "ASI",
+                "documentId": "doc-asi-perf",
             },
             {
                 "name": "ASI Chain of Custody",
@@ -304,12 +341,64 @@ def _compliance_block() -> dict[str, Any]:
                 "status": "compliant",
                 "certificateRef": "ASI CoC #428",
                 "issuer": "ASI",
+                "documentId": "doc-asi-coc",
             },
-            {"name": "ISO 9001", "reference": "ISO 9001:2015", "status": "compliant"},
-            {"name": "ISO 14001", "reference": "ISO 14001:2015", "status": "compliant"},
-            {"name": "ISO 45001", "reference": "ISO 45001:2018", "status": "compliant"},
+            {
+                "name": "ISO 9001",
+                "reference": "ISO 9001:2015",
+                "status": "compliant",
+                "documentId": "doc-iso-9001",
+            },
+            {
+                "name": "ISO 14001",
+                "reference": "ISO 14001:2015",
+                "status": "compliant",
+                "documentId": "doc-iso-14001",
+            },
+            {
+                "name": "ISO 45001",
+                "reference": "ISO 45001:2018",
+                "status": "compliant",
+                "documentId": "doc-iso-45001",
+            },
         ],
     }
+
+
+# Bundled documents · always shipped on every API-issued DPP body so the
+# public viewer can resolve the per-cert/reg `documentId` references above
+# to a real downloadable URL.
+def _bundled_documents() -> list[dict[str, Any]]:
+    docs: list[tuple[str, str, str, int]] = [
+        ("doc-asi-perf", "ASI Performance V3.1 · Certificate", "ASI", 980),
+        ("doc-asi-coc", "ASI Chain of Custody V2.1 · Certificate", "ASI", 1102),
+        ("doc-iso-9001", "ISO 9001:2015 Quality Management", "BSI", 612),
+        ("doc-iso-14001", "ISO 14001:2015 Environmental Management", "BSI", 605),
+        ("doc-iso-45001", "ISO 45001:2018 Occupational Health & Safety", "BSI", 590),
+        ("doc-iso-50001", "ISO 50001:2018 Energy Management", "BSI", 624),
+        ("doc-iso-17025", "ISO/IEC 17025:2017 Lab Accreditation", "EIAC", 540),
+        ("doc-reg-reach", "REACH · Article 33(1) declaration", "EGA Compliance", 220),
+        ("doc-reg-rohs", "RoHS 2 · Directive 2011/65/EU declaration", "EGA Compliance", 198),
+        ("doc-reg-tsca", "US TSCA · Section 8(b) declaration", "EGA Compliance", 184),
+        ("doc-reg-3tg", "Conflict Minerals · 3TG due-diligence statement", "EGA Compliance", 188),
+        ("doc-reg-pfas", "PFAS · REACH Annex XVII statement", "EGA Compliance", 240),
+        ("doc-reg-cbam", "EU CBAM · embedded-emissions declaration evidence", "EGA Compliance", 1480),
+        ("doc-reg-espr", "EU ESPR · DPP conformity statement", "EGA Compliance", 612),
+    ]
+    return [
+        {
+            "id": doc_id,
+            "title": label,
+            "issuer": issuer,
+            "type": "certificate",
+            "sizeKb": size,
+            # One distinct PDF per documentId, generated by
+            # scripts/build_cert_pdfs.py and bundled under
+            # apps/<app>/public/dpp-assets/docs/certs/.
+            "url": f"/dpp-assets/docs/certs/{doc_id}.pdf",
+        }
+        for doc_id, label, issuer, size in docs
+    ]
 
 
 def new_tracking_id() -> str:

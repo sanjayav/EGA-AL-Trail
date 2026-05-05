@@ -405,7 +405,15 @@
         "issuer": { "type": "string" },
         "certificateRef": { "type": "string" },
         "validFrom": { "$ref": "#/$defs/Iso8601Date" },
-        "validUntil": { "$ref": "#/$defs/Iso8601Date" }
+        "validUntil": { "$ref": "#/$defs/Iso8601Date" },
+        "documentId": {
+          "type": "string",
+          "description": "ID of a DocumentRef in documentation.documents whose URL is the downloadable evidence for this entry."
+        },
+        "evidenceRef": {
+          "type": "string",
+          "description": "Internal evidence reference identifier (e.g. CBAM-EGA-2026-Q1)."
+        }
       }
     },
     "Compliance": {
@@ -540,6 +548,10 @@
       "additionalProperties": false,
       "required": ["title", "url"],
       "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable identifier so a Compliance entry can reference its evidence document."
+        },
         "title": { "type": "string" },
         "url": { "$ref": "#/$defs/Url" },
         "type": {
@@ -553,6 +565,15 @@
             "sds",
             "other"
           ]
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Issuing body (e.g. ASI, BSI, DNV, EGA Compliance)."
+        },
+        "sizeKb": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Approximate document size in KB (UI hint only)."
         },
         "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
       }

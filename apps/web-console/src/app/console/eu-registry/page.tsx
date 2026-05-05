@@ -89,7 +89,7 @@ export default async function EuRegistryPage() {
                   </td>
                   <td className="px-4 py-3">
                     <Link
-                      href={`/console/dpps/${entry.upi}`}
+                      href={`/console/dpps/${encodeURIComponent(entry.upi)}`}
                       className="inline-block max-w-[280px] truncate font-mono text-[12px] text-[var(--color-accent)] hover:underline"
                       title={entry.upi}
                     >

@@ -95,6 +95,64 @@ export default async function SignalDetailPage({ params, searchParams }: PagePro
     r.value !== null &&
     (r.targetMin === null || r.value >= r.targetMin) &&
     (r.targetMax === null || r.value <= r.targetMax)
+  const isLive = r.provenance.realData
+
+  // Stand-in signals get a different layout — no fake chart, no fake stats,
+  // no fake breach trail. Just the operating-band spec, the regulatory
+  // anchor, and the planned data lineage.
+  if (!isLive) {
+    return (
+      <div className="px-8 py-8">
+        <Link
+          href="/console/plant-monitor"
+          className="inline-flex items-center gap-1.5 text-[12px] text-[var(--fg-muted)] hover:text-[var(--fg-default)]"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Plant Monitor
+        </Link>
+
+        <header className="mt-3 flex flex-wrap items-baseline justify-between gap-4">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--fg-subtle)]">
+              Reference target · {r.group} · sensor not yet commissioned
+            </p>
+            <h1 className="mt-1 text-[28px] font-semibold leading-tight text-[var(--fg-default)]">
+              {r.label}
+            </h1>
+            <p className="mt-1 max-w-3xl text-[14px] text-[var(--fg-muted)]">{r.description}</p>
+          </div>
+          <span className="pmd-pill" style={{ borderColor: 'var(--fg-subtle)', color: 'var(--fg-subtle)' }}>
+            Pre-instrumentation
+          </span>
+        </header>
+
+        {/* Spec card · operating band + regulatory anchor */}
+        <section className="mt-6 rounded-[var(--radius-lg)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-5">
+          <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--fg-subtle)]">
+            Operating band
+          </p>
+          <p className="tabular mt-2 font-mono text-[32px] font-semibold leading-none text-[var(--fg-default)]">
+            {formatBand(r.targetMin, r.targetMax, r.unit)}
+          </p>
+          <p className="mt-2 text-[12px] text-[var(--fg-muted)]">
+            Once the sensor described below comes online, values inside this band render green;
+            outside, the platform raises an alert and links the breach in the Compliance Report.
+          </p>
+          {r.regulatoryAnchor && (
+            <p className="mt-3 rounded-[var(--radius-sm)] bg-[var(--surface-recessed)] px-3 py-2 text-[12px] italic text-[var(--fg-muted)]">
+              Regulatory anchor: <span className="not-italic">{r.regulatoryAnchor}</span>
+            </p>
+          )}
+        </section>
+
+        {/* Planned provenance — same component, but the headline reads
+         * differently because `realData=false` */}
+        <ProvenancePanel provenance={r.provenance} />
+
+        <style>{PMD_CSS}</style>
+      </div>
+    )
+  }
 
   return (
     <div className="px-8 py-8">
@@ -109,7 +167,7 @@ export default async function SignalDetailPage({ params, searchParams }: PagePro
       <header className="mt-3 flex flex-wrap items-baseline justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            Signal · {r.group}
+            Signal · {r.group} · live data
           </p>
           <h1 className="mt-1 text-[28px] font-semibold leading-tight text-[var(--fg-default)]">
             {r.label}

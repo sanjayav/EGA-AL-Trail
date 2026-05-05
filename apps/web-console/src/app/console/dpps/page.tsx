@@ -290,7 +290,7 @@ function PassportRow({ dpp, qrSvg }: { dpp: DppRow; qrSvg: string | null }) {
             </span>
             <div className="min-w-0 flex-1">
               <Link
-                href={`/console/dpps/${dpp.upi}`}
+                href={`/console/dpps/${encodeURIComponent(dpp.upi)}`}
                 className="passport-row__uid"
                 title={dpp.upi}
               >
@@ -363,7 +363,7 @@ function PassportRow({ dpp, qrSvg }: { dpp: DppRow; qrSvg: string | null }) {
             </div>
             <div className="passport-row__pop-foot">
               <Link
-                href={`/console/dpps/${dpp.upi}`}
+                href={`/console/dpps/${encodeURIComponent(dpp.upi)}`}
                 className="passport-list__btn passport-list__btn--primary"
               >
                 Open passport →
@@ -395,7 +395,7 @@ function PassportRow({ dpp, qrSvg }: { dpp: DppRow; qrSvg: string | null }) {
       <Td align="right">
         <div className="passport-row__actions">
           <ActionIcon
-            href={`/console/dpps/${dpp.upi}`}
+            href={`/console/dpps/${encodeURIComponent(dpp.upi)}`}
             label="View passport"
             icon={<Eye className="h-3.5 w-3.5" />}
           />
