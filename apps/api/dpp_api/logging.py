@@ -63,4 +63,5 @@ def _json_dumps(obj: object, **kwargs: object) -> str:
 
 
 def get_logger(name: str | None = None) -> structlog.stdlib.BoundLogger:
-    return structlog.get_logger(name) if name else structlog.get_logger()
+    logger = structlog.get_logger(name) if name else structlog.get_logger()
+    return logger  # type: ignore[no-any-return]

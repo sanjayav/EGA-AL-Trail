@@ -30,7 +30,7 @@ import os
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 from nacl.signing import SigningKey, VerifyKey
 
@@ -133,7 +133,7 @@ class AwsKmsKeyProvider:
         self.region = region
         self._public_key_cache: bytes | None = None
 
-    def _client(self):  # type: ignore[no-untyped-def]
+    def _client(self) -> Any:
         import boto3
 
         return boto3.client("kms", region_name=self.region) if self.region else boto3.client("kms")
@@ -161,9 +161,10 @@ class AwsKmsKeyProvider:
         # tightly-scoped extraction is safe.
         der = bytes(result["PublicKey"])
         # The Ed25519 public key is the last 32 bytes of the SPKI.
-        if len(der) < 32:
+        ed25519_pubkey_bytes = 32
+        if len(der) < ed25519_pubkey_bytes:
             raise RuntimeError(f"unexpected KMS public key length: {len(der)}")
-        self._public_key_cache = der[-32:]
+        self._public_key_cache = der[-ed25519_pubkey_bytes:]
         return self._public_key_cache
 
 

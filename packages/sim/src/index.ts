@@ -6,7 +6,12 @@
  * simulator stays for workshop mode and disaster-recovery drills.
  */
 
-import { presets, type CastEvent, type SimulatorPreset, type CastEventSourceKind } from '@dpp/schema'
+import {
+  presets,
+  type CastEvent,
+  type SimulatorPreset,
+  type CastEventSourceKind,
+} from '@dpp/schema'
 
 export interface FireOptions {
   presetId: keyof typeof presets
@@ -54,10 +59,14 @@ export function buildCastEvent(opts: FireOptions): CastEvent {
       form: preset.form,
       temper: preset.temper,
       weightKg: preset.weightKg,
-      ...(preset.dimensions.diameterMm !== undefined && { diameterMm: preset.dimensions.diameterMm }),
+      ...(preset.dimensions.diameterMm !== undefined && {
+        diameterMm: preset.dimensions.diameterMm,
+      }),
       ...(preset.dimensions.lengthMm !== undefined && { lengthMm: preset.dimensions.lengthMm }),
       ...(preset.dimensions.widthMm !== undefined && { widthMm: preset.dimensions.widthMm }),
-      ...(preset.dimensions.thicknessMm !== undefined && { thicknessMm: preset.dimensions.thicknessMm }),
+      ...(preset.dimensions.thicknessMm !== undefined && {
+        thicknessMm: preset.dimensions.thicknessMm,
+      }),
       casthouseUfi: preset.casthouseUfi,
       smelterUfi: preset.smelterUfi,
       purityGrade: preset.purityGrade,

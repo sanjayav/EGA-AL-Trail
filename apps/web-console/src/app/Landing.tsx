@@ -20,14 +20,56 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 // ── Demo roles surfaced in the sign-in panel ────────────────────────────
 const DEMO_ROLES: { id: Role; label: string; tag: string; tone: string; icon: string }[] = [
-  { id: 'tenant_admin',     label: 'Tenant Admin',     tag: 'Sustainability lead',   tone: 'accent',  icon: '◆' },
-  { id: 'dpp_operator',     label: 'DPP Operator',     tag: 'Casthouse operations',  tone: 'success', icon: '✎' },
-  { id: 'dpp_reviewer',     label: 'DPP Reviewer',     tag: 'QA / publish',          tone: 'warning', icon: '✓' },
-  { id: 'tenant_auditor',   label: 'Tenant Auditor',   tag: 'Read-only audit',       tone: 'neutral', icon: '◔' },
-  { id: 'it_administrator', label: 'IT Administrator', tag: 'SSO / integrations',    tone: 'info',    icon: '⚙' },
-  { id: 'verifier',         label: 'Verifier',         tag: 'DNV / Bureau Veritas',  tone: 'verifier','icon': '⛨' as never },
-  { id: 'authority',        label: 'EU Authority',     tag: 'Market surveillance',   tone: 'authority',icon: '⚖' as never },
-  { id: 'customer_user',    label: 'Customer (Portal)',tag: 'BMW procurement',       tone: 'customer','icon': '◇' as never },
+  {
+    id: 'tenant_admin',
+    label: 'Tenant Admin',
+    tag: 'Sustainability lead',
+    tone: 'accent',
+    icon: '◆',
+  },
+  {
+    id: 'dpp_operator',
+    label: 'DPP Operator',
+    tag: 'Casthouse operations',
+    tone: 'success',
+    icon: '✎',
+  },
+  { id: 'dpp_reviewer', label: 'DPP Reviewer', tag: 'QA / publish', tone: 'warning', icon: '✓' },
+  {
+    id: 'tenant_auditor',
+    label: 'Tenant Auditor',
+    tag: 'Read-only audit',
+    tone: 'neutral',
+    icon: '◔',
+  },
+  {
+    id: 'it_administrator',
+    label: 'IT Administrator',
+    tag: 'SSO / integrations',
+    tone: 'info',
+    icon: '⚙',
+  },
+  {
+    id: 'verifier',
+    label: 'Verifier',
+    tag: 'DNV / Bureau Veritas',
+    tone: 'verifier',
+    icon: '⛨' as never,
+  },
+  {
+    id: 'authority',
+    label: 'EU Authority',
+    tag: 'Market surveillance',
+    tone: 'authority',
+    icon: '⚖' as never,
+  },
+  {
+    id: 'customer_user',
+    label: 'Customer (Portal)',
+    tag: 'BMW procurement',
+    tone: 'customer',
+    icon: '◇' as never,
+  },
 ]
 
 // ── Stat strip values ─────────────────────────────────────────────────
@@ -43,26 +85,22 @@ const FEATURES = [
   {
     icon: Factory,
     title: 'Per-batch authorship',
-    body:
-      'Every cast gets its own passport. Operators fill attributes from manual entry, IoT pulls, library presets, or external assignment.',
+    body: 'Every cast gets its own passport. Operators fill attributes from manual entry, IoT pulls, library presets, or external assignment.',
   },
   {
     icon: ShieldCheck,
     title: 'W3C VC + Ed25519',
-    body:
-      'Each published passport ships as a signed Verifiable Credential. Three-tier disclosure (public · customer · authority) controls who sees what.',
+    body: 'Each published passport ships as a signed Verifiable Credential. Three-tier disclosure (public · customer · authority) controls who sees what.',
   },
   {
     icon: Globe2,
     title: 'ESPR + CBAM aligned',
-    body:
-      'Built to the JRC ESPR working draft, EU Battery Regulation blueprint, and the Aluminium Delegated Act. Registry sync ready.',
+    body: 'Built to the JRC ESPR working draft, EU Battery Regulation blueprint, and the Aluminium Delegated Act. Registry sync ready.',
   },
   {
     icon: Recycle,
     title: 'Closed-loop EoL',
-    body:
-      'Ownership transfers, custody hand-offs, and EoL routing all sign chain-of-custody VCs the recipient can verify offline.',
+    body: 'Ownership transfers, custody hand-offs, and EoL routing all sign chain-of-custody VCs the recipient can verify offline.',
   },
 ]
 
@@ -116,8 +154,7 @@ export function Landing() {
             transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
             className="al-land__title"
           >
-            Aluminium with a{' '}
-            <span className="al-land__title-grad">verifiable trail</span>
+            Aluminium with a <span className="al-land__title-grad">verifiable trail</span>
             <br />
             from the desert sun to your customer&apos;s door.
           </motion.h1>
@@ -236,9 +273,8 @@ export function Landing() {
             <span className="al-land__title-grad">in three deliberate steps.</span>
           </h2>
           <p className="al-land__lede">
-            AL trail keeps the operator in the seat. Software fills what software can fill;
-            humans confirm what humans must confirm. Every step writes to the same hash-chained
-            audit log.
+            AL trail keeps the operator in the seat. Software fills what software can fill; humans
+            confirm what humans must confirm. Every step writes to the same hash-chained audit log.
           </p>
         </div>
 
@@ -279,12 +315,32 @@ export function Landing() {
             </p>
           </div>
           <div className="al-land__proof-grid">
-            <ProofCard label="DPP attributes" value="106" sub="Across 12 stages, locked per product" />
-            <ProofCard label="Audit append latency" value="< 40 ms" sub="p99, single-region writes" />
+            <ProofCard
+              label="DPP attributes"
+              value="106"
+              sub="Across 12 stages, locked per product"
+            />
+            <ProofCard
+              label="Audit append latency"
+              value="< 40 ms"
+              sub="p99, single-region writes"
+            />
             <ProofCard label="Schema validation" value="100%" sub="JSON Schema + Pydantic mirror" />
-            <ProofCard label="Audience tiers" value="4" sub="Public, Customer, Verifier, Authority" />
-            <ProofCard label="Connectors" value="10+" sub="ERP, telemetry, registry, sustainability" />
-            <ProofCard label="EU 2027 deadline" value="18 Feb 2027" sub="ESPR Aluminium delegated act" />
+            <ProofCard
+              label="Audience tiers"
+              value="4"
+              sub="Public, Customer, Verifier, Authority"
+            />
+            <ProofCard
+              label="Connectors"
+              value="10+"
+              sub="ERP, telemetry, registry, sustainability"
+            />
+            <ProofCard
+              label="EU 2027 deadline"
+              value="18 Feb 2027"
+              sub="ESPR Aluminium delegated act"
+            />
           </div>
         </div>
       </section>
@@ -335,9 +391,7 @@ export function Landing() {
         <div className="al-land__cta-banner-inner">
           <div className="al-land__cta-banner-text">
             <p className="al-land__eyebrow">Ready to walk through it?</p>
-            <h2 className="al-land__h2">
-              Pick a role · drop straight into the console.
-            </h2>
+            <h2 className="al-land__h2">Pick a role · drop straight into the console.</h2>
             <p className="al-land__lede">
               No credentials needed for the demo. Every role lands on the surface it owns and you
               can sign out from the sidebar at any time.
@@ -354,20 +408,14 @@ export function Landing() {
       <section className="al-land__section al-land__section--signin" id="sign-in">
         <div className="al-land__signin-head">
           <p className="al-land__eyebrow">Sign in</p>
-          <h2 className="al-land__h2">
-            Step into the role you want to demo.
-          </h2>
+          <h2 className="al-land__h2">Step into the role you want to demo.</h2>
           <p className="al-land__lede">
             Production sign-in is OIDC against Microsoft Entra. For this demo, pick a role to drop
             straight into the surface that role lands on.
           </p>
         </div>
 
-        <form
-          method="post"
-          action="/api/auth/sign-in"
-          className="al-land__signin-form"
-        >
+        <form method="post" action="/api/auth/sign-in" className="al-land__signin-form">
           <div className="al-land__role-grid">
             {DEMO_ROLES.map((r, i) => (
               <motion.label
@@ -550,7 +598,11 @@ function FloatingCard({
   const reduceMotion = useReducedMotion()
   return (
     <motion.div
-      initial={{ opacity: 0, y: position === 'top' ? -16 : position === 'bottom' ? 16 : 0, x: position === 'right' ? 16 : 0 }}
+      initial={{
+        opacity: 0,
+        y: position === 'top' ? -16 : position === 'bottom' ? 16 : 0,
+        x: position === 'right' ? 16 : 0,
+      }}
       animate={{ opacity: 1, y: 0, x: 0 }}
       transition={{ duration: 0.7, delay, ease: EASE }}
       className={`al-land__floatcard al-land__floatcard--${position} al-land__floatcard--${tone}`}
@@ -645,7 +697,7 @@ function SurfaceCard({
   )
 }
 
-function FeatureCard({ feature, index }: { feature: typeof FEATURES[number]; index: number }) {
+function FeatureCard({ feature, index }: { feature: (typeof FEATURES)[number]; index: number }) {
   const Icon = feature.icon
   return (
     <motion.article
@@ -704,12 +756,7 @@ function CredentialChip() {
 
 function BrandMark({ small }: { small?: boolean }) {
   return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      aria-hidden
-      className={small ? 'h-5 w-5' : 'h-9 w-9'}
-    >
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden className={small ? 'h-5 w-5' : 'h-9 w-9'}>
       <defs>
         <linearGradient id="al-land-mark-fill" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#1e6abf" />
@@ -724,10 +771,7 @@ function BrandMark({ small }: { small?: boolean }) {
         d="M16 3.5 L26.5 9.5 L26.5 22.5 L16 28.5 L5.5 22.5 L5.5 9.5 Z"
         fill="url(#al-land-mark-fill)"
       />
-      <path
-        d="M16 5 L24.5 9.7 L24.5 14 L16 9 L7.5 14 L7.5 9.7 Z"
-        fill="url(#al-land-mark-glow)"
-      />
+      <path d="M16 5 L24.5 9.7 L24.5 14 L16 9 L7.5 14 L7.5 9.7 Z" fill="url(#al-land-mark-glow)" />
       <circle cx="11.5" cy="20" r="1.4" fill="#fff" opacity="0.92" />
       <circle cx="16" cy="18" r="1.6" fill="#fff" />
       <circle cx="20.5" cy="20" r="1.4" fill="#fff" opacity="0.92" />

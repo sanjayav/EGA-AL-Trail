@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-
 from dpp_api.services.schema_validator import is_valid, validate_against
 
 
@@ -15,7 +14,7 @@ def _valid_event() -> dict[str, object]:
         "schemaVersion": "1.0.0",
         "trackingId": uuid4().hex,
         "source": {"kind": "simulator", "actor": "tests", "presetId": "celestial-extrusion-billet-6063"},
-        "occurredAt": datetime.now(timezone.utc).isoformat(),
+        "occurredAt": datetime.now(UTC).isoformat(),
         "tenantId": 1,
         "cast": {
             "castNumber": "C-2026-04-12345",

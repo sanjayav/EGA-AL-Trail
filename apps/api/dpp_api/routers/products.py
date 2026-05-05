@@ -123,7 +123,7 @@ async def upsert_config_endpoint(
             tenant_id=principal.tenant_id,
             product_id=product_id,
             dpp_version=dpp_version,
-            selections=payload.selections,  # type: ignore[arg-type]
+            selections=payload.selections,
             actor_id=principal.email or principal.subject,
         )
     except ValueError as exc:

@@ -85,7 +85,7 @@ export function Verification({ dpp }: { dpp: ViewerDpp }) {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.0, ease: EASE_STANDARD }}
-          className="mt-6 font-display text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
+          className="font-display mt-6 text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
         >
           Cryptographically <em>signed.</em>
         </motion.h2>
@@ -123,7 +123,7 @@ export function Verification({ dpp }: { dpp: ViewerDpp }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex items-center gap-3 font-display text-[18px]"
+                className="font-display flex items-center gap-3 text-[18px]"
               >
                 <ShieldCheck className="h-5 w-5" />
                 Verify cryptographic signature
@@ -137,7 +137,7 @@ export function Verification({ dpp }: { dpp: ViewerDpp }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex items-center gap-3 font-display text-[18px]"
+                className="font-display flex items-center gap-3 text-[18px]"
               >
                 <motion.span
                   animate={{ rotate: 360 }}
@@ -156,7 +156,7 @@ export function Verification({ dpp }: { dpp: ViewerDpp }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex items-center gap-3 font-display text-[18px] text-[var(--color-paper)]"
+                className="font-display flex items-center gap-3 text-[18px] text-[var(--color-paper)]"
                 style={{ background: 'var(--color-green)' }}
               >
                 <motion.span

@@ -88,15 +88,11 @@ export function InviteMemberDialog({ grantableRoles, myEmail }: Props) {
             <div className="min-w-0 flex-1">
               <h2 className="invite-dlg__title">Invite a team member</h2>
               <p className="invite-dlg__sub">
-                They&apos;ll get a single-use sign-in link via email. MFA is enforced on first login.
+                They&apos;ll get a single-use sign-in link via email. MFA is enforced on first
+                login.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={close}
-              className="invite-dlg__close"
-              aria-label="Close"
-            >
+            <button type="button" onClick={close} className="invite-dlg__close" aria-label="Close">
               <X className="h-4 w-4" />
             </button>
           </header>
@@ -171,10 +167,18 @@ export function InviteMemberDialog({ grantableRoles, myEmail }: Props) {
                 <ShieldCheck className="inline h-3 w-3 align-text-top" /> Sent from {myEmail}
               </span>
               <div className="invite-dlg__foot-actions">
-                <button type="button" onClick={close} className="invite-dlg__btn invite-dlg__btn--ghost">
+                <button
+                  type="button"
+                  onClick={close}
+                  className="invite-dlg__btn invite-dlg__btn--ghost"
+                >
                   Cancel
                 </button>
-                <button type="submit" disabled={pending} className="invite-dlg__btn invite-dlg__btn--primary">
+                <button
+                  type="submit"
+                  disabled={pending}
+                  className="invite-dlg__btn invite-dlg__btn--primary"
+                >
                   <Send className="h-3.5 w-3.5" />
                   {pending ? 'Sending…' : 'Send invitation'}
                 </button>

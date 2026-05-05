@@ -45,7 +45,10 @@ export async function fetchAssignment(token: string): Promise<AssignmentPayload 
   }
 }
 
-export async function submitAssignment(token: string, value: unknown): Promise<{ ok: true } | { error: string }> {
+export async function submitAssignment(
+  token: string,
+  value: unknown,
+): Promise<{ ok: true } | { error: string }> {
   try {
     const res = await fetch(
       `${API_BASE}/api/v1/draft-passports/assignments/${encodeURIComponent(token)}/submit`,

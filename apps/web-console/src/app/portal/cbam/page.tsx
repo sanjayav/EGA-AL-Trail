@@ -91,9 +91,7 @@ export default async function CbamPage({ searchParams }: PageProps) {
     byCnCode[key] = cur
   }
 
-  const declarations = Object.values(byCnCode).sort(
-    (a, b) => b.totalEmissions - a.totalEmissions,
-  )
+  const declarations = Object.values(byCnCode).sort((a, b) => b.totalEmissions - a.totalEmissions)
 
   const totalMass = declarations.reduce((s, d) => s + d.mass, 0)
   const totalDirect = declarations.reduce((s, d) => s + d.directEmissions, 0)
@@ -125,15 +123,14 @@ export default async function CbamPage({ searchParams }: PageProps) {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           CBAM declaration
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Quarterly CBAM submission, ready to file.
         </h1>
         <p className="mt-2 max-w-2xl text-[14px] text-[var(--fg-muted)]">
-          Aggregates the embedded direct + indirect CO₂e emissions for every
-          DPP received in the reporting window, grouped by CN code per Annex I
-          of Regulation (EU) 2023/956. The resulting JSON-LD payload is
-          structured for the EU CBAM Registry Transitional Registry · copy or
-          download for filing.{' '}
+          Aggregates the embedded direct + indirect CO₂e emissions for every DPP received in the
+          reporting window, grouped by CN code per Annex I of Regulation (EU) 2023/956. The
+          resulting JSON-LD payload is structured for the EU CBAM Registry Transitional Registry ·
+          copy or download for filing.{' '}
           <a
             href="https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en"
             target="_blank"
@@ -213,7 +210,7 @@ export default async function CbamPage({ searchParams }: PageProps) {
 
       {/* Declaration table */}
       <section className="mb-10">
-        <h2 className="mb-3 flex items-center gap-2 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 flex items-center gap-2 text-[20px] font-semibold text-[var(--fg-default)]">
           <FileText className="h-4 w-4" /> Goods declaration · Annex IV §A.4
         </h2>
         <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">
@@ -297,22 +294,21 @@ export default async function CbamPage({ searchParams }: PageProps) {
           {declarationXml}
         </pre>
         <p className="mt-2 text-[11px] text-[var(--fg-muted)]">
-          Format: JSON-LD aligned with the EU CBAM Transitional Registry schema.
-          For the operational ingestion (XML SOAP), use the Registry's
-          conversion endpoint or the official XSD released for ITSM-3 v3.4.
+          Format: JSON-LD aligned with the EU CBAM Transitional Registry schema. For the operational
+          ingestion (XML SOAP), use the Registry's conversion endpoint or the official XSD released
+          for ITSM-3 v3.4.
         </p>
       </section>
 
       {/* Caveat */}
-      <section className="rounded-[var(--radius-md)] border border-[var(--color-amber,#d97706)]/30 bg-[#FEF3C7] p-4">
+      <section className="border-[var(--color-amber,#d97706)]/30 rounded-[var(--radius-md)] border bg-[#FEF3C7] p-4">
         <p className="text-[12px] text-[#78350F]">
-          <strong>Methodology note:</strong> direct vs indirect split is
-          approximated 65/35 from the DPP's carbon decomposition. For the
-          definitive submission, request the full Annex IV-aligned breakdown
-          from EGA (the verifier statement carries it via{' '}
-          <code className="font-mono">carbon.decomposition.electricity</code>).
-          The mass-balance method, methodology version, and verifier
-          attestation are all included in each DPP's signed envelope.
+          <strong>Methodology note:</strong> direct vs indirect split is approximated 65/35 from the
+          DPP's carbon decomposition. For the definitive submission, request the full Annex
+          IV-aligned breakdown from EGA (the verifier statement carries it via{' '}
+          <code className="font-mono">carbon.decomposition.electricity</code>). The mass-balance
+          method, methodology version, and verifier attestation are all included in each DPP's
+          signed envelope.
         </p>
       </section>
     </div>
@@ -337,7 +333,7 @@ function Headline({
       <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
         {label}
       </p>
-      <p className="tabular mt-2 font-display text-[28px] font-semibold leading-none text-[var(--fg-default)]">
+      <p className="tabular font-display mt-2 text-[28px] font-semibold leading-none text-[var(--fg-default)]">
         {value}
         <span className="ml-1 text-[14px] font-normal text-[var(--fg-muted)]">{unit}</span>
       </p>

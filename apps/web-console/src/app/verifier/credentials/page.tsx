@@ -20,7 +20,7 @@ export default async function CredentialsListPage() {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
             My credentials
           </p>
-          <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+          <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
             Issuance ledger.
           </h1>
         </div>
@@ -54,7 +54,10 @@ export default async function CredentialsListPage() {
                   className="px-5 py-12 text-center text-[14px] text-[var(--fg-subtle)]"
                 >
                   No credentials issued yet. Use{' '}
-                  <Link href="/verifier/issue" className="text-[var(--color-accent)] hover:underline">
+                  <Link
+                    href="/verifier/issue"
+                    className="text-[var(--color-accent)] hover:underline"
+                  >
                     Issue credential
                   </Link>{' '}
                   to publish the first one.

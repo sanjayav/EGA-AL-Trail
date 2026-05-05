@@ -12,7 +12,7 @@ tenant ids in either model — auth layer pins them upstream.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from dateutil.parser import isoparse
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -118,5 +118,5 @@ def _parse_dt(value: str | None) -> datetime | None:
         return None
     parsed = isoparse(value)
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
+        parsed = parsed.replace(tzinfo=UTC)
     return parsed

@@ -8,7 +8,8 @@ import { firePreset } from '@/lib/api'
  */
 export async function POST(req: Request) {
   const { presetId } = (await req.json()) as { presetId?: string }
-  if (!presetId) return NextResponse.json({ ok: false, detail: 'presetId required' }, { status: 400 })
+  if (!presetId)
+    return NextResponse.json({ ok: false, detail: 'presetId required' }, { status: 400 })
   const result = await firePreset(presetId)
   return NextResponse.json(result, { status: result.ok ? 200 : 502 })
 }

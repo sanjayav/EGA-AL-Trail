@@ -55,9 +55,7 @@ export function AssignmentForm({
         <code className="font-mono">{'{}'}</code> for JSON.
       </p>
 
-      {err && (
-        <p className="mt-4 rounded-lg bg-[#FEE2E2] p-3 text-[12px] text-[#991B1B]">{err}</p>
-      )}
+      {err && <p className="mt-4 rounded-lg bg-[#FEE2E2] p-3 text-[12px] text-[#991B1B]">{err}</p>}
 
       <button
         type="submit"

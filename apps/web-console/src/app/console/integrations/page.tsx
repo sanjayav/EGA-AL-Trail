@@ -57,12 +57,17 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
 
   // Distribution per category for the sidebar count badges.
   const byCat: Record<IntegrationCategory, number> = {
-    erp: 0, compliance: 0, telemetry: 0, supply_chain: 0, sustainability: 0, custom: 0,
+    erp: 0,
+    compliance: 0,
+    telemetry: 0,
+    supply_chain: 0,
+    sustainability: 0,
+    custom: 0,
   }
   for (const i of all) byCat[i.category]++
 
   return (
-    <div className="int-page bg-[var(--surface-canvas)] min-h-[calc(100vh-56px)]">
+    <div className="int-page min-h-[calc(100vh-56px)] bg-[var(--surface-canvas)]">
       <style>{INT_PAGE_CSS}</style>
 
       <div className="mx-auto max-w-[1320px] px-7 py-7">
@@ -109,10 +114,32 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
 
         {/* KPI strip */}
         <section className="int-page__kpi-grid">
-          <KpiCard label="Total" value={counts.total} sub="Available connectors" icon={<Plug className="h-4 w-4" />} />
-          <KpiCard label="Connected" value={counts.connected} sub="Live + syncing" icon={<CheckCircle2 className="h-4 w-4" />} tone="ok" />
-          <KpiCard label="Configuring" value={counts.configuring} sub="Awaiting credentials" icon={<Zap className="h-4 w-4" />} tone={counts.configuring > 0 ? 'amber' : undefined} />
-          <KpiCard label="Disconnected" value={counts.disconnected} sub="Available to enable" icon={<Activity className="h-4 w-4" />} />
+          <KpiCard
+            label="Total"
+            value={counts.total}
+            sub="Available connectors"
+            icon={<Plug className="h-4 w-4" />}
+          />
+          <KpiCard
+            label="Connected"
+            value={counts.connected}
+            sub="Live + syncing"
+            icon={<CheckCircle2 className="h-4 w-4" />}
+            tone="ok"
+          />
+          <KpiCard
+            label="Configuring"
+            value={counts.configuring}
+            sub="Awaiting credentials"
+            icon={<Zap className="h-4 w-4" />}
+            tone={counts.configuring > 0 ? 'amber' : undefined}
+          />
+          <KpiCard
+            label="Disconnected"
+            value={counts.disconnected}
+            sub="Available to enable"
+            icon={<Activity className="h-4 w-4" />}
+          />
         </section>
 
         {/* Search + filters */}
@@ -156,8 +183,8 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
           <p className="int-page__eyebrow">Data flow architecture</p>
           <h2 className="int-page__h2">How AL trail wires it all together</h2>
           <p className="int-page__lede">
-            Every connector either feeds the passport pipeline or consumes from it. This is the
-            full ingest → publish → distribute path.
+            Every connector either feeds the passport pipeline or consumes from it. This is the full
+            ingest → publish → distribute path.
           </p>
 
           <div className="int-page__flowboard">
@@ -165,9 +192,21 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
               title="Ingest"
               tone="accent"
               lanes={[
-                { label: 'ERP · SAP / Oracle', sub: 'BOM · Batch · Serial', icon: <Database className="h-3.5 w-3.5" /> },
-                { label: 'Telemetry · MES / IoT', sub: 'Cell amperage · Temp · AE freq', icon: <Factory className="h-3.5 w-3.5" /> },
-                { label: 'Sustainability · ASI', sub: 'CoC · CFP statement', icon: <Recycle className="h-3.5 w-3.5" /> },
+                {
+                  label: 'ERP · SAP / Oracle',
+                  sub: 'BOM · Batch · Serial',
+                  icon: <Database className="h-3.5 w-3.5" />,
+                },
+                {
+                  label: 'Telemetry · MES / IoT',
+                  sub: 'Cell amperage · Temp · AE freq',
+                  icon: <Factory className="h-3.5 w-3.5" />,
+                },
+                {
+                  label: 'Sustainability · ASI',
+                  sub: 'CoC · CFP statement',
+                  icon: <Recycle className="h-3.5 w-3.5" />,
+                },
               ]}
             />
             <FlowConnector />
@@ -175,9 +214,21 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
               title="Pipeline"
               tone="accent-strong"
               lanes={[
-                { label: 'AL trail authoring', sub: 'Drafts · attribute fill · disclosure', icon: <Sparkles className="h-3.5 w-3.5" /> },
-                { label: 'Sign & anchor', sub: 'Ed25519 + Body SHA-256', icon: <CheckCircle2 className="h-3.5 w-3.5" /> },
-                { label: 'Audit log', sub: 'Hash-chained · append-only', icon: <Activity className="h-3.5 w-3.5" /> },
+                {
+                  label: 'AL trail authoring',
+                  sub: 'Drafts · attribute fill · disclosure',
+                  icon: <Sparkles className="h-3.5 w-3.5" />,
+                },
+                {
+                  label: 'Sign & anchor',
+                  sub: 'Ed25519 + Body SHA-256',
+                  icon: <CheckCircle2 className="h-3.5 w-3.5" />,
+                },
+                {
+                  label: 'Audit log',
+                  sub: 'Hash-chained · append-only',
+                  icon: <Activity className="h-3.5 w-3.5" />,
+                },
               ]}
             />
             <FlowConnector />
@@ -185,9 +236,21 @@ export default async function IntegrationsPage({ searchParams }: PageProps) {
               title="Distribute"
               tone="ok"
               lanes={[
-                { label: 'EU CBAM Registry', sub: 'Quarterly declarations', icon: <Globe2 className="h-3.5 w-3.5" /> },
-                { label: 'Catena-X / EDC', sub: 'OEM dataspace push', icon: <Webhook className="h-3.5 w-3.5" /> },
-                { label: 'GS1 Resolver', sub: 'Public passport URL', icon: <Barcode className="h-3.5 w-3.5" /> },
+                {
+                  label: 'EU CBAM Registry',
+                  sub: 'Quarterly declarations',
+                  icon: <Globe2 className="h-3.5 w-3.5" />,
+                },
+                {
+                  label: 'Catena-X / EDC',
+                  sub: 'OEM dataspace push',
+                  icon: <Webhook className="h-3.5 w-3.5" />,
+                },
+                {
+                  label: 'GS1 Resolver',
+                  sub: 'Public passport URL',
+                  icon: <Barcode className="h-3.5 w-3.5" />,
+                },
               ]}
             />
           </div>
@@ -216,7 +279,9 @@ function KpiCard({
     <article className={`int-page__kpi${tone ? ` int-page__kpi--${tone}` : ''}`}>
       <div className="int-page__kpi-head">
         <p className="int-page__kpi-label">{label}</p>
-        <span className={`int-page__kpi-icon${tone ? ` int-page__kpi-icon--${tone}` : ''}`}>{icon}</span>
+        <span className={`int-page__kpi-icon${tone ? ` int-page__kpi-icon--${tone}` : ''}`}>
+          {icon}
+        </span>
       </div>
       <p className="int-page__kpi-value">{value}</p>
       <p className="int-page__kpi-sub">{sub}</p>
@@ -248,7 +313,9 @@ function FilterPill({
 function IntegrationCard({ integration }: { integration: Integration }) {
   const stateInfo = STATUS_INFO[integration.status]
   return (
-    <article className={`int-card int-card--${integration.brandTone} int-card--${integration.status}`}>
+    <article
+      className={`int-card int-card--${integration.brandTone} int-card--${integration.status}`}
+    >
       <header className="int-card__head">
         <span className={`int-card__logo int-card__logo--${integration.brandTone}`}>
           <BrandIcon kind={integration.iconKind} />
@@ -313,16 +380,26 @@ const STATUS_INFO: Record<IntegrationStatus, { label: string; tone: 'ok' | 'ambe
 
 function BrandIcon({ kind }: { kind: Integration['iconKind'] }) {
   switch (kind) {
-    case 'erp': return <Database className="h-4 w-4" />
-    case 'eu': return <Globe2 className="h-4 w-4" />
-    case 'auto': return <Webhook className="h-4 w-4" />
-    case 'factory': return <Factory className="h-4 w-4" />
-    case 'recycle': return <Recycle className="h-4 w-4" />
-    case 'database': return <Database className="h-4 w-4" />
-    case 'cloud': return <Cloud className="h-4 w-4" />
-    case 'barcode': return <Barcode className="h-4 w-4" />
-    case 'leaf': return <Leaf className="h-4 w-4" />
-    case 'webhook': return <Webhook className="h-4 w-4" />
+    case 'erp':
+      return <Database className="h-4 w-4" />
+    case 'eu':
+      return <Globe2 className="h-4 w-4" />
+    case 'auto':
+      return <Webhook className="h-4 w-4" />
+    case 'factory':
+      return <Factory className="h-4 w-4" />
+    case 'recycle':
+      return <Recycle className="h-4 w-4" />
+    case 'database':
+      return <Database className="h-4 w-4" />
+    case 'cloud':
+      return <Cloud className="h-4 w-4" />
+    case 'barcode':
+      return <Barcode className="h-4 w-4" />
+    case 'leaf':
+      return <Leaf className="h-4 w-4" />
+    case 'webhook':
+      return <Webhook className="h-4 w-4" />
   }
 }
 

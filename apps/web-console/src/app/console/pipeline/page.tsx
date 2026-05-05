@@ -87,7 +87,13 @@ function KpiStrip({ metrics }: { metrics: Awaited<ReturnType<typeof fetchMetrics
           icon={CheckCircle2}
           label="Success rate"
           value={`${(m?.successRatePct ?? 100).toFixed(1)}%`}
-          accent={(m?.successRatePct ?? 100) >= 99 ? 'success' : (m?.successRatePct ?? 100) >= 95 ? 'warn' : 'critical'}
+          accent={
+            (m?.successRatePct ?? 100) >= 99
+              ? 'success'
+              : (m?.successRatePct ?? 100) >= 95
+                ? 'warn'
+                : 'critical'
+          }
           context={`${m?.errorCount24h ?? 0} failures (24h)`}
         />
         <KpiCard
@@ -164,9 +170,7 @@ function KpiCard({
           {value}
         </span>
       </div>
-      {context && (
-        <p className="mt-1 font-mono text-[10px] text-[var(--fg-subtle)]">{context}</p>
-      )}
+      {context && <p className="mt-1 font-mono text-[10px] text-[var(--fg-subtle)]">{context}</p>}
     </div>
   )
 }
@@ -175,7 +179,7 @@ function KpiCard({
 
 function PresetRail({ presets }: { presets: Awaited<ReturnType<typeof listPresets>> }) {
   return (
-    <div className="border-b border-[var(--surface-border)] bg-[var(--surface-recessed)] px-8 py-3 overflow-x-auto">
+    <div className="overflow-x-auto border-b border-[var(--surface-border)] bg-[var(--surface-recessed)] px-8 py-3">
       <div className="flex items-center gap-3">
         <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
           Fire preset
@@ -251,20 +255,16 @@ function EventRow({ event: e }: { event: RecentEvent }) {
             {e.brand ?? '—'} · {e.alloy ?? '—'}
           </span>
           {e.castNumber && (
-            <span className="font-mono text-[11px] text-[var(--fg-subtle)]">
-              {e.castNumber}
-            </span>
+            <span className="font-mono text-[11px] text-[var(--fg-subtle)]">{e.castNumber}</span>
           )}
-          {isInFlight && (
-            <Badge tone="info">in flight</Badge>
-          )}
+          {isInFlight && <Badge tone="info">in flight</Badge>}
         </div>
         <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-[var(--fg-muted)]">
-          {e.weightKg != null && (
-            <span className="tabular">{e.weightKg.toLocaleString()} kg</span>
-          )}
+          {e.weightKg != null && <span className="tabular">{e.weightKg.toLocaleString()} kg</span>}
           {e.cfpKgCo2ePerTonne != null && (
-            <span className="tabular">{Math.round(e.cfpKgCo2ePerTonne).toLocaleString()} kg CO₂e/t</span>
+            <span className="tabular">
+              {Math.round(e.cfpKgCo2ePerTonne).toLocaleString()} kg CO₂e/t
+            </span>
           )}
           {e.pipelineSeconds != null && (
             <span className="tabular flex items-center gap-1">
@@ -274,14 +274,12 @@ function EventRow({ event: e }: { event: RecentEvent }) {
                 : `${e.pipelineSeconds.toFixed(2)} s`}
             </span>
           )}
-          {e.upi && (
-            <span className="truncate">{e.upi}</span>
-          )}
+          {e.upi && <span className="truncate">{e.upi}</span>}
         </div>
         {isError && e.error && (
           <div className="mt-2 flex items-start gap-2 rounded-[var(--radius-sm)] bg-[#FEE2E2] px-3 py-2 text-[12px] text-[#7f1d1d]">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            <span className="font-mono leading-snug break-words">{e.error}</span>
+            <span className="break-words font-mono leading-snug">{e.error}</span>
           </div>
         )}
       </div>
@@ -414,7 +412,9 @@ function SidePanel({
                 className="rounded-[var(--radius-sm)] border border-[var(--surface-border)] bg-[var(--surface-page)] px-3 py-2"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[12px] text-[var(--fg-default)]">{e.castNumber ?? e.trackingId}</span>
+                  <span className="text-[12px] text-[var(--fg-default)]">
+                    {e.castNumber ?? e.trackingId}
+                  </span>
                   <Badge tone="info">{e.status}</Badge>
                 </div>
                 <p className="mt-1 truncate font-mono text-[10px] text-[var(--fg-muted)]">
@@ -428,9 +428,7 @@ function SidePanel({
 
       <Section title="Failures">
         {failures.length === 0 ? (
-          <p className="text-[12px] text-[var(--fg-subtle)]">
-            No failures in the last 50 events.
-          </p>
+          <p className="text-[12px] text-[var(--fg-subtle)]">No failures in the last 50 events.</p>
         ) : (
           <ul className="space-y-2">
             {failures.map((e) => (
@@ -443,9 +441,7 @@ function SidePanel({
                   <FileSignature className="h-3.5 w-3.5 text-[#dc2626]" />
                 </div>
                 {e.error && (
-                  <p className="mt-1 break-words font-mono text-[10px] text-[#7f1d1d]">
-                    {e.error}
-                  </p>
+                  <p className="mt-1 break-words font-mono text-[10px] text-[#7f1d1d]">{e.error}</p>
                 )}
               </li>
             ))}

@@ -1,12 +1,5 @@
 import Link from 'next/link'
-import {
-  CheckCircle2,
-  Clock,
-  FileCheck,
-  FileText,
-  ListChecks,
-  Sigma,
-} from 'lucide-react'
+import { CheckCircle2, Clock, FileCheck, FileText, ListChecks, Sigma } from 'lucide-react'
 
 import { Badge } from '@dpp/ui'
 
@@ -66,14 +59,13 @@ export default async function VerifierAuditsPage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Audits & samples · ISO 19011
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Plan, sample, walk evidence, sign findings.
         </h1>
         <p className="mt-2 max-w-2xl text-[14px] text-[var(--fg-muted)]">
-          Each active credential implies an annual surveillance audit. The
-          sampling plan below applies single-sampling AQL 1.0 (ISO 2859-1) to
-          the underlying production population, drawn proportionally per
-          casthouse. Findings flow into the platform audit log; the signed
+          Each active credential implies an annual surveillance audit. The sampling plan below
+          applies single-sampling AQL 1.0 (ISO 2859-1) to the underlying production population,
+          drawn proportionally per casthouse. Findings flow into the platform audit log; the signed
           report bundle is generated on completion.
         </p>
       </header>
@@ -108,20 +100,15 @@ export default async function VerifierAuditsPage() {
 
       {/* Active audit cards */}
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 text-[20px] font-semibold text-[var(--fg-default)]">
           Active audits
         </h2>
         {active.length === 0 ? (
           <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--surface-border)] bg-[var(--surface-recessed)] p-8 text-center">
-            <p className="text-[14px] text-[var(--fg-default)]">
-              No active credentials.
-            </p>
+            <p className="text-[14px] text-[var(--fg-default)]">No active credentials.</p>
             <p className="mt-1 text-[12px] text-[var(--fg-muted)]">
               Issue a credential at{' '}
-              <Link
-                href="/verifier/issue"
-                className="text-[var(--color-accent)] hover:underline"
-              >
+              <Link href="/verifier/issue" className="text-[var(--color-accent)] hover:underline">
                 /verifier/issue
               </Link>{' '}
               to start a new audit period.
@@ -138,7 +125,7 @@ export default async function VerifierAuditsPage() {
 
       {/* Sampling plan reference */}
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 text-[20px] font-semibold text-[var(--fg-default)]">
           Sampling reference · ISO 2859-1 single-sampling AQL 1.0
         </h2>
         <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">
@@ -172,19 +159,19 @@ export default async function VerifierAuditsPage() {
           </table>
         </div>
         <p className="mt-2 text-[11px] text-[var(--fg-muted)]">
-          Reduced inspection AQL 1.0, Tier II per CARB ASI Performance V3.1
-          §C.3. Sample drawn stratified by casthouse + alloy family.
+          Reduced inspection AQL 1.0, Tier II per CARB ASI Performance V3.1 §C.3. Sample drawn
+          stratified by casthouse + alloy family.
         </p>
       </section>
 
       {/* Audit checklist preview */}
       <section className="rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-5">
-        <h2 className="mb-1 flex items-center gap-2 font-display text-[18px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-1 flex items-center gap-2 text-[18px] font-semibold text-[var(--fg-default)]">
           <FileText className="h-4 w-4" /> Standard audit checklist
         </h2>
         <p className="mb-4 text-[12px] text-[var(--fg-muted)]">
-          {ISO_19011_CHECKS.length} checks per ISO 19011 §6 + ASI Performance
-          V3.1 §C surveillance. Same template applies to every active audit.
+          {ISO_19011_CHECKS.length} checks per ISO 19011 §6 + ASI Performance V3.1 §C surveillance.
+          Same template applies to every active audit.
         </p>
         <ul className="grid gap-2 md:grid-cols-2">
           {ISO_19011_CHECKS.map((c, i) => (
@@ -196,9 +183,7 @@ export default async function VerifierAuditsPage() {
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="min-w-0">
-                <p className="text-[13px] font-medium text-[var(--fg-default)]">
-                  {c.title}
-                </p>
+                <p className="text-[13px] font-medium text-[var(--fg-default)]">{c.title}</p>
                 <p className="mt-0.5 text-[11px] text-[var(--fg-muted)]">{c.evidence}</p>
               </div>
             </li>
@@ -233,7 +218,7 @@ function AuditCard({
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
             {audit.brand} · {audit.statementRef}
           </p>
-          <h3 className="mt-1 font-display text-[20px] font-semibold leading-tight text-[var(--fg-default)]">
+          <h3 className="font-display mt-1 text-[20px] font-semibold leading-tight text-[var(--fg-default)]">
             {audit.periodStart.getFullYear()} surveillance audit
           </h3>
           <p className="mt-1 font-mono text-[11px] text-[var(--fg-muted)]">
@@ -246,9 +231,7 @@ function AuditCard({
 
       <div className="mt-5">
         <div className="flex items-baseline justify-between">
-          <span className="font-mono text-[11px] text-[var(--fg-muted)]">
-            Checklist progress
-          </span>
+          <span className="font-mono text-[11px] text-[var(--fg-muted)]">Checklist progress</span>
           <span className="tabular font-mono text-[11px] text-[var(--fg-default)]">
             {audit.checksCompleted}/{audit.checklistTotal}
           </span>
@@ -328,7 +311,7 @@ function Headline({
       <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
         {label}
       </p>
-      <p className="tabular mt-1 font-display text-[28px] font-semibold leading-none text-[var(--fg-default)]">
+      <p className="tabular font-display mt-1 text-[28px] font-semibold leading-none text-[var(--fg-default)]">
         {value}
       </p>
       <p className="mt-2 text-[11px] text-[var(--fg-muted)]">{context}</p>

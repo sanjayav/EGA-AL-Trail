@@ -20,10 +20,10 @@ the issuance. v1.0 trusts an `X-Verifier-Did` header for development.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any
 
-from sqlalchemy import func, select, update
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db.models import DppRecord, ReferenceCfp

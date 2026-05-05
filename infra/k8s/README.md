@@ -1,9 +1,9 @@
 # EGA DPP — Kubernetes baseline
 
 Kustomize-organised manifests for the three workloads (`api`, `web-console`,
-`web-public`). The `base/` overlay produces a runnable cluster footprint;
-real environments add an overlay on top with hostnames + cluster-issuer +
-secret references.
+`web-public`). The `base/` overlay produces a runnable cluster footprint; real
+environments add an overlay on top with hostnames + cluster-issuer + secret
+references.
 
 ## Layout
 
@@ -42,8 +42,8 @@ infra/k8s/
 
 Secrets are intentionally **not** in this tree. The deployments reference:
 
-| Secret name      | Keys                                                                 |
-|------------------|----------------------------------------------------------------------|
+| Secret name      | Keys                                                                                                     |
+| ---------------- | -------------------------------------------------------------------------------------------------------- |
 | `dpp-api-secret` | `DATABASE_URL`, `DATABASE_URL_SYNC`, `REDIS_URL`, `DPP_JWT_JWKS_URL`, `DPP_KMS_KEY_ID`, `DPP_SENTRY_DSN` |
 
 Provision them via your own pipeline — Vault Agent, External Secrets, or
@@ -57,5 +57,5 @@ kubectl apply -k infra/k8s/overlays/staging
 ```
 
 CI builds the three images (api, web-console, web-public) and tags them as
-`ghcr.io/<org>/dpp-{api,web-console,web-public}:<sha>`. Overlays pin the
-image version via kustomize image transformations.
+`ghcr.io/<org>/dpp-{api,web-console,web-public}:<sha>`. Overlays pin the image
+version via kustomize image transformations.

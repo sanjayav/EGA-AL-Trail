@@ -38,8 +38,7 @@ export function LineChart({ labels, series, height = 220, ariaLabel }: Props) {
   const n = labels.length
   const stepX = n > 1 ? chartWidth / (n - 1) : 0
   const xAt = (i: number) => padding.left + i * stepX
-  const yAt = (v: number) =>
-    padding.top + chartHeight - ((v - yMin) / yRange) * chartHeight
+  const yAt = (v: number) => padding.top + chartHeight - ((v - yMin) / yRange) * chartHeight
 
   const yTicks = 4
   const tickValues = Array.from({ length: yTicks + 1 }, (_, i) => yMin + (yRange * i) / yTicks)
@@ -117,15 +116,7 @@ export function LineChart({ labels, series, height = 220, ariaLabel }: Props) {
               strokeLinecap="round"
             />
             {s.values.map((v, i) =>
-              v == null ? null : (
-                <circle
-                  key={i}
-                  cx={xAt(i)}
-                  cy={yAt(v)}
-                  r="2"
-                  fill={s.color}
-                />
-              ),
+              v == null ? null : <circle key={i} cx={xAt(i)} cy={yAt(v)} r="2" fill={s.color} />,
             )}
           </g>
         )

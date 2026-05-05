@@ -2,24 +2,22 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from dpp_api.db.models import ReferenceCfp
 from dpp_api.services.verifier_credentials import (
     issue_cfp_credential,
     list_credentials,
     revoke_credential,
 )
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 def _period() -> tuple[datetime, datetime]:
     return (
-        datetime(2026, 1, 1, tzinfo=timezone.utc),
-        datetime(2026, 12, 31, tzinfo=timezone.utc),
+        datetime(2026, 1, 1, tzinfo=UTC),
+        datetime(2026, 12, 31, tzinfo=UTC),
     )
 
 

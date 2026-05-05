@@ -85,7 +85,7 @@ export function Genealogy({ dpp }: { dpp: ViewerDpp }) {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.0, ease: EASE_STANDARD }}
-          className="mt-6 max-w-2xl font-display text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
+          className="font-display mt-6 max-w-2xl text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
         >
           Every gram, traced bauxite to <em className="not-italic">finished part.</em>
         </motion.h2>
@@ -95,10 +95,9 @@ export function Genealogy({ dpp }: { dpp: ViewerDpp }) {
           transition={{ duration: 0.8, delay: 0.3, ease: EASE_STANDARD }}
           className="mt-6 max-w-2xl text-[15px] leading-[1.65] text-[var(--fg-muted)]"
         >
-          The four upstream stages each emit their own DPP-linked attestations.
-          The downstream chain · every component built from this billet · is
-          also passport-aware: a Battery Passport, a vehicle DPP, an
-          architectural-glazing DPP all inherit and extend this one.
+          The four upstream stages each emit their own DPP-linked attestations. The downstream chain
+          · every component built from this billet · is also passport-aware: a Battery Passport, a
+          vehicle DPP, an architectural-glazing DPP all inherit and extend this one.
         </motion.p>
 
         <div className="mt-16 grid gap-8 lg:grid-cols-[1fr_0.6fr_1fr] lg:items-stretch">
@@ -115,9 +114,9 @@ export function Genealogy({ dpp }: { dpp: ViewerDpp }) {
             For EU CBAM declaration, this passport's form maps to{' '}
             <strong className="font-mono text-[var(--fg-default)]">
               {cnCodeFor((ident.form ?? '') as string)}
-            </strong>
-            {' '}— Annex I, Regulation (EU) 2023/956. Direct + indirect
-            embedded emissions are auto-aggregated in your customer portal.
+            </strong>{' '}
+            — Annex I, Regulation (EU) 2023/956. Direct + indirect embedded emissions are
+            auto-aggregated in your customer portal.
           </p>
         </div>
       </div>
@@ -159,7 +158,10 @@ function Column({
             transition={{ duration: 0.6, delay: 0.4 + i * 0.12, ease: EASE_STANDARD }}
             className="rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--color-paper-soft)] px-5 py-4"
           >
-            <p className="font-display text-[16px] font-semibold leading-tight" style={{ color: accent }}>
+            <p
+              className="font-display text-[16px] font-semibold leading-tight"
+              style={{ color: accent }}
+            >
               {n.title}
             </p>
             <p className="mt-1 font-mono text-[12px] text-[var(--fg-muted)]">{n.sub}</p>
@@ -171,13 +173,7 @@ function Column({
   )
 }
 
-function CenterColumn({
-  node,
-  inView,
-}: {
-  node: GenealogyNode
-  inView: boolean
-}) {
+function CenterColumn({ node, inView }: { node: GenealogyNode; inView: boolean }) {
   return (
     <div className="flex items-center justify-center">
       <motion.div
@@ -189,7 +185,7 @@ function CenterColumn({
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--color-gold-deep,#927221)]">
           {node.title}
         </p>
-        <p className="mt-3 font-display text-[20px] font-semibold leading-tight text-[var(--fg-default)]">
+        <p className="font-display mt-3 text-[20px] font-semibold leading-tight text-[var(--fg-default)]">
           {node.sub}
         </p>
         <p className="mt-3 font-mono text-[11px] text-[var(--fg-muted)]">{node.meta}</p>

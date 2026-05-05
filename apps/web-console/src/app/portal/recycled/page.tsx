@@ -15,14 +15,13 @@ export default async function RecycledPage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Zone 03 · Recycled Content Monitor
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Mass-balanced. Verified by ASI.
         </h1>
         <p className="mt-2 max-w-2xl text-[15px] text-[var(--fg-muted)]">
-          Every percentage you see is verified under ASI Chain of Custody V2.1
-          (certificate #428) using the mass-balance accounting model.
-          Pre-consumer scrap, post-consumer scrap, and internal run-around are
-          tracked separately under DPP 2 onward.
+          Every percentage you see is verified under ASI Chain of Custody V2.1 (certificate #428)
+          using the mass-balance accounting model. Pre-consumer scrap, post-consumer scrap, and
+          internal run-around are tracked separately under DPP 2 onward.
         </p>
       </header>
 
@@ -39,9 +38,7 @@ export default async function RecycledPage() {
         />
         <Stat
           label="Recycled tonnes"
-          value={Math.round(
-            data.items.reduce((s, i) => s + i.recycledTonnes, 0),
-          ).toLocaleString()}
+          value={Math.round(data.items.reduce((s, i) => s + i.recycledTonnes, 0)).toLocaleString()}
           unit="t"
           context="cumulative across brands"
         />

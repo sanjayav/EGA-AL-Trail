@@ -9,6 +9,8 @@ POST /api/v1/cast-events accepts a canonical CastEvent payload. The endpoint:
 
 from __future__ import annotations
 
+from typing import Any
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -38,7 +40,7 @@ class CastEventResponse(BaseModel):
     status_code=status.HTTP_202_ACCEPTED,
 )
 async def submit_cast_event(
-    payload: dict,
+    payload: dict[str, Any],
     response: Response,
     principal: Principal = Depends(require_dpp_operator),
     session: AsyncSession = Depends(get_tenant_session),

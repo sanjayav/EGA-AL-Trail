@@ -49,11 +49,41 @@ const COMMON_PRODUCER = {
 }
 
 const COMMON_FACILITIES = [
-  { ufi: 'GN-SANGAREDI', name: 'GAC Sangaredi (Guinea Alumina Corp)', role: 'mine', country: 'GN', latLon: [11.066, -13.74] },
-  { ufi: 'AE-TAWEELAH-REFINERY', name: 'EGA Al Taweelah Alumina Refinery', role: 'refinery', country: 'AE', latLon: [24.781, 54.713] },
-  { ufi: 'AE-TAWEELAH-ANODE', name: 'EGA Al Taweelah Anode Plant', role: 'anode_plant', country: 'AE', latLon: [24.781, 54.713] },
-  { ufi: 'AE-TAWEELAH-SMELTER', name: 'EGA Al Taweelah Smelter (Potlines 1–3)', role: 'smelter', country: 'AE', latLon: [24.78, 54.715] },
-  { ufi: 'AE-TAWEELAH-CASTHOUSE', name: 'EGA Al Taweelah Casthouse', role: 'casthouse', country: 'AE', latLon: [24.78, 54.717] },
+  {
+    ufi: 'GN-SANGAREDI',
+    name: 'GAC Sangaredi (Guinea Alumina Corp)',
+    role: 'mine',
+    country: 'GN',
+    latLon: [11.066, -13.74],
+  },
+  {
+    ufi: 'AE-TAWEELAH-REFINERY',
+    name: 'EGA Al Taweelah Alumina Refinery',
+    role: 'refinery',
+    country: 'AE',
+    latLon: [24.781, 54.713],
+  },
+  {
+    ufi: 'AE-TAWEELAH-ANODE',
+    name: 'EGA Al Taweelah Anode Plant',
+    role: 'anode_plant',
+    country: 'AE',
+    latLon: [24.781, 54.713],
+  },
+  {
+    ufi: 'AE-TAWEELAH-SMELTER',
+    name: 'EGA Al Taweelah Smelter (Potlines 1–3)',
+    role: 'smelter',
+    country: 'AE',
+    latLon: [24.78, 54.715],
+  },
+  {
+    ufi: 'AE-TAWEELAH-CASTHOUSE',
+    name: 'EGA Al Taweelah Casthouse',
+    role: 'casthouse',
+    country: 'AE',
+    latLon: [24.78, 54.717],
+  },
 ]
 
 const COMMON_PROCESS_FLOW = [
@@ -131,22 +161,87 @@ const COMMON_PROCESS_FLOW = [
 
 const COMMON_REGULATORY = {
   regulations: [
-    { name: 'EU CBAM', reference: 'EU 2023/956', status: 'compliant', evidenceRef: 'CBAM-EGA-2026-Q1' },
-    { name: 'EU ESPR', reference: 'EU 2024/1781', status: 'compliant', evidenceRef: 'ESPR-DPP-EGA-001' },
-    { name: 'REACH', reference: 'EC 1907/2006', status: 'compliant', evidenceRef: 'REACH-EGA-2025' },
+    {
+      name: 'EU CBAM',
+      reference: 'EU 2023/956',
+      status: 'compliant',
+      evidenceRef: 'CBAM-EGA-2026-Q1',
+    },
+    {
+      name: 'EU ESPR',
+      reference: 'EU 2024/1781',
+      status: 'compliant',
+      evidenceRef: 'ESPR-DPP-EGA-001',
+    },
+    {
+      name: 'REACH',
+      reference: 'EC 1907/2006',
+      status: 'compliant',
+      evidenceRef: 'REACH-EGA-2025',
+    },
     { name: 'RoHS 2', reference: '2011/65/EU', status: 'compliant', evidenceRef: 'RoHS-EGA-2025' },
-    { name: 'PFAS · REACH Annex XVII', reference: 'EU 2024/879', status: 'compliant', evidenceRef: 'PFAS-EGA-2025' },
-    { name: 'EU Aluminium Delegated Act', reference: 'EU 2025/486 (draft)', status: 'compliant', evidenceRef: 'ALU-DA-EGA-2025' },
-    { name: 'Conflict Minerals (3TG)', reference: 'EU 2017/821', status: 'not_applicable', evidenceRef: null },
+    {
+      name: 'PFAS · REACH Annex XVII',
+      reference: 'EU 2024/879',
+      status: 'compliant',
+      evidenceRef: 'PFAS-EGA-2025',
+    },
+    {
+      name: 'EU Aluminium Delegated Act',
+      reference: 'EU 2025/486 (draft)',
+      status: 'compliant',
+      evidenceRef: 'ALU-DA-EGA-2025',
+    },
+    {
+      name: 'Conflict Minerals (3TG)',
+      reference: 'EU 2017/821',
+      status: 'not_applicable',
+      evidenceRef: null,
+    },
   ],
   certifications: [
-    { name: 'ASI Performance V3', reference: 'ASI Performance #27 · Al Taweelah May 2019; Jebel Ali 2021', status: 'compliant', validUntil: '2027-05-01' },
-    { name: 'ASI Chain of Custody V2.1', reference: 'ASI CoC #428', status: 'compliant', validUntil: '2027-05-01' },
-    { name: 'ISO 9001:2015', reference: 'BSI FS 612893', status: 'compliant', validUntil: '2026-09-15' },
-    { name: 'ISO 14001:2015', reference: 'BSI EMS 591222', status: 'compliant', validUntil: '2026-09-15' },
-    { name: 'ISO 45001:2018', reference: 'BSI OHS 615001', status: 'compliant', validUntil: '2026-09-15' },
-    { name: 'ISO 50001:2018', reference: 'BSI ENMS 614720', status: 'compliant', validUntil: '2026-09-15' },
-    { name: 'ISO/IEC 17025:2017', reference: 'EIAC LAB 0029', status: 'compliant', validUntil: '2027-03-30' },
+    {
+      name: 'ASI Performance V3',
+      reference: 'ASI Performance #27 · Al Taweelah May 2019; Jebel Ali 2021',
+      status: 'compliant',
+      validUntil: '2027-05-01',
+    },
+    {
+      name: 'ASI Chain of Custody V2.1',
+      reference: 'ASI CoC #428',
+      status: 'compliant',
+      validUntil: '2027-05-01',
+    },
+    {
+      name: 'ISO 9001:2015',
+      reference: 'BSI FS 612893',
+      status: 'compliant',
+      validUntil: '2026-09-15',
+    },
+    {
+      name: 'ISO 14001:2015',
+      reference: 'BSI EMS 591222',
+      status: 'compliant',
+      validUntil: '2026-09-15',
+    },
+    {
+      name: 'ISO 45001:2018',
+      reference: 'BSI OHS 615001',
+      status: 'compliant',
+      validUntil: '2026-09-15',
+    },
+    {
+      name: 'ISO 50001:2018',
+      reference: 'BSI ENMS 614720',
+      status: 'compliant',
+      validUntil: '2026-09-15',
+    },
+    {
+      name: 'ISO/IEC 17025:2017',
+      reference: 'EIAC LAB 0029',
+      status: 'compliant',
+      validUntil: '2027-03-30',
+    },
   ],
 }
 
@@ -155,20 +250,160 @@ const COMMON_REGULATORY = {
 // are the actual EGA-published artefacts; the rest stub to those two for now
 // so links don't 404.
 const COMMON_DOCUMENTS = [
-  { id: 'doc-cfp', label: 'Carbon Footprint Verification Statement (ISO 14067:2018)', issuer: 'DNV AS', kind: 'pdf', sizeKb: 1430, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: '8f3a…c41e', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'ISO 14067' },
-  { id: 'doc-lca-full', label: 'Life Cycle Assessment · EGA Primary Aluminium Ingot Production', issuer: 'EGA Sustainability', kind: 'pdf', sizeKb: 4830, url: '/dpp-assets/docs/lca.pdf', sha256: 'da77…42cf', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'LCA' },
-  { id: 'doc-product-booklet', label: 'EGA Product Booklet (April 2026)', issuer: 'Emirates Global Aluminium', kind: 'pdf', sizeKb: 5240, url: '/dpp-assets/docs/product-booklet.pdf', sha256: 'aa11…02bd', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'Product' },
-  { id: 'doc-tech-booklet', label: 'EGA Technology Booklet (Dec 2021)', issuer: 'Emirates Global Aluminium', kind: 'pdf', sizeKb: 6712, url: '/dpp-assets/docs/technology-booklet.pdf', sha256: 'bc44…78de', requiresAudience: ['customer', 'verifier', 'authority'], tag: 'Technology' },
-  { id: 'doc-asi-perf', label: 'ASI Performance Standard V3 · Certificate', issuer: 'Aluminium Stewardship Initiative', kind: 'pdf', sizeKb: 980, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: '2b71…99af', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'ASI' },
-  { id: 'doc-asi-coc', label: 'ASI Chain of Custody V2.1 · Certificate', issuer: 'Aluminium Stewardship Initiative', kind: 'pdf', sizeKb: 1102, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: '4ad6…1f88', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'ASI' },
-  { id: 'doc-iso-14001', label: 'ISO 14001:2015 Environmental Management', issuer: 'BSI', kind: 'pdf', sizeKb: 605, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: 'fe21…3a8d', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'ISO' },
-  { id: 'doc-iso-9001', label: 'ISO 9001:2015 Quality Management', issuer: 'BSI', kind: 'pdf', sizeKb: 612, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: 'a3bd…7cf0', requiresAudience: ['customer', 'verifier', 'authority'], tag: 'ISO' },
-  { id: 'doc-iso-45001', label: 'ISO 45001:2018 Occupational Health & Safety', issuer: 'BSI', kind: 'pdf', sizeKb: 590, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: '12cd…be71', requiresAudience: ['customer', 'verifier', 'authority'], tag: 'ISO' },
-  { id: 'doc-msds', label: 'Material Safety Data Sheet (MSDS)', issuer: 'EGA Quality Lab', kind: 'pdf', sizeKb: 412, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: '99e1…02ab', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'MSDS' },
-  { id: 'doc-test-report', label: 'Mill Test Certificate (EN 10204 3.1)', issuer: 'EGA Quality Lab', kind: 'pdf', sizeKb: 880, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: '5d72…e3f1', requiresAudience: ['customer', 'verifier', 'authority'], tag: 'Quality' },
-  { id: 'doc-reach', label: 'REACH Compliance Declaration', issuer: 'EGA Compliance', kind: 'pdf', sizeKb: 220, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: '7caa…8d44', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'REACH' },
-  { id: 'doc-rohs', label: 'RoHS 2 Declaration', issuer: 'EGA Compliance', kind: 'pdf', sizeKb: 198, url: '/dpp-assets/docs/cfp-statement.pdf', sha256: 'ae09…74c2', requiresAudience: ['public', 'customer', 'verifier', 'authority'], tag: 'RoHS' },
-  { id: 'doc-cbam', label: 'CBAM Embedded Emissions Report', issuer: 'EGA Compliance', kind: 'pdf', sizeKb: 1520, url: '/dpp-assets/docs/lca.pdf', sha256: 'b1e8…a009', requiresAudience: ['verifier', 'authority'], tag: 'CBAM' },
+  {
+    id: 'doc-cfp',
+    label: 'Carbon Footprint Verification Statement (ISO 14067:2018)',
+    issuer: 'DNV AS',
+    kind: 'pdf',
+    sizeKb: 1430,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: '8f3a…c41e',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'ISO 14067',
+  },
+  {
+    id: 'doc-lca-full',
+    label: 'Life Cycle Assessment · EGA Primary Aluminium Ingot Production',
+    issuer: 'EGA Sustainability',
+    kind: 'pdf',
+    sizeKb: 4830,
+    url: '/dpp-assets/docs/lca.pdf',
+    sha256: 'da77…42cf',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'LCA',
+  },
+  {
+    id: 'doc-product-booklet',
+    label: 'EGA Product Booklet (April 2026)',
+    issuer: 'Emirates Global Aluminium',
+    kind: 'pdf',
+    sizeKb: 5240,
+    url: '/dpp-assets/docs/product-booklet.pdf',
+    sha256: 'aa11…02bd',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'Product',
+  },
+  {
+    id: 'doc-tech-booklet',
+    label: 'EGA Technology Booklet (Dec 2021)',
+    issuer: 'Emirates Global Aluminium',
+    kind: 'pdf',
+    sizeKb: 6712,
+    url: '/dpp-assets/docs/technology-booklet.pdf',
+    sha256: 'bc44…78de',
+    requiresAudience: ['customer', 'verifier', 'authority'],
+    tag: 'Technology',
+  },
+  {
+    id: 'doc-asi-perf',
+    label: 'ASI Performance Standard V3 · Certificate',
+    issuer: 'Aluminium Stewardship Initiative',
+    kind: 'pdf',
+    sizeKb: 980,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: '2b71…99af',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'ASI',
+  },
+  {
+    id: 'doc-asi-coc',
+    label: 'ASI Chain of Custody V2.1 · Certificate',
+    issuer: 'Aluminium Stewardship Initiative',
+    kind: 'pdf',
+    sizeKb: 1102,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: '4ad6…1f88',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'ASI',
+  },
+  {
+    id: 'doc-iso-14001',
+    label: 'ISO 14001:2015 Environmental Management',
+    issuer: 'BSI',
+    kind: 'pdf',
+    sizeKb: 605,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: 'fe21…3a8d',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'ISO',
+  },
+  {
+    id: 'doc-iso-9001',
+    label: 'ISO 9001:2015 Quality Management',
+    issuer: 'BSI',
+    kind: 'pdf',
+    sizeKb: 612,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: 'a3bd…7cf0',
+    requiresAudience: ['customer', 'verifier', 'authority'],
+    tag: 'ISO',
+  },
+  {
+    id: 'doc-iso-45001',
+    label: 'ISO 45001:2018 Occupational Health & Safety',
+    issuer: 'BSI',
+    kind: 'pdf',
+    sizeKb: 590,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: '12cd…be71',
+    requiresAudience: ['customer', 'verifier', 'authority'],
+    tag: 'ISO',
+  },
+  {
+    id: 'doc-msds',
+    label: 'Material Safety Data Sheet (MSDS)',
+    issuer: 'EGA Quality Lab',
+    kind: 'pdf',
+    sizeKb: 412,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: '99e1…02ab',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'MSDS',
+  },
+  {
+    id: 'doc-test-report',
+    label: 'Mill Test Certificate (EN 10204 3.1)',
+    issuer: 'EGA Quality Lab',
+    kind: 'pdf',
+    sizeKb: 880,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: '5d72…e3f1',
+    requiresAudience: ['customer', 'verifier', 'authority'],
+    tag: 'Quality',
+  },
+  {
+    id: 'doc-reach',
+    label: 'REACH Compliance Declaration',
+    issuer: 'EGA Compliance',
+    kind: 'pdf',
+    sizeKb: 220,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: '7caa…8d44',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'REACH',
+  },
+  {
+    id: 'doc-rohs',
+    label: 'RoHS 2 Declaration',
+    issuer: 'EGA Compliance',
+    kind: 'pdf',
+    sizeKb: 198,
+    url: '/dpp-assets/docs/cfp-statement.pdf',
+    sha256: 'ae09…74c2',
+    requiresAudience: ['public', 'customer', 'verifier', 'authority'],
+    tag: 'RoHS',
+  },
+  {
+    id: 'doc-cbam',
+    label: 'CBAM Embedded Emissions Report',
+    issuer: 'EGA Compliance',
+    kind: 'pdf',
+    sizeKb: 1520,
+    url: '/dpp-assets/docs/lca.pdf',
+    sha256: 'b1e8…a009',
+    requiresAudience: ['verifier', 'authority'],
+    tag: 'CBAM',
+  },
 ]
 
 const COMMON_PEF = {
@@ -199,7 +434,8 @@ const COMMON_SOC = {
   // Substances of Concern declared per ECHA SCIP & ESPR Art 11
   hasSocAboveThreshold: false,
   thresholdPercent: 0.1,
-  summaryStatement: 'No substances of very high concern (SVHC) declared above 0.1% w/w in the article.',
+  summaryStatement:
+    'No substances of very high concern (SVHC) declared above 0.1% w/w in the article.',
   substances: [],
   scipReference: null,
   refreshedAt: ISSUED_AT,
@@ -211,35 +447,66 @@ const COMMON_CIRCULARITY = {
   designedForDisassembly: true,
   remeltingYieldPercent: 95,
   remeltingEnergyKwhPerTonne: 700,
-  recyclingInfrastructure: 'Globally available · aluminium is infinitely recyclable without quality loss.',
+  recyclingInfrastructure:
+    'Globally available · aluminium is infinitely recyclable without quality loss.',
   endOfLife: {
     routes: [
       { code: 'recycle_loop', label: 'Closed-loop remelt', preferred: true, share: 80 },
       { code: 'recycle_open', label: 'Open-loop remelt', preferred: true, share: 18 },
       { code: 'landfill', label: 'Landfill', preferred: false, share: 2 },
     ],
-    disassemblyInstructions: 'Sort by alloy family per EN 573-3. Remove non-aluminium attachments (plastic caps, steel banding). Avoid contamination with painted/lacquered scrap unless declared.',
+    disassemblyInstructions:
+      'Sort by alloy family per EN 573-3. Remove non-aluminium attachments (plastic caps, steel banding). Avoid contamination with painted/lacquered scrap unless declared.',
     handlerNetwork: 'European Aluminium Recycling Federation members (organisation.eu/recyclers)',
   },
 }
 
 const COMMON_USE_AND_LIFE = {
   expectedLifetimeYears: 50,
-  durabilityStatement: 'Aluminium does not corrode and retains structural performance for >50 years in typical built-environment use.',
-  reliabilityStatement: 'No fatigue degradation under ambient conditions; tested per EN 1999-1-1 Eurocode 9.',
+  durabilityStatement:
+    'Aluminium does not corrode and retains structural performance for >50 years in typical built-environment use.',
+  reliabilityStatement:
+    'No fatigue degradation under ambient conditions; tested per EN 1999-1-1 Eurocode 9.',
   installationInformation: 'No special handling required beyond standard load-bearing protocols.',
-  maintenanceInformation: 'Wash with neutral pH solution; avoid abrasive cleaners on anodised surfaces.',
-  safetyInformation: 'Mechanical edges may be sharp post-cutting. PPE per ISO 45001 site procedure.',
+  maintenanceInformation:
+    'Wash with neutral pH solution; avoid abrasive cleaners on anodised surfaces.',
+  safetyInformation:
+    'Mechanical edges may be sharp post-cutting. PPE per ISO 45001 site procedure.',
   warnings: 'Do not heat above 600 °C in confined spaces (oxide dust hazard).',
   repairScore: 'B',
-  repairabilityNotes: 'Cast products are remelted, not repaired in field; structural failure typically retired to scrap stream.',
+  repairabilityNotes:
+    'Cast products are remelted, not repaired in field; structural failure typically retired to scrap stream.',
 }
 
 const COMMON_LABELS = [
-  { code: 'asi_performance', label: 'ASI Performance Standard', authority: 'Aluminium Stewardship Initiative', issuedAt: '2024-05-01', logoSlug: 'asi' },
-  { code: 'asi_coc', label: 'ASI Chain of Custody', authority: 'Aluminium Stewardship Initiative', issuedAt: '2024-05-01', logoSlug: 'asi' },
-  { code: 'iso_14001', label: 'ISO 14001 Environmental Management', authority: 'BSI', issuedAt: '2024-09-15', logoSlug: 'iso' },
-  { code: 'cradle_to_cradle', label: 'Cradle to Cradle Bronze (Aluminium category)', authority: 'C2C PII', issuedAt: '2024-11-12', logoSlug: 'c2c' },
+  {
+    code: 'asi_performance',
+    label: 'ASI Performance Standard',
+    authority: 'Aluminium Stewardship Initiative',
+    issuedAt: '2024-05-01',
+    logoSlug: 'asi',
+  },
+  {
+    code: 'asi_coc',
+    label: 'ASI Chain of Custody',
+    authority: 'Aluminium Stewardship Initiative',
+    issuedAt: '2024-05-01',
+    logoSlug: 'asi',
+  },
+  {
+    code: 'iso_14001',
+    label: 'ISO 14001 Environmental Management',
+    authority: 'BSI',
+    issuedAt: '2024-09-15',
+    logoSlug: 'iso',
+  },
+  {
+    code: 'cradle_to_cradle',
+    label: 'Cradle to Cradle Bronze (Aluminium category)',
+    authority: 'C2C PII',
+    issuedAt: '2024-11-12',
+    logoSlug: 'c2c',
+  },
 ]
 
 interface BuildArgs {
@@ -269,7 +536,12 @@ interface BuildArgs {
   recycledPostConsumer: number
   recycledPreConsumer: number
   recycledRunaround: number
-  story: { headline: string; subhead: string; energyMixSolarPercent: number; ppaReference: string | null }
+  story: {
+    headline: string
+    subhead: string
+    energyMixSolarPercent: number
+    ppaReference: string | null
+  }
   chemistry: Record<string, number>
   applicableStandards: string[]
   customerUseCases: string[]
@@ -394,10 +666,30 @@ function buildBody(a: BuildArgs): Record<string, unknown> {
 
     audit: {
       events: [
-        { at: '2025-08-12T07:00:00Z', actor: 'casthouse.ops@ega.ae', action: 'cast tap-out recorded', target: 'cast' },
-        { at: '2025-08-12T11:42:00Z', actor: 'qc.lab@ega.ae', action: 'spectro chemistry validated', target: 'chemistry' },
-        { at: '2025-08-13T09:15:00Z', actor: 'sustainability.lead@ega.ae', action: 'CFP attached & verified', target: 'carbon' },
-        { at: '2026-04-22T08:30:00Z', actor: 'sustainability.lead@ega.ae', action: 'passport published', target: 'dpp' },
+        {
+          at: '2025-08-12T07:00:00Z',
+          actor: 'casthouse.ops@ega.ae',
+          action: 'cast tap-out recorded',
+          target: 'cast',
+        },
+        {
+          at: '2025-08-12T11:42:00Z',
+          actor: 'qc.lab@ega.ae',
+          action: 'spectro chemistry validated',
+          target: 'chemistry',
+        },
+        {
+          at: '2025-08-13T09:15:00Z',
+          actor: 'sustainability.lead@ega.ae',
+          action: 'CFP attached & verified',
+          target: 'carbon',
+        },
+        {
+          at: '2026-04-22T08:30:00Z',
+          actor: 'sustainability.lead@ega.ae',
+          action: 'passport published',
+          target: 'dpp',
+        },
       ],
     },
 
@@ -439,7 +731,8 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
     qrPayload: 'https://id.ega.example/01/08144060638123/10/CL-2025-08/21/CEL-DEMO-001',
     signature: {
       algorithm: 'Ed25519Signature2020',
-      value: 'z58QAk2Pj7sB7ya3RrdXz1m7DCAzfXNAxuJxYiCEL2DEmoQXrmA9NaP5wG3T8R1QxHmpFcKqB3D4zZL6A2BcDe',
+      value:
+        'z58QAk2Pj7sB7ya3RrdXz1m7DCAzfXNAxuJxYiCEL2DEmoQXrmA9NaP5wG3T8R1QxHmpFcKqB3D4zZL6A2BcDe',
       bodySha256: '2c6c7d6f0a4b9e51c3d7b112ee2245ad95b7c05a13cc56bd9fc4a64f7a9d8e3c',
     },
     body: buildBody({
@@ -455,7 +748,8 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
       temper: 'T6',
       productionRoute: 'primary_solar',
       brand: 'CelestiAL',
-      brandTagline: 'World’s first aluminium born of desert sun. 100% solar-powered primary metal · verified end-to-end.',
+      brandTagline:
+        'World’s first aluminium born of desert sun. 100% solar-powered primary metal · verified end-to-end.',
       form: 'extrusion_billet',
       formLabel: 'Extrusion billet',
       weightKg: 1380,
@@ -480,7 +774,8 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
       recycledRunaround: 0,
       story: {
         headline: 'The world’s first aluminium born of desert sun.',
-        subhead: '560,000 megawatt-hours of solar power per year via DEWA’s Mohammed bin Rashid Al Maktoum Solar Park.',
+        subhead:
+          '560,000 megawatt-hours of solar power per year via DEWA’s Mohammed bin Rashid Al Maktoum Solar Park.',
         energyMixSolarPercent: 100,
         ppaReference: 'DEWA MBR Solar Park PPA',
       },
@@ -498,8 +793,14 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
         alPct: 98.51,
       },
       applicableStandards: ['EN 573-3', 'EN 1559-3', 'AA 6063'],
-      customerUseCases: ['Architectural extrusions', 'Curtain walls', 'Automotive structural', 'Electric vehicle battery enclosures'],
-      materialOriginNote: 'Bauxite from EGA-owned GAC mine, Sangaredi, Guinea (IRMA Stage 3 audit).',
+      customerUseCases: [
+        'Architectural extrusions',
+        'Curtain walls',
+        'Automotive structural',
+        'Electric vehicle battery enclosures',
+      ],
+      materialOriginNote:
+        'Bauxite from EGA-owned GAC mine, Sangaredi, Guinea (IRMA Stage 3 audit).',
     }),
   },
 
@@ -525,7 +826,8 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
       temper: 'F',
       productionRoute: 'recycled_blend',
       brand: 'CelestiAL-R',
-      brandTagline: 'Recycled aluminium that doesn’t compromise the metal. Post-consumer scrap blended with solar-powered prime, mass-balance verified.',
+      brandTagline:
+        'Recycled aluminium that doesn’t compromise the metal. Post-consumer scrap blended with solar-powered prime, mass-balance verified.',
       form: 'sheet_ingot',
       formLabel: 'Sheet ingot',
       weightKg: 22500,
@@ -550,7 +852,8 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
       recycledRunaround: 10,
       story: {
         headline: 'Recycled aluminium that doesn’t compromise the metal.',
-        subhead: 'Post-consumer scrap, mass-balance verified, blended with solar-powered prime metal.',
+        subhead:
+          'Post-consumer scrap, mass-balance verified, blended with solar-powered prime metal.',
         energyMixSolarPercent: 74,
         ppaReference: 'DEWA MBR Solar Park PPA (prime portion)',
       },
@@ -568,8 +871,14 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
         alPct: 94.95,
       },
       applicableStandards: ['EN 573-3', 'EN 1559-3', 'AA 5754'],
-      customerUseCases: ['Automotive body sheet', 'Marine plate', 'Beverage can stock body', 'Pressure-vessel cladding'],
-      materialOriginNote: 'Recycled portion (16% post-consumer) routed via UBC bales from EU/MENA returns. Prime portion from GAC Sangaredi.',
+      customerUseCases: [
+        'Automotive body sheet',
+        'Marine plate',
+        'Beverage can stock body',
+        'Pressure-vessel cladding',
+      ],
+      materialOriginNote:
+        'Recycled portion (16% post-consumer) routed via UBC bales from EU/MENA returns. Prime portion from GAC Sangaredi.',
     }),
   },
 
@@ -595,7 +904,8 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
       temper: 'F',
       productionRoute: 'primary_grid',
       brand: 'Standard',
-      brandTagline: 'EGA Standard Aluminium · production-grade primary metal trusted by foundries and remelters worldwide.',
+      brandTagline:
+        'EGA Standard Aluminium · production-grade primary metal trusted by foundries and remelters worldwide.',
       form: 'sow',
       formLabel: 'Sow ingot',
       weightKg: 680,
@@ -638,8 +948,14 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
         alPct: 99.7,
       },
       applicableStandards: ['EN 573-3', 'EN 1559-3', 'AA 1020'],
-      customerUseCases: ['Foundry remelt feedstock', 'Cast wheel production', 'Automotive engine blocks', 'General sand-cast components'],
-      materialOriginNote: 'Bauxite from EGA-owned GAC mine, Sangaredi, Guinea. Combined-cycle gas grid mix.',
+      customerUseCases: [
+        'Foundry remelt feedstock',
+        'Cast wheel production',
+        'Automotive engine blocks',
+        'General sand-cast components',
+      ],
+      materialOriginNote:
+        'Bauxite from EGA-owned GAC mine, Sangaredi, Guinea. Combined-cycle gas grid mix.',
     }),
   },
 }
@@ -653,9 +969,11 @@ const PASSPORTS: Record<DemoSlug, DemoPassport> = {
  *   any UPI containing the brand string ("celestial-r", "celestial", "standard") */
 export function matchDemoPassport(upi: string): DemoPassport | null {
   const lc = upi.toLowerCase()
-  if (lc.includes('celestial-r') || lc.includes('celestialr') || lc.includes('clr')) return PASSPORTS['celestial-r']!
+  if (lc.includes('celestial-r') || lc.includes('celestialr') || lc.includes('clr'))
+    return PASSPORTS['celestial-r']!
   if (lc.includes('celestial') || lc.includes('cel-')) return PASSPORTS.celestial!
-  if (lc.includes('standard') || lc.includes('std-') || lc.includes('p1020')) return PASSPORTS.standard!
+  if (lc.includes('standard') || lc.includes('std-') || lc.includes('p1020'))
+    return PASSPORTS.standard!
   // GTIN-based detection (GS1 Digital Link routes)
   if (lc.includes('08144060638123')) return PASSPORTS.celestial!
   if (lc.includes('08144060638147')) return PASSPORTS['celestial-r']!

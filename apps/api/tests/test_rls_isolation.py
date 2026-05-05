@@ -14,15 +14,13 @@ prove isolation. The migrations declare policies that compare each row's
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import select, text
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from dpp_api.db.models import AuditLog
 from dpp_api.services.audit import append_audit
+from sqlalchemy import select, text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 async def _bind_tenant(session: AsyncSession, tenant_id: int | None) -> None:

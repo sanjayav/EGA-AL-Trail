@@ -17,12 +17,60 @@ interface PassportModel {
 }
 
 const MODELS: PassportModel[] = [
-  { name: 'CelestiAL Extrusion Billet 6063', brand: 'CelestiAL', anchored: 12, pending: 2, draft: 0, risk: 'LOW', compliancePct: 86 },
-  { name: 'CelestiAL-R Extrusion Billet 6061', brand: 'CelestiAL-R', anchored: 8, pending: 1, draft: 1, risk: 'LOW', compliancePct: 80 },
-  { name: 'Standard Slab 1070', brand: 'Standard', anchored: 4, pending: 3, draft: 2, risk: 'MEDIUM', compliancePct: 44 },
-  { name: 'High-Purity Billet 1050', brand: 'High-Purity', anchored: 2, pending: 0, draft: 1, risk: 'LOW', compliancePct: 67 },
-  { name: 'Foundry Alloy A356', brand: 'Foundry', anchored: 0, pending: 1, draft: 3, risk: 'HIGH', compliancePct: 0 },
-  { name: 'Standard Rolling Ingot 1050A', brand: 'Standard', anchored: 0, pending: 0, draft: 2, risk: 'HIGH', compliancePct: 0 },
+  {
+    name: 'CelestiAL Extrusion Billet 6063',
+    brand: 'CelestiAL',
+    anchored: 12,
+    pending: 2,
+    draft: 0,
+    risk: 'LOW',
+    compliancePct: 86,
+  },
+  {
+    name: 'CelestiAL-R Extrusion Billet 6061',
+    brand: 'CelestiAL-R',
+    anchored: 8,
+    pending: 1,
+    draft: 1,
+    risk: 'LOW',
+    compliancePct: 80,
+  },
+  {
+    name: 'Standard Slab 1070',
+    brand: 'Standard',
+    anchored: 4,
+    pending: 3,
+    draft: 2,
+    risk: 'MEDIUM',
+    compliancePct: 44,
+  },
+  {
+    name: 'High-Purity Billet 1050',
+    brand: 'High-Purity',
+    anchored: 2,
+    pending: 0,
+    draft: 1,
+    risk: 'LOW',
+    compliancePct: 67,
+  },
+  {
+    name: 'Foundry Alloy A356',
+    brand: 'Foundry',
+    anchored: 0,
+    pending: 1,
+    draft: 3,
+    risk: 'HIGH',
+    compliancePct: 0,
+  },
+  {
+    name: 'Standard Rolling Ingot 1050A',
+    brand: 'Standard',
+    anchored: 0,
+    pending: 0,
+    draft: 2,
+    risk: 'HIGH',
+    compliancePct: 0,
+  },
 ]
 
 const RISK_TONE: Record<string, BadgeTone> = {
@@ -35,9 +83,8 @@ export default async function ComplianceReportPage() {
   const totalPassports = MODELS.reduce((s, m) => s + m.anchored + m.pending + m.draft, 0)
   const totalAnchored = MODELS.reduce((s, m) => s + m.anchored, 0)
   const totalPending = MODELS.reduce((s, m) => s + m.pending, 0)
-  const overallCompliance = totalPassports > 0
-    ? Math.round((totalAnchored / totalPassports) * 100)
-    : 0
+  const overallCompliance =
+    totalPassports > 0 ? Math.round((totalAnchored / totalPassports) * 100) : 0
 
   const daysUntilDeadline = Math.ceil(
     (CBAM_DEADLINE.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
@@ -84,25 +131,16 @@ export default async function ComplianceReportPage() {
                   : 'var(--color-red, #dc2626)',
           }}
         >
-          {daysUntilDeadline} <span className="text-[12px] font-normal text-[var(--fg-muted)]">days</span>
+          {daysUntilDeadline}{' '}
+          <span className="text-[12px] font-normal text-[var(--fg-muted)]">days</span>
         </span>
       </div>
 
       {/* ── KPI cards ──────────────────────────────────────────────────── */}
       <section className="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         <KpiCard label="Total Passports" value={totalPassports} sub="Across all models" />
-        <KpiCard
-          label="Anchored"
-          value={totalAnchored}
-          sub="On-chain"
-          tone="green"
-        />
-        <KpiCard
-          label="Pending Anchor"
-          value={totalPending}
-          sub="In queue"
-          tone="amber"
-        />
+        <KpiCard label="Anchored" value={totalAnchored} sub="On-chain" tone="green" />
+        <KpiCard label="Pending Anchor" value={totalPending} sub="In queue" tone="amber" />
         <KpiCard
           label="Compliance Rate"
           value={`${overallCompliance}%`}

@@ -115,12 +115,7 @@ export function InitiateTransferDialog({ passports, myEmail }: Props) {
                 key to settle.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={close}
-              className="ot-dlg__close"
-              aria-label="Close"
-            >
+            <button type="button" onClick={close} className="ot-dlg__close" aria-label="Close">
               <X className="h-4 w-4" />
             </button>
           </header>
@@ -236,7 +231,8 @@ export function InitiateTransferDialog({ passports, myEmail }: Props) {
 
             <footer className="ot-dlg__foot">
               <span className="ot-dlg__hint">
-                <ShieldCheck className="inline h-3 w-3 align-text-top" /> Signed by {myEmail} · Ed25519
+                <ShieldCheck className="inline h-3 w-3 align-text-top" /> Signed by {myEmail} ·
+                Ed25519
               </span>
               <div className="ot-dlg__foot-actions">
                 <button type="button" onClick={close} className="ot-dlg__btn ot-dlg__btn--ghost">

@@ -12,10 +12,13 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "files": ["src", "bin"],
+  "files": [
+    "src",
+    "bin"
+  ],
   "scripts": {
-    "fire": "node bin/dpp-sim.mjs fire",
-    "list": "node bin/dpp-sim.mjs list",
+    "fire": "node --import tsx bin/dpp-sim.mjs fire",
+    "list": "node --import tsx bin/dpp-sim.mjs list",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -18,7 +18,7 @@ untouched, the failure is recorded in the audit log, and the rollover continues.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import select
@@ -88,7 +88,7 @@ async def rollover_dpps_to_credential(
     succeeded: list[str] = []
     skipped: list[str] = []
     failed: list[RolloverFailure] = []
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     for record in candidates:
         current_ref = (
@@ -112,7 +112,7 @@ async def rollover_dpps_to_credential(
                 now=now,
             )
             succeeded.append(record.upi)
-        except Exception as exc:  # noqa: BLE001 — record + continue, don't abort batch
+        except Exception as exc:
             failed.append(RolloverFailure(upi=record.upi, error=str(exc)))
             await append_audit(
                 session,

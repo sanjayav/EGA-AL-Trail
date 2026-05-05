@@ -1,11 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
-import {
-  fetchProductDetail,
-  fetchProductManifest,
-  listProductPortfolio,
-} from '@/lib/product-api'
+import { fetchProductDetail, fetchProductManifest, listProductPortfolio } from '@/lib/product-api'
 import type {
   ProductDetail,
   ProductManifest,
@@ -68,10 +64,7 @@ export default async function NewPassportEntryPage() {
       {bundles.length === 0 ? (
         <EmptyState portfolio={portfolio} />
       ) : (
-        <NewPassportWizard
-          bundles={bundles}
-          canonicalChain={portfolio?.canonicalChain ?? []}
-        />
+        <NewPassportWizard bundles={bundles} canonicalChain={portfolio?.canonicalChain ?? []} />
       )}
     </div>
   )
@@ -88,7 +81,7 @@ function EmptyState({ portfolio }: { portfolio: ProductPortfolio | null }) {
           The portfolio has no featured products with locked DPP configurations.
         </h1>
         <p className="mt-2 text-[13px] text-[var(--fg-muted)]">
-          {(portfolio?.products?.length ?? 0)} product
+          {portfolio?.products?.length ?? 0} product
           {(portfolio?.products?.length ?? 0) === 1 ? '' : 's'} found, but none flagged{' '}
           <code>details.featured = true</code>. Visit{' '}
           <Link

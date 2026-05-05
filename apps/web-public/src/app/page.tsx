@@ -11,13 +11,12 @@ export default function HomePage() {
       <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
         Digital Product Passport · v1.0
       </div>
-      <h1 className="mt-4 font-display text-[clamp(40px,6vw,72px)] font-light leading-[1.05] text-[var(--fg-default)]">
+      <h1 className="font-display mt-4 text-[clamp(40px,6vw,72px)] font-light leading-[1.05] text-[var(--fg-default)]">
         Verifiable provenance for premium aluminium.
       </h1>
-      <p className="mt-6 max-w-xl font-display text-[20px] italic text-[var(--fg-muted)]">
-        Scan a CelestiAL QR code or open a passport directly from the operator
-        console. Every page is server-rendered, every claim is signed, every
-        scroll position reveals more depth.
+      <p className="font-display mt-6 max-w-xl text-[20px] italic text-[var(--fg-muted)]">
+        Scan a CelestiAL QR code or open a passport directly from the operator console. Every page
+        is server-rendered, every claim is signed, every scroll position reveals more depth.
       </p>
 
       <section className="mt-16 grid gap-3">
@@ -28,7 +27,7 @@ export default function HomePage() {
           <li>
             <Link
               href="/dpp/sample/celestial"
-              className="text-[var(--color-gold-deep)] hover:underline underline-offset-4"
+              className="text-[var(--color-gold-deep)] underline-offset-4 hover:underline"
             >
               CelestiAL Extrusion Billet (sample) →
             </Link>
@@ -36,7 +35,7 @@ export default function HomePage() {
           <li>
             <Link
               href="/dpp/sample/celestial-r"
-              className="text-[var(--color-gold-deep)] hover:underline underline-offset-4"
+              className="text-[var(--color-gold-deep)] underline-offset-4 hover:underline"
             >
               CelestiAL-R Sheet Ingot (sample) →
             </Link>
@@ -44,7 +43,7 @@ export default function HomePage() {
           <li>
             <Link
               href="/dpp/sample/standard"
-              className="text-[var(--color-gold-deep)] hover:underline underline-offset-4"
+              className="text-[var(--color-gold-deep)] underline-offset-4 hover:underline"
             >
               Standard Sow Ingot (sample) →
             </Link>
@@ -53,7 +52,7 @@ export default function HomePage() {
       </section>
 
       <section className="mt-16 border-t border-[var(--surface-border)] pt-8">
-        <p className="text-[13px] font-mono uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
+        <p className="font-mono text-[13px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
           Issue a live passport
         </p>
         <p className="mt-2 text-[15px] text-[var(--fg-muted)]">

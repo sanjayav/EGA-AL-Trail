@@ -5,16 +5,15 @@ from __future__ import annotations
 import io
 import json
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from dpp_api.services.bundles import export_bundle
 from dpp_api.services.cast_events import ingest_cast_event
 from dpp_api.services.pipeline import run_dpp_pipeline
 from dpp_api.services.signer import verify_envelope
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 def _event() -> dict[str, object]:
@@ -22,7 +21,7 @@ def _event() -> dict[str, object]:
         "schemaVersion": "1.0.0",
         "trackingId": uuid4().hex,
         "source": {"kind": "simulator", "actor": "tests", "presetId": "celestial-extrusion-billet-6063"},
-        "occurredAt": datetime.now(timezone.utc).isoformat(),
+        "occurredAt": datetime.now(UTC).isoformat(),
         "tenantId": 1,
         "cast": {
             "castNumber": f"C-{uuid4().hex[:8]}",

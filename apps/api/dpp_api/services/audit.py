@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import select
@@ -42,7 +42,7 @@ async def append_audit(
     # Compute occurred_at ONCE — the column and the hashed body must agree, or
     # `verify_audit_chain` cannot reproduce the hash. Microsecond drift between
     # two `datetime.now()` calls would silently break the chain otherwise.
-    occurred_at = datetime.now(timezone.utc)
+    occurred_at = datetime.now(UTC)
 
     body: dict[str, Any] = {
         "tenant_id": tenant_id,

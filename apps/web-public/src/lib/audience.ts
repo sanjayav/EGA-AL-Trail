@@ -26,9 +26,7 @@ const PUBLIC_HIDDEN_PATHS = new Set<string>([
   'producer.regulatoryContact.phone',
 ])
 
-const CUSTOMER_HIDDEN_PATHS = new Set<string>([
-  'audit.events',
-])
+const CUSTOMER_HIDDEN_PATHS = new Set<string>(['audit.events'])
 
 const VERIFIER_HIDDEN_PATHS = new Set<string>([])
 

@@ -102,88 +102,97 @@ function synthesizeFromPreset(preset: SimulatorPreset, audience: DemoAudience): 
   const upi = `sample/${preset.id}`
 
   const body: Record<string, unknown> = {
-      schemaVersion: '1.0.0',
-      dppVersion: '1.0',
-      upi: {
-        castNumber: `C-SAMPLE-${preset.id}`,
-        gtin: '08174060638123',
-        digitalLinkUrl: `${RESOLVER_BASE}/01/08174060638123/10/SAMPLE/21/0001`,
-      },
-      identification: {
-        alloyEn: preset.alloyEn,
-        alloyAa: preset.alloyAa,
-        designationNumber: preset.alloyEn,
-        temper: preset.temper,
-        productionRoute: preset.brand === 'CelestiAL' ? 'primary_solar' : 'primary_grid',
-        brand: preset.brand,
-        form: preset.form,
-        applicableStandards: ['EN 573-3', 'EN 1559-3'],
-      },
-      producer: {
-        uoi: '0814406063810',
-        name: 'Emirates Global Aluminium PJSC',
-        trademark: 'EGA',
-        registeredAddress: 'P.O. Box 111023, Abu Dhabi, UAE',
-      },
-      origin: {
-        country: 'AE',
-        meltAndPourCountry: 'AE',
-        manufacturingDate: now.toISOString().slice(0, 10),
-        facilities: [
-          { ufi: preset.casthouseUfi, name: 'Al Taweelah Casthouse', role: 'casthouse', country: 'AE' },
-          { ufi: preset.smelterUfi, name: 'Al Taweelah Smelter', role: 'smelter', country: 'AE' },
-        ],
-      },
-      product: { name: preset.label, purposeStatement: preset.summary },
-      physical: {
-        netWeightKg: preset.weightKg,
-        ...preset.dimensions,
-      },
-      carbon: {
-        valueKgCo2ePerTonne: preset.carbon.valueKgCo2ePerTonne,
-        declaredUnit: '1000 kg of aluminium ingot (factory gate)',
-        systemBoundary: 'cradle_to_gate',
-        methodology: 'ISO 14067:2018 + IAI v2.0 + PCR 2022:08 v1.0',
-        reportingPeriod: preset.carbon.reportingPeriod,
-        verifier: { did: preset.carbon.verifierDid, name: preset.carbon.verifierName },
-        verificationStatementRef: preset.carbon.verificationStatementRef,
-        assuranceLevel: preset.carbon.assuranceLevel,
-        industryAverageKgCo2ePerTonne: preset.carbon.industryAverageKgCo2ePerTonne,
-        decomposition: preset.carbon.decomposition,
-      },
-      recycledContent: {
-        totalPercent: preset.recycledContent.totalPercent,
-        chainOfCustodyModel: preset.recycledContent.chainOfCustodyModel,
-        verifier: {
-          did: preset.recycledContent.verifierDid,
-          name: preset.recycledContent.verifierName,
+    schemaVersion: '1.0.0',
+    dppVersion: '1.0',
+    upi: {
+      castNumber: `C-SAMPLE-${preset.id}`,
+      gtin: '08174060638123',
+      digitalLinkUrl: `${RESOLVER_BASE}/01/08174060638123/10/SAMPLE/21/0001`,
+    },
+    identification: {
+      alloyEn: preset.alloyEn,
+      alloyAa: preset.alloyAa,
+      designationNumber: preset.alloyEn,
+      temper: preset.temper,
+      productionRoute: preset.brand === 'CelestiAL' ? 'primary_solar' : 'primary_grid',
+      brand: preset.brand,
+      form: preset.form,
+      applicableStandards: ['EN 573-3', 'EN 1559-3'],
+    },
+    producer: {
+      uoi: '0814406063810',
+      name: 'Emirates Global Aluminium PJSC',
+      trademark: 'EGA',
+      registeredAddress: 'P.O. Box 111023, Abu Dhabi, UAE',
+    },
+    origin: {
+      country: 'AE',
+      meltAndPourCountry: 'AE',
+      manufacturingDate: now.toISOString().slice(0, 10),
+      facilities: [
+        {
+          ufi: preset.casthouseUfi,
+          name: 'Al Taweelah Casthouse',
+          role: 'casthouse',
+          country: 'AE',
         },
-        asiCertificateRef: preset.recycledContent.asiCertificateRef,
+        { ufi: preset.smelterUfi, name: 'Al Taweelah Smelter', role: 'smelter', country: 'AE' },
+      ],
+    },
+    product: { name: preset.label, purposeStatement: preset.summary },
+    physical: {
+      netWeightKg: preset.weightKg,
+      ...preset.dimensions,
+    },
+    carbon: {
+      valueKgCo2ePerTonne: preset.carbon.valueKgCo2ePerTonne,
+      declaredUnit: '1000 kg of aluminium ingot (factory gate)',
+      systemBoundary: 'cradle_to_gate',
+      methodology: 'ISO 14067:2018 + IAI v2.0 + PCR 2022:08 v1.0',
+      reportingPeriod: preset.carbon.reportingPeriod,
+      verifier: { did: preset.carbon.verifierDid, name: preset.carbon.verifierName },
+      verificationStatementRef: preset.carbon.verificationStatementRef,
+      assuranceLevel: preset.carbon.assuranceLevel,
+      industryAverageKgCo2ePerTonne: preset.carbon.industryAverageKgCo2ePerTonne,
+      decomposition: preset.carbon.decomposition,
+    },
+    recycledContent: {
+      totalPercent: preset.recycledContent.totalPercent,
+      chainOfCustodyModel: preset.recycledContent.chainOfCustodyModel,
+      verifier: {
+        did: preset.recycledContent.verifierDid,
+        name: preset.recycledContent.verifierName,
       },
-      compliance: {
-        regulations: [
-          { name: 'REACH', reference: 'EC 1907/2006', status: 'compliant' },
-          { name: 'RoHS 2', reference: '2011/65/EU', status: 'compliant' },
-          { name: 'PFAS', reference: 'REACH PFAS', status: 'compliant' },
-        ],
-        certifications: [
-          { name: 'ASI Performance', reference: preset.compliance.asiPerformance, status: 'compliant' },
-          { name: 'ASI CoC', reference: preset.compliance.asiCoc, status: 'compliant' },
-          { name: 'ISO 9001', reference: preset.compliance.iso9001, status: 'compliant' },
-          { name: 'ISO 14001', reference: preset.compliance.iso14001, status: 'compliant' },
-          { name: 'ISO 45001', reference: preset.compliance.iso45001, status: 'compliant' },
-        ],
-      },
-      story: preset.story,
-      meta: {
-        createdAt: now.toISOString(),
-        lastUpdated: now.toISOString(),
-        expiresAt: expires.toISOString(),
-        lifecycleState: 'published',
-        languages: ['en'],
-        issuerDid: 'did:web:dpp.ega.local',
-        accessRights: { model: 'three_tier_vc_gated' },
-      },
+      asiCertificateRef: preset.recycledContent.asiCertificateRef,
+    },
+    compliance: {
+      regulations: [
+        { name: 'REACH', reference: 'EC 1907/2006', status: 'compliant' },
+        { name: 'RoHS 2', reference: '2011/65/EU', status: 'compliant' },
+        { name: 'PFAS', reference: 'REACH PFAS', status: 'compliant' },
+      ],
+      certifications: [
+        {
+          name: 'ASI Performance',
+          reference: preset.compliance.asiPerformance,
+          status: 'compliant',
+        },
+        { name: 'ASI CoC', reference: preset.compliance.asiCoc, status: 'compliant' },
+        { name: 'ISO 9001', reference: preset.compliance.iso9001, status: 'compliant' },
+        { name: 'ISO 14001', reference: preset.compliance.iso14001, status: 'compliant' },
+        { name: 'ISO 45001', reference: preset.compliance.iso45001, status: 'compliant' },
+      ],
+    },
+    story: preset.story,
+    meta: {
+      createdAt: now.toISOString(),
+      lastUpdated: now.toISOString(),
+      expiresAt: expires.toISOString(),
+      lifecycleState: 'published',
+      languages: ['en'],
+      issuerDid: 'did:web:dpp.ega.local',
+      accessRights: { model: 'three_tier_vc_gated' },
+    },
   }
 
   return {

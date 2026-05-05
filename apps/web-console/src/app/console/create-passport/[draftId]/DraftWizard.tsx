@@ -95,7 +95,9 @@ export function DraftWizard({
   const [drawerMode, setDrawerMode] = useState<EntrySource | null>(null)
   const [pending, startTransition] = useTransition()
   const [bannerError, setBannerError] = useState<string | null>(null)
-  const [publishResult, setPublishResult] = useState<{ upi: string; dppRecordId: number } | null>(null)
+  const [publishResult, setPublishResult] = useState<{ upi: string; dppRecordId: number } | null>(
+    null,
+  )
 
   const activeStage = view.stages.find((s) => s.stepId === activeStepId) ?? null
 
@@ -158,10 +160,7 @@ export function DraftWizard({
         <div className="mx-7 mt-3 flex items-center gap-2 rounded-[var(--radius-sm)] border border-[#86EFAC] bg-[#F0FDF4] px-3 py-2 text-[12px] text-[#166534]">
           <CheckCircle2 className="h-3.5 w-3.5" />
           Published · DPP record #{publishResult.dppRecordId}.{' '}
-          <button
-            onClick={() => router.push('/console/dpps')}
-            className="underline font-medium"
-          >
+          <button onClick={() => router.push('/console/dpps')} className="font-medium underline">
             View in passports list →
           </button>
         </div>
@@ -262,7 +261,11 @@ function Header({
               disabled={!view.completion.readyForDisclosure || pending}
               className="flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] bg-[var(--color-accent)] px-4 text-[12px] font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-30"
             >
-              {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ChevronRight className="h-3.5 w-3.5" />}
+              {pending ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <ChevronRight className="h-3.5 w-3.5" />
+              )}
               Continue to Disclosure
             </button>
           )}
@@ -272,7 +275,11 @@ function Header({
               disabled={pending}
               className="flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] bg-[var(--color-accent)] px-4 text-[12px] font-medium text-white transition disabled:opacity-30"
             >
-              {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
+              {pending ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Send className="h-3.5 w-3.5" />
+              )}
               Publish Passport
             </button>
           )}
@@ -291,14 +298,20 @@ function Header({
 
 function StageStateBadge({ state }: { state: string }) {
   const map: Record<string, { bg: string; fg: string; label: string }> = {
-    entry: { bg: 'bg-[var(--color-accent-soft)]', fg: 'text-[var(--color-accent)]', label: 'Entry' },
+    entry: {
+      bg: 'bg-[var(--color-accent-soft)]',
+      fg: 'text-[var(--color-accent)]',
+      label: 'Entry',
+    },
     disclosure: { bg: 'bg-[#FEF3C7]', fg: 'text-[#92400E]', label: 'Disclosure' },
     published: { bg: 'bg-[#DCFCE7]', fg: 'text-[#166534]', label: 'Published' },
     archived: { bg: 'bg-[var(--surface-hover)]', fg: 'text-[var(--fg-muted)]', label: 'Archived' },
   }
   const m = map[state] ?? map.entry!
   return (
-    <span className={`inline-flex h-7 items-center rounded-full ${m.bg} px-3 text-[11px] font-semibold ${m.fg}`}>
+    <span
+      className={`inline-flex h-7 items-center rounded-full ${m.bg} px-3 text-[11px] font-semibold ${m.fg}`}
+    >
       {m.label}
     </span>
   )
@@ -352,13 +365,15 @@ function EntryView({
                 <span
                   className={[
                     'absolute left-0 top-1 flex h-9 w-9 items-center justify-center rounded-full ring-2 transition',
-                    done ? 'bg-[#16a34a] ring-[#16a34a] text-white' : `${t.bg} ${t.ring}`,
+                    done ? 'bg-[#16a34a] text-white ring-[#16a34a]' : `${t.bg} ${t.ring}`,
                   ].join(' ')}
                 >
                   {done ? (
                     <CheckCircle2 className="h-4 w-4" />
                   ) : (
-                    <span className="text-[11px] font-bold text-[var(--fg-default)]">{s.ordinal}</span>
+                    <span className="text-[11px] font-bold text-[var(--fg-default)]">
+                      {s.ordinal}
+                    </span>
                   )}
                 </span>
                 <button
@@ -369,7 +384,7 @@ function EntryView({
                       ? 'border-[var(--color-accent)] bg-white shadow-sm'
                       : done
                         ? 'border-[#86EFAC]/60 bg-[#F0FDF4] hover:border-[#16a34a]'
-                        : 'border-[var(--surface-border)] bg-white hover:border-[var(--color-accent)]/50',
+                        : 'hover:border-[var(--color-accent)]/50 border-[var(--surface-border)] bg-white',
                   ].join(' ')}
                 >
                   <div className="min-w-0 flex-1">
@@ -434,7 +449,9 @@ function EntryView({
             <p className="font-mono text-[9px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
               Stage · {activeStage.tier}
             </p>
-            <h2 className="mt-1 text-[16px] font-semibold text-[var(--fg-default)]">{activeStage.name}</h2>
+            <h2 className="mt-1 text-[16px] font-semibold text-[var(--fg-default)]">
+              {activeStage.name}
+            </h2>
             <p className="mt-0.5 text-[11px] text-[var(--fg-subtle)]">
               {activeStage.completion.complete}/{activeStage.completion.total} complete
             </p>
@@ -449,7 +466,9 @@ function EntryView({
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <StatusDot status={a.status} />
-                        <span className="text-[13px] font-medium text-[var(--fg-default)]">{a.label}</span>
+                        <span className="text-[13px] font-medium text-[var(--fg-default)]">
+                          {a.label}
+                        </span>
                         {a.necessity === 'mandatory' && (
                           <span className="rounded-[var(--radius-pill)] bg-[#FEF3C7] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-[#92400E]">
                             Req
@@ -514,10 +533,12 @@ function synthesizeAttrValue(attr: DraftAttribute): unknown {
   const label = attr.label.toLowerCase()
 
   // Identifiers
-  if (path.endsWith('.castnumber')) return `C-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-AUTO`
+  if (path.endsWith('.castnumber'))
+    return `C-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-AUTO`
   if (path.endsWith('.itemserial')) return 'EB-AUTO-001'
   if (path.endsWith('.gtin')) return '07640100040030'
-  if (path.endsWith('.digitallinkurl')) return 'https://id.ega.example/01/07640100040030/21/EB-AUTO-001'
+  if (path.endsWith('.digitallinkurl'))
+    return 'https://id.ega.example/01/07640100040030/21/EB-AUTO-001'
   if (path.endsWith('.lotnumber')) return 'LOT-AUTO-2026-001'
   if (path.endsWith('.hscode')) return '7601.10'
   if (path.endsWith('.tariccode')) return '7601100000'
@@ -531,7 +552,8 @@ function synthesizeAttrValue(attr: DraftAttribute): unknown {
 
   // Chemistry · typical 6063 spec midpoints
   if (path.startsWith('chemistry.')) {
-    if (path.endsWith('.al') || path.endsWith('.aluminium') || path.endsWith('.aluminum')) return 99.0
+    if (path.endsWith('.al') || path.endsWith('.aluminium') || path.endsWith('.aluminum'))
+      return 99.0
     if (path.endsWith('.si')) return 0.5
     if (path.endsWith('.fe')) return 0.2
     if (path.endsWith('.mg')) return 0.55
@@ -588,7 +610,12 @@ function synthesizeAttrValue(attr: DraftAttribute): unknown {
   }
 
   // Booleans
-  if (label.startsWith('is ') || label.startsWith('has ') || label.includes('verified') || label.includes('certified')) {
+  if (
+    label.startsWith('is ') ||
+    label.startsWith('has ') ||
+    label.includes('verified') ||
+    label.includes('certified')
+  ) {
     return true
   }
 
@@ -606,7 +633,6 @@ function synthesizeAttrValue(attr: DraftAttribute): unknown {
   // specific format will reject this; logged as a soft fail at publish time.
   return `Auto-fill (${attr.label})`
 }
-
 
 // Demo helper: pulls the first matching library preset across every stage of
 // the draft so a tenant operator can show end-to-end "create → publish" without
@@ -738,8 +764,8 @@ function AiAutoFillButton({
       {picker && (
         <Modal title="Pick a preset for AI auto-fill" onClose={() => setPicker(null)}>
           <p className="mb-3 text-[12px] text-[var(--fg-muted)]">
-            Multiple library presets match this product. Pick one · its values will fill every
-            stage in the draft.
+            Multiple library presets match this product. Pick one · its values will fill every stage
+            in the draft.
           </p>
           <ul className="space-y-1.5">
             {picker.map((p) => (
@@ -814,7 +840,9 @@ function StageBulkActions({ stage, draftId }: { stage: DraftStage; draftId: numb
       {open === 'library' && (
         <Modal title="Pull library preset" onClose={() => setOpen(null)}>
           {presets.length === 0 ? (
-            <p className="text-[12px] text-[var(--fg-subtle)]">No matching presets for this product.</p>
+            <p className="text-[12px] text-[var(--fg-subtle)]">
+              No matching presets for this product.
+            </p>
           ) : (
             <ul className="space-y-2">
               {presets.map((p) => (
@@ -830,7 +858,9 @@ function StageBulkActions({ stage, draftId }: { stage: DraftStage; draftId: numb
                     className="w-full rounded-[var(--radius-sm)] border border-[var(--surface-border)] p-3 text-left transition hover:border-[var(--color-accent)] hover:bg-[var(--color-fog)]"
                   >
                     <p className="text-[13px] font-medium text-[var(--fg-default)]">{p.label}</p>
-                    {p.summary && <p className="mt-0.5 text-[11px] text-[var(--fg-subtle)]">{p.summary}</p>}
+                    {p.summary && (
+                      <p className="mt-0.5 text-[11px] text-[var(--fg-subtle)]">{p.summary}</p>
+                    )}
                   </button>
                 </li>
               ))}
@@ -874,9 +904,7 @@ function IotPicker({
   const [name, setName] = useState('')
   const [kind, setKind] = useState<IotConnection['kind']>('mes')
   const [endpoint, setEndpoint] = useState('')
-  const [mapText, setMapText] = useState(
-    '{\n  "carbon.decomposition.electrolysis": 1531\n}',
-  )
+  const [mapText, setMapText] = useState('{\n  "carbon.decomposition.electrolysis": 1531\n}')
   const [busy, setBusy] = useState(false)
 
   return (
@@ -891,7 +919,8 @@ function IotPicker({
               >
                 <p className="text-[13px] font-medium text-[var(--fg-default)]">{c.name}</p>
                 <p className="mt-0.5 text-[11px] text-[var(--fg-subtle)]">
-                  {c.kind} · {c.endpoint ?? 'no endpoint'} · {Object.keys(c.attributeMap).length} attrs mapped
+                  {c.kind} · {c.endpoint ?? 'no endpoint'} · {Object.keys(c.attributeMap).length}{' '}
+                  attrs mapped
                 </p>
               </button>
             </li>
@@ -1198,7 +1227,7 @@ function AttributeDrawer({
                     key={s.key}
                     className={[
                       'flex items-baseline gap-4 border-b border-[var(--surface-border)] py-3',
-                      i % 2 === 0 ? 'sm:pr-6' : 'sm:pl-6 sm:border-l',
+                      i % 2 === 0 ? 'sm:pr-6' : 'sm:border-l sm:pl-6',
                     ].join(' ')}
                   >
                     <div className="w-24 shrink-0">
@@ -1240,20 +1269,22 @@ function AttributeDrawer({
                       key={h.year}
                       className="flex flex-col rounded-[var(--radius-md)] bg-[var(--color-fog)] px-3 py-2.5"
                     >
-                    <span className="font-mono text-[10px] text-[var(--fg-subtle)]">{h.year}</span>
-                    <span className="font-mono text-[15px] font-semibold tabular-nums text-[var(--fg-default)]">
-                      {h.value.toFixed(2)}
-                    </span>
-                    <span className="text-[10px] text-[var(--fg-muted)]">{h.label}</span>
-                  </li>
-                ))}
+                      <span className="font-mono text-[10px] text-[var(--fg-subtle)]">
+                        {h.year}
+                      </span>
+                      <span className="font-mono text-[15px] font-semibold tabular-nums text-[var(--fg-default)]">
+                        {h.value.toFixed(2)}
+                      </span>
+                      <span className="text-[10px] text-[var(--fg-muted)]">{h.label}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
           </section>
 
           {/* RIGHT · submission form (sticky, primary) */}
-          <aside className="min-w-0 overflow-y-auto bg-[var(--color-fog)]/30 px-8 py-8">
+          <aside className="bg-[var(--color-fog)]/30 min-w-0 overflow-y-auto px-8 py-8">
             <div className="sticky top-0">
               {/* Currently filed indicator */}
               <div className="rounded-[var(--radius-lg)] border border-[var(--surface-border)] bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
@@ -1515,7 +1546,11 @@ function attributeInsight(attribute: DraftAttribute, _stage: DraftStage): Attrib
     }
   }
 
-  if (path.startsWith('chemistry.') || path === 'identification.alloyEn' || path === 'identification.alloyAa') {
+  if (
+    path.startsWith('chemistry.') ||
+    path === 'identification.alloyEn' ||
+    path === 'identification.alloyAa'
+  ) {
     return {
       ...empty,
       unit: path.includes('Pct') ? '%' : null,
@@ -1575,8 +1610,7 @@ function attributeInsight(attribute: DraftAttribute, _stage: DraftStage): Attrib
       ...empty,
       unit: 'kg',
       definition: 'Net weight of the product unit (single ingot / billet / sow).',
-      calcMethod:
-        'Casthouse load cell at tap-out, calibrated weekly per ISO/IEC 17025.',
+      calcMethod: 'Casthouse load cell at tap-out, calibrated weekly per ISO/IEC 17025.',
       iotChannel: 'egadx.casthouse.scale.weight_kg → iRPMS',
       libraryHint: 'CelestiAL billet: 1380 kg; standard sow: 680 kg.',
       industryBaseline: null,
@@ -1600,7 +1634,8 @@ function ManualEntry({
   onSaved: () => void
   onError: (msg: string) => void
 }) {
-  const initial = attribute.value === null || attribute.value === undefined ? '' : formatValue(attribute.value)
+  const initial =
+    attribute.value === null || attribute.value === undefined ? '' : formatValue(attribute.value)
   const [text, setText] = useState(initial)
   const [busy, setBusy] = useState(false)
 
@@ -1662,14 +1697,16 @@ function LibraryEntry({
   }
 
   if (presets.length === 0) {
-    return <p className="text-[12px] text-[var(--fg-subtle)]">No matching presets for this product.</p>
+    return (
+      <p className="text-[12px] text-[var(--fg-subtle)]">No matching presets for this product.</p>
+    )
   }
 
   return (
     <div>
       <p className="mb-2 text-[12px] text-[var(--fg-muted)]">
-        Pulling a preset will fill every matching attribute on stage <strong>{stepId}</strong>{' '}
-        · including <code className="font-mono text-[10px]">{attribute.attributePath}</code>.
+        Pulling a preset will fill every matching attribute on stage <strong>{stepId}</strong> ·
+        including <code className="font-mono text-[10px]">{attribute.attributePath}</code>.
       </p>
       <ul className="space-y-2">
         {presets.map((p) => (
@@ -1686,7 +1723,9 @@ function LibraryEntry({
               className="w-full rounded-[var(--radius-sm)] border border-[var(--surface-border)] p-3 text-left transition hover:border-[var(--color-accent)] hover:bg-[var(--color-fog)]"
             >
               <p className="text-[13px] font-medium text-[var(--fg-default)]">{p.label}</p>
-              {p.summary && <p className="mt-0.5 text-[11px] text-[var(--fg-subtle)]">{p.summary}</p>}
+              {p.summary && (
+                <p className="mt-0.5 text-[11px] text-[var(--fg-subtle)]">{p.summary}</p>
+              )}
             </button>
           </li>
         ))}
@@ -1766,10 +1805,12 @@ function ExternalEntry({
     return (
       <div className="space-y-3">
         <p className="rounded-[var(--radius-sm)] bg-[var(--color-fog)] p-3 text-[12px] text-[var(--fg-muted)]">
-          Currently assigned to <strong>{existing.assigneeEmail}</strong>{' '}
-          ({existing.assigneeOrg ?? 'no org'}) · status <strong>{existing.status}</strong>.
+          Currently assigned to <strong>{existing.assigneeEmail}</strong> (
+          {existing.assigneeOrg ?? 'no org'}) · status <strong>{existing.status}</strong>.
         </p>
-        {existing.note && <p className="text-[12px] text-[var(--fg-muted)]">Note: {existing.note}</p>}
+        {existing.note && (
+          <p className="text-[12px] text-[var(--fg-muted)]">Note: {existing.note}</p>
+        )}
         <button
           disabled={busy || existing.status === 'submitted'}
           onClick={async () => {
@@ -1792,9 +1833,7 @@ function ExternalEntry({
       <div className="space-y-3">
         <div className="rounded-[var(--radius-sm)] border border-[#86EFAC] bg-[#F0FDF4] p-3">
           <p className="text-[12px] font-semibold text-[#166534]">Assignment created.</p>
-          <p className="mt-1 break-all font-mono text-[10px] text-[#166534]/80">
-            {link(token)}
-          </p>
+          <p className="mt-1 break-all font-mono text-[10px] text-[#166534]/80">{link(token)}</p>
         </div>
         <button
           onClick={() => navigator.clipboard.writeText(link(token))}
@@ -1814,10 +1853,30 @@ function ExternalEntry({
 
   return (
     <div className="space-y-3">
-      <Input label="Assignee email" value={email} onChange={setEmail} placeholder="ops@guinea-alumina.com" />
-      <Input label="Name (optional)" value={name} onChange={setName} placeholder="Production Manager" />
-      <Input label="Org (optional)" value={org} onChange={setOrg} placeholder="Guinea Alumina Corp" />
-      <Input label="Note (optional)" value={note} onChange={setNote} placeholder="Need this for Q4 reporting." />
+      <Input
+        label="Assignee email"
+        value={email}
+        onChange={setEmail}
+        placeholder="ops@guinea-alumina.com"
+      />
+      <Input
+        label="Name (optional)"
+        value={name}
+        onChange={setName}
+        placeholder="Production Manager"
+      />
+      <Input
+        label="Org (optional)"
+        value={org}
+        onChange={setOrg}
+        placeholder="Guinea Alumina Corp"
+      />
+      <Input
+        label="Note (optional)"
+        value={note}
+        onChange={setNote}
+        placeholder="Need this for Q4 reporting."
+      />
       <button
         disabled={busy || !email}
         onClick={async () => {
@@ -1870,9 +1929,12 @@ function DisclosureView({
             Disclosure review {published && '— published'}
           </p>
           <p className="mt-1 max-w-2xl text-[12px] text-[var(--fg-muted)]">
-            Choose which attributes each viewer sees on the published passport. Authority and verifier
-            access defaults to everything; public + customer surfaces hide operational telemetry by
-            default. {published ? 'This passport has been published · visibility is now read-only.' : 'Toggle anything before publishing.'}
+            Choose which attributes each viewer sees on the published passport. Authority and
+            verifier access defaults to everything; public + customer surfaces hide operational
+            telemetry by default.{' '}
+            {published
+              ? 'This passport has been published · visibility is now read-only.'
+              : 'Toggle anything before publishing.'}
           </p>
         </div>
       </div>
@@ -1894,12 +1956,18 @@ function DisclosureView({
             {groups.map((g) => (
               <Fragment key={`g-${g.stepId}`}>
                 <tr className="bg-[var(--color-fog)]/40">
-                  <td colSpan={2 + AUDIENCES.length} className="px-3 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--color-accent)]">
+                  <td
+                    colSpan={2 + AUDIENCES.length}
+                    className="px-3 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--color-accent)]"
+                  >
                     {g.name}
                   </td>
                 </tr>
                 {g.rows.map((r) => (
-                  <tr key={`${g.stepId}-${r.attributePath}`} className="border-t border-[var(--surface-border)]">
+                  <tr
+                    key={`${g.stepId}-${r.attributePath}`}
+                    className="border-t border-[var(--surface-border)]"
+                  >
                     <td className="p-3 align-top">
                       <p className="font-medium text-[var(--fg-default)]">{r.label}</p>
                       <p className="mt-0.5 break-all font-mono text-[10px] text-[var(--fg-subtle)]">
@@ -1943,14 +2011,20 @@ function Modal({
   children: React.ReactNode
 }) {
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/40 backdrop-blur-sm" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 grid place-items-center bg-black/40 backdrop-blur-sm"
+      onClick={onClose}
+    >
       <div
-        className="w-[420px] max-h-[80vh] overflow-y-auto rounded-[var(--radius-lg)] bg-white p-5 shadow-xl"
+        className="max-h-[80vh] w-[420px] overflow-y-auto rounded-[var(--radius-lg)] bg-white p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-start justify-between">
           <h3 className="text-[14px] font-semibold text-[var(--fg-default)]">{title}</h3>
-          <button onClick={onClose} className="text-[var(--fg-subtle)] hover:text-[var(--fg-default)]">
+          <button
+            onClick={onClose}
+            className="text-[var(--fg-subtle)] hover:text-[var(--fg-default)]"
+          >
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -2024,7 +2098,10 @@ function coerce(text: string): unknown {
   if (trimmed === 'true') return true
   if (trimmed === 'false') return false
   if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed)
-  if ((trimmed.startsWith('{') && trimmed.endsWith('}')) || (trimmed.startsWith('[') && trimmed.endsWith(']'))) {
+  if (
+    (trimmed.startsWith('{') && trimmed.endsWith('}')) ||
+    (trimmed.startsWith('[') && trimmed.endsWith(']'))
+  ) {
     try {
       return JSON.parse(trimmed)
     } catch {

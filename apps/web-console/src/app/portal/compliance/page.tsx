@@ -19,29 +19,21 @@ export default async function CompliancePage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Zone 01 · Compliance Dashboard
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Every regulation, every shipment.
         </h1>
         <p className="mt-2 max-w-2xl text-[15px] text-[var(--fg-muted)]">
-          REACH, RoHS, PFAS, conflict minerals, ASI Performance, ASI CoC, the
-          ISO management standards · checked across every DPP you've received.
-          Drill into any row to see the underlying certificates.
+          REACH, RoHS, PFAS, conflict minerals, ASI Performance, ASI CoC, the ISO management
+          standards · checked across every DPP you've received. Drill into any row to see the
+          underlying certificates.
         </p>
       </header>
 
       <section className="mb-10 grid grid-cols-2 gap-6 md:grid-cols-4">
         <Stat label="DPPs covered" value={data.totalDpps.toLocaleString()} />
         <Stat label="Full coverage" value={fullCoverage} unit="programmes" />
-        <Stat
-          label="Partial coverage"
-          value={partial}
-          context="needs follow-up"
-        />
-        <Stat
-          label="Gaps"
-          value={gaps}
-          context={gaps === 0 ? 'all clear' : 'requires action'}
-        />
+        <Stat label="Partial coverage" value={partial} context="needs follow-up" />
+        <Stat label="Gaps" value={gaps} context={gaps === 0 ? 'all clear' : 'requires action'} />
       </section>
 
       <section className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">
@@ -63,8 +55,8 @@ export default async function CompliancePage() {
                   colSpan={6}
                   className="px-5 py-12 text-center text-[14px] text-[var(--fg-subtle)]"
                 >
-                  No DPPs received yet. Your supplier needs to issue and send at
-                  least one passport before this dashboard populates.
+                  No DPPs received yet. Your supplier needs to issue and send at least one passport
+                  before this dashboard populates.
                 </td>
               </tr>
             )}

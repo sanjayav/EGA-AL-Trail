@@ -26,8 +26,8 @@ export async function POST(req: Request) {
 
   if (!upstream || !upstream.ok) {
     const detail = upstream
-      ? ((await upstream.json().catch(() => ({}))) as { detail?: string }).detail ??
-        `HTTP ${upstream.status}`
+      ? (((await upstream.json().catch(() => ({}))) as { detail?: string }).detail ??
+        `HTTP ${upstream.status}`)
       : 'API unreachable or sign in required'
     return NextResponse.json({ detail }, { status: upstream?.status ?? 502 })
   }

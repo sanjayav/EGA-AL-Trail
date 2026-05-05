@@ -75,7 +75,10 @@ export async function pullLibraryAction(
   }
 }
 
-export async function listIotAction(draftId: number, processStepId?: number): Promise<IotConnection[]> {
+export async function listIotAction(
+  draftId: number,
+  processStepId?: number,
+): Promise<IotConnection[]> {
   return listIotConnections(draftId, processStepId)
 }
 
@@ -145,7 +148,9 @@ export async function refreshDraftAction(draftId: number): Promise<DraftView | n
   return fetchDraft(draftId)
 }
 
-export async function beginDisclosureAction(draftId: number): Promise<{ ok: true } | { error: string }> {
+export async function beginDisclosureAction(
+  draftId: number,
+): Promise<{ ok: true } | { error: string }> {
   try {
     await beginDisclosure(draftId)
     revalidatePath(`/console/create-passport/${draftId}`)

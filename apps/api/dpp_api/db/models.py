@@ -13,7 +13,7 @@ Tables (per SDD §7.2):
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import (
@@ -30,13 +30,13 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.dialects.postgresql import CITEXT, JSONB
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 
 from .session import Base
 
 
 def _utcnow() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 class Tenant(Base):

@@ -1,3 +1,4 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Leaf, Recycle, ShieldCheck, TrendingDown } from 'lucide-react'
 
@@ -35,9 +36,7 @@ export default async function OverviewPage() {
   const recycledPct = totalWeight ? (recycledTonnes / totalWeight) * 100 : 0
   const co2eSaved =
     list.items.reduce(
-      (s, i) =>
-        s +
-        ((i.weightKg / 1000) * (INDUSTRY_AVG_CFP - i.cfpKgCo2ePerTonne)),
+      (s, i) => s + (i.weightKg / 1000) * (INDUSTRY_AVG_CFP - i.cfpKgCo2ePerTonne),
       0,
     ) / 1000 // tonnes saved
 
@@ -114,7 +113,11 @@ export default async function OverviewPage() {
           subtitle="Daily mean of issued passports vs. industry baseline"
           legend={[
             { color: 'var(--color-accent, #0F4C81)', label: 'EGA average' },
-            { color: 'var(--fg-subtle)', label: `Industry (${INDUSTRY_AVG_CFP.toLocaleString()})`, dashed: true },
+            {
+              color: 'var(--fg-subtle)',
+              label: `Industry (${INDUSTRY_AVG_CFP.toLocaleString()})`,
+              dashed: true,
+            },
           ]}
         >
           <LineChart
@@ -172,7 +175,7 @@ export default async function OverviewPage() {
                   key={i}
                   className="group relative flex-1 rounded-t-[2px] bg-[var(--color-gold,#b58c2a)] transition-opacity hover:opacity-80"
                   style={{ height: `${h}%`, minHeight: v > 0 ? '2px' : '0' }}
-                  title={`${ts30[i].date}: ${v}`}
+                  title={`${ts30[i]?.date ?? ''}: ${v}`}
                 />
               )
             })}
@@ -184,23 +187,14 @@ export default async function OverviewPage() {
           </div>
         </ChartCard>
 
-        <ChartCard
-          title="Brand mix"
-          subtitle={`${brandMix.length} brands · weighted by tonnage`}
-        >
+        <ChartCard title="Brand mix" subtitle={`${brandMix.length} brands · weighted by tonnage`}>
           {brandMix.length === 0 ? (
             <p className="text-[12px] text-[var(--fg-subtle)]">No issuance yet.</p>
           ) : (
             <ul className="space-y-3">
               {brandMix.slice(0, 5).map((b, i) => {
                 const pct = (b.weight / totalWeight) * 100
-                const palette = [
-                  '#0F4C81',
-                  '#b58c2a',
-                  '#16a34a',
-                  '#7c3aed',
-                  '#dc2626',
-                ]
+                const palette = ['#0F4C81', '#b58c2a', '#16a34a', '#7c3aed', '#dc2626']
                 const color = palette[i % palette.length]
                 return (
                   <li key={b.brand}>
@@ -211,10 +205,7 @@ export default async function OverviewPage() {
                       </span>
                     </div>
                     <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[var(--surface-hover)]">
-                      <div
-                        className="h-full"
-                        style={{ width: `${pct}%`, background: color }}
-                      />
+                      <div className="h-full" style={{ width: `${pct}%`, background: color }} />
                     </div>
                   </li>
                 )
@@ -289,18 +280,12 @@ export default async function OverviewPage() {
             registry.filter(
               (v) =>
                 v.latestPeriodTo &&
-                new Date(v.latestPeriodTo).getTime() <
-                  Date.now() + 90 * 24 * 3600 * 1000,
+                new Date(v.latestPeriodTo).getTime() < Date.now() + 90 * 24 * 3600 * 1000,
             ).length
           }
           href="/console/verifiers"
         />
-        <ActionCard
-          icon={Recycle}
-          title="Open audit findings"
-          count={0}
-          href="/console/audit"
-        />
+        <ActionCard icon={Recycle} title="Open audit findings" count={0} href="/console/audit" />
       </section>
     </div>
   )
@@ -326,14 +311,15 @@ function ChartCard({
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
             {title}
           </p>
-          {subtitle && (
-            <p className="mt-1 text-[12px] text-[var(--fg-muted)]">{subtitle}</p>
-          )}
+          {subtitle && <p className="mt-1 text-[12px] text-[var(--fg-muted)]">{subtitle}</p>}
         </div>
         {legend && (
           <ul className="flex flex-wrap gap-3">
             {legend.map((l) => (
-              <li key={l.label} className="flex items-center gap-1.5 text-[11px] text-[var(--fg-muted)]">
+              <li
+                key={l.label}
+                className="flex items-center gap-1.5 text-[11px] text-[var(--fg-muted)]"
+              >
                 <span
                   className={`inline-block h-0.5 w-3 ${l.dashed ? 'border-t border-dashed' : ''}`}
                   style={{ background: l.dashed ? 'transparent' : l.color, borderColor: l.color }}
@@ -355,7 +341,7 @@ function SignalCard({
   headline,
   subhead,
 }: {
-  icon: React.ComponentType<{ className?: string }>
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>
   tone: 'success' | 'info'
   headline: string
   subhead: string
@@ -365,7 +351,7 @@ function SignalCard({
   return (
     <article className="rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-5">
       <Icon className="h-5 w-5" style={{ color: toneColor }} />
-      <p className="mt-3 font-display text-[24px] font-semibold leading-tight text-[var(--fg-default)]">
+      <p className="font-display mt-3 text-[24px] font-semibold leading-tight text-[var(--fg-default)]">
         {headline}
       </p>
       <p className="mt-2 text-[13px] leading-snug text-[var(--fg-muted)]">{subhead}</p>
@@ -398,9 +384,7 @@ function PipelineSignal({
         <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
           {label}
         </p>
-        {spark && spark.length > 0 && (
-          <Sparkline values={spark} width={64} height={20} />
-        )}
+        {spark && spark.length > 0 && <Sparkline values={spark} width={64} height={20} />}
       </div>
       <p
         className="tabular mt-2 font-mono text-[28px] font-semibold leading-none"
@@ -433,7 +417,7 @@ function ActionCard({
         : 'var(--color-red, #dc2626)'
   return (
     <Link
-      href={href as `/${string}`}
+      href={href as Route}
       className="group flex items-start justify-between gap-3 rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-5 transition-colors hover:border-[var(--color-accent)]"
     >
       <div className="min-w-0">
@@ -461,7 +445,5 @@ function ActionCard({
 function _withinThisMonth(iso: string): boolean {
   const d = new Date(iso)
   const now = new Date()
-  return (
-    d.getUTCFullYear() === now.getUTCFullYear() && d.getUTCMonth() === now.getUTCMonth()
-  )
+  return d.getUTCFullYear() === now.getUTCFullYear() && d.getUTCMonth() === now.getUTCMonth()
 }

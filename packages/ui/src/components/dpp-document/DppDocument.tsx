@@ -175,7 +175,10 @@ export async function DppDocument({ dpp }: { dpp: DppDocumentInput }) {
           <DocColumn title="Producer">
             <DocItem label="Manufacturer" value={(producer.name as string) ?? 'EGA'} />
             <DocItem label="Trademark" value={(producer.trademark as string) ?? 'EGA'} />
-            <DocItem label="Registered office" value={(producer.registeredAddress as string) ?? '—'} />
+            <DocItem
+              label="Registered office"
+              value={(producer.registeredAddress as string) ?? '—'}
+            />
             <DocItem label="UOI" value={(producer.uoi as string) ?? '—'} mono />
             <DocItem label="Country" value="United Arab Emirates" />
           </DocColumn>
@@ -236,20 +239,25 @@ export async function DppDocument({ dpp }: { dpp: DppDocumentInput }) {
           cfp={cfp}
           industryAvg={industryAvg}
           brand={brand}
-          decomposition={(carbon as Record<string, unknown>).decomposition as Record<string, number> | undefined}
+          decomposition={
+            (carbon as Record<string, unknown>).decomposition as Record<string, number> | undefined
+          }
         />
         <div className="mt-6 grid gap-3 md:grid-cols-2">
           <div className="dpp-doc__callout">
             <p className="dpp-doc__callout-label">Total CO₂ (this product)</p>
             <p className="dpp-doc__callout-value">{(cfp / 1000).toFixed(2)} t CO₂e / t Al</p>
             <p className="dpp-doc__callout-detail">
-              Verified by {(((carbon.verifier as Record<string, unknown>) ?? {}).name as string) ??
-                'DNV AS'} · statement {(carbon.verificationStatementRef as string) ?? '—'}
+              Verified by{' '}
+              {(((carbon.verifier as Record<string, unknown>) ?? {}).name as string) ?? 'DNV AS'} ·
+              statement {(carbon.verificationStatementRef as string) ?? '—'}
             </p>
           </div>
           <div className="dpp-doc__callout dpp-doc__callout--muted">
             <p className="dpp-doc__callout-label">Industry average</p>
-            <p className="dpp-doc__callout-value">{(industryAvg / 1000).toFixed(2)} t CO₂e / t Al</p>
+            <p className="dpp-doc__callout-value">
+              {(industryAvg / 1000).toFixed(2)} t CO₂e / t Al
+            </p>
             <p className="dpp-doc__callout-detail">
               IAI v2.0 global average · this product is{' '}
               <strong>{Math.round((1 - cfp / industryAvg) * 100)}%</strong> below baseline.
@@ -281,8 +289,8 @@ export async function DppDocument({ dpp }: { dpp: DppDocumentInput }) {
           </li>
           <li>
             <strong>Drop off at a recycling facility.</strong>{' '}
-            {(((circularity.endOfLife as Record<string, unknown>) ?? {}).handlerNetwork as string) ??
-              'European Aluminium Recycling Federation members.'}
+            {(((circularity.endOfLife as Record<string, unknown>) ?? {})
+              .handlerNetwork as string) ?? 'European Aluminium Recycling Federation members.'}
           </li>
         </ol>
       </Section>
@@ -307,8 +315,8 @@ export async function DppDocument({ dpp }: { dpp: DppDocumentInput }) {
             <p className="mt-2 text-[12px] leading-[1.65] text-[var(--fg-muted)]">
               The information provided in this Digital Product Passport is issued by the producer
               named above under their sole responsibility. Verification statements are issued by
-              independent third parties listed under Certificates and are reproducible from the
-              W3C Verifiable Credential exposed via the export menu.{' '}
+              independent third parties listed under Certificates and are reproducible from the W3C
+              Verifiable Credential exposed via the export menu.{' '}
               {dpp.isDemo && (
                 <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--fg-subtle)]">
                   · DEMO PASSPORT · values are illustrative
@@ -438,7 +446,11 @@ function ProcessFlow({ steps }: { steps: Array<Record<string, unknown>> }) {
             <div className="dpp-doc__flow-circle">
               <span className="dpp-doc__flow-num">{(s.ordinal as number) ?? i + 1}</span>
             </div>
-            {i < steps.length - 1 && <span aria-hidden className="dpp-doc__flow-arrow">→</span>}
+            {i < steps.length - 1 && (
+              <span aria-hidden className="dpp-doc__flow-arrow">
+                →
+              </span>
+            )}
           </li>
         ))}
       </ol>
@@ -523,7 +535,9 @@ function LcaChart({
               const sharePct = cfp > 0 ? Math.round((value / cfp) * 100) : 0
               return (
                 <li key={key} className="dpp-doc__stages-row">
-                  <span className="dpp-doc__stages-label">{STAGE_LABELS[key] ?? humanise(key)}</span>
+                  <span className="dpp-doc__stages-label">
+                    {STAGE_LABELS[key] ?? humanise(key)}
+                  </span>
                   <span className="dpp-doc__stages-track">
                     <span className="dpp-doc__stages-fill" style={{ width: `${pct}%` }} />
                   </span>
@@ -563,11 +577,7 @@ function ProductSilhouette({ form }: { form: string }) {
   if (form === 'sow') {
     return (
       <svg viewBox="0 0 120 80" className="h-full w-full">
-        <polygon
-          points="20,55 35,30 95,30 110,55 100,65 30,65"
-          fill="#d6d3cc"
-          stroke="#888"
-        />
+        <polygon points="20,55 35,30 95,30 110,55 100,65 30,65" fill="#d6d3cc" stroke="#888" />
       </svg>
     )
   }

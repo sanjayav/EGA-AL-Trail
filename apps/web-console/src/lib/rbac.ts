@@ -64,26 +64,105 @@ export type Permission =
   | 'export_passports'
   | 'manage_billing'
 
-export const PERMISSION_LABELS: Record<Permission, { label: string; group: PermissionGroup; description: string }> = {
-  create_draft:        { group: 'Authoring',   label: 'Create draft',        description: 'Open a new passport draft for a cast.' },
-  fill_attribute:      { group: 'Authoring',   label: 'Fill attribute',      description: 'Submit values for a draft (manual / library).' },
-  assign_external:     { group: 'Authoring',   label: 'Assign external',     description: 'Delegate an attribute to a supplier or colleague.' },
-  pull_iot:            { group: 'Authoring',   label: 'Pull IoT',            description: 'Trigger a fresh pull from an IoT data source.' },
-  pull_library:        { group: 'Authoring',   label: 'Pull library',        description: 'Apply a library preset to a draft stage.' },
-  review_disclosure:   { group: 'Review',      label: 'Review disclosure',   description: 'Toggle audience visibility before publish.' },
-  publish_passport:    { group: 'Review',      label: 'Publish passport',    description: 'Sign and anchor a draft to the public viewer.' },
-  recall_passport:     { group: 'Review',      label: 'Recall passport',     description: 'Withdraw a published passport (chain-of-custody event).' },
-  view_audit:          { group: 'Audit',       label: 'View audit log',      description: 'Read the hash-chained audit log for the tenant.' },
-  verify_audit_chain:  { group: 'Audit',       label: 'Verify audit chain',  description: 'Run integrity checks on the audit hash chain.' },
-  view_passports:      { group: 'Audit',       label: 'View passports',      description: 'Browse all passports in the tenant.' },
-  export_passports:    { group: 'Audit',       label: 'Export passports',    description: 'Download JSON/VC bundles or compliance reports.' },
-  manage_users:        { group: 'Admin',       label: 'Manage users',        description: 'Invite, edit, suspend tenant users.' },
-  manage_sso:          { group: 'Admin',       label: 'Manage SSO',          description: 'Configure Entra / OIDC and session policies.' },
-  manage_iot:          { group: 'Admin',       label: 'Manage IoT',          description: 'Add and rotate IoT data source credentials.' },
-  manage_presets:      { group: 'Admin',       label: 'Manage presets',      description: 'Edit the library presets used during authoring.' },
-  manage_eu_registry:  { group: 'Admin',       label: 'Manage EU Registry',  description: 'Push/withdraw passports from the EU registry.' },
-  manage_keys:         { group: 'Admin',       label: 'Manage signing keys', description: 'Rotate the Ed25519 issuance keypair.' },
-  manage_billing:      { group: 'Admin',       label: 'Manage billing',      description: 'View invoices and update payment method.' },
+export const PERMISSION_LABELS: Record<
+  Permission,
+  { label: string; group: PermissionGroup; description: string }
+> = {
+  create_draft: {
+    group: 'Authoring',
+    label: 'Create draft',
+    description: 'Open a new passport draft for a cast.',
+  },
+  fill_attribute: {
+    group: 'Authoring',
+    label: 'Fill attribute',
+    description: 'Submit values for a draft (manual / library).',
+  },
+  assign_external: {
+    group: 'Authoring',
+    label: 'Assign external',
+    description: 'Delegate an attribute to a supplier or colleague.',
+  },
+  pull_iot: {
+    group: 'Authoring',
+    label: 'Pull IoT',
+    description: 'Trigger a fresh pull from an IoT data source.',
+  },
+  pull_library: {
+    group: 'Authoring',
+    label: 'Pull library',
+    description: 'Apply a library preset to a draft stage.',
+  },
+  review_disclosure: {
+    group: 'Review',
+    label: 'Review disclosure',
+    description: 'Toggle audience visibility before publish.',
+  },
+  publish_passport: {
+    group: 'Review',
+    label: 'Publish passport',
+    description: 'Sign and anchor a draft to the public viewer.',
+  },
+  recall_passport: {
+    group: 'Review',
+    label: 'Recall passport',
+    description: 'Withdraw a published passport (chain-of-custody event).',
+  },
+  view_audit: {
+    group: 'Audit',
+    label: 'View audit log',
+    description: 'Read the hash-chained audit log for the tenant.',
+  },
+  verify_audit_chain: {
+    group: 'Audit',
+    label: 'Verify audit chain',
+    description: 'Run integrity checks on the audit hash chain.',
+  },
+  view_passports: {
+    group: 'Audit',
+    label: 'View passports',
+    description: 'Browse all passports in the tenant.',
+  },
+  export_passports: {
+    group: 'Audit',
+    label: 'Export passports',
+    description: 'Download JSON/VC bundles or compliance reports.',
+  },
+  manage_users: {
+    group: 'Admin',
+    label: 'Manage users',
+    description: 'Invite, edit, suspend tenant users.',
+  },
+  manage_sso: {
+    group: 'Admin',
+    label: 'Manage SSO',
+    description: 'Configure Entra / OIDC and session policies.',
+  },
+  manage_iot: {
+    group: 'Admin',
+    label: 'Manage IoT',
+    description: 'Add and rotate IoT data source credentials.',
+  },
+  manage_presets: {
+    group: 'Admin',
+    label: 'Manage presets',
+    description: 'Edit the library presets used during authoring.',
+  },
+  manage_eu_registry: {
+    group: 'Admin',
+    label: 'Manage EU Registry',
+    description: 'Push/withdraw passports from the EU registry.',
+  },
+  manage_keys: {
+    group: 'Admin',
+    label: 'Manage signing keys',
+    description: 'Rotate the Ed25519 issuance keypair.',
+  },
+  manage_billing: {
+    group: 'Admin',
+    label: 'Manage billing',
+    description: 'View invoices and update payment method.',
+  },
 }
 
 export type PermissionGroup = 'Authoring' | 'Review' | 'Audit' | 'Admin'
@@ -101,10 +180,25 @@ export const ROLE_PROFILES: Record<TenantRole, RoleProfile> = {
     glyph: '◆',
     defaultLanding: '/console/overview',
     permissions: [
-      'create_draft', 'fill_attribute', 'assign_external', 'pull_iot', 'pull_library',
-      'review_disclosure', 'publish_passport', 'recall_passport',
-      'view_audit', 'verify_audit_chain', 'view_passports', 'export_passports',
-      'manage_users', 'manage_sso', 'manage_iot', 'manage_presets', 'manage_eu_registry', 'manage_keys', 'manage_billing',
+      'create_draft',
+      'fill_attribute',
+      'assign_external',
+      'pull_iot',
+      'pull_library',
+      'review_disclosure',
+      'publish_passport',
+      'recall_passport',
+      'view_audit',
+      'verify_audit_chain',
+      'view_passports',
+      'export_passports',
+      'manage_users',
+      'manage_sso',
+      'manage_iot',
+      'manage_presets',
+      'manage_eu_registry',
+      'manage_keys',
+      'manage_billing',
     ],
   },
   it_administrator: {
@@ -117,8 +211,15 @@ export const ROLE_PROFILES: Record<TenantRole, RoleProfile> = {
     glyph: '⚙',
     defaultLanding: '/console/settings',
     permissions: [
-      'view_passports', 'view_audit', 'verify_audit_chain',
-      'manage_users', 'manage_sso', 'manage_iot', 'manage_presets', 'manage_eu_registry', 'manage_keys',
+      'view_passports',
+      'view_audit',
+      'verify_audit_chain',
+      'manage_users',
+      'manage_sso',
+      'manage_iot',
+      'manage_presets',
+      'manage_eu_registry',
+      'manage_keys',
     ],
   },
   dpp_operator: {
@@ -130,7 +231,14 @@ export const ROLE_PROFILES: Record<TenantRole, RoleProfile> = {
     tone: 'success',
     glyph: '✎',
     defaultLanding: '/console/pipeline',
-    permissions: ['create_draft', 'fill_attribute', 'assign_external', 'pull_iot', 'pull_library', 'view_passports'],
+    permissions: [
+      'create_draft',
+      'fill_attribute',
+      'assign_external',
+      'pull_iot',
+      'pull_library',
+      'view_passports',
+    ],
   },
   dpp_reviewer: {
     id: 'dpp_reviewer',
@@ -141,7 +249,13 @@ export const ROLE_PROFILES: Record<TenantRole, RoleProfile> = {
     tone: 'warning',
     glyph: '✓',
     defaultLanding: '/console/dpps',
-    permissions: ['review_disclosure', 'publish_passport', 'recall_passport', 'view_passports', 'view_audit'],
+    permissions: [
+      'review_disclosure',
+      'publish_passport',
+      'recall_passport',
+      'view_passports',
+      'view_audit',
+    ],
   },
   tenant_auditor: {
     id: 'tenant_auditor',
@@ -168,7 +282,8 @@ export function rolesWithPermission(permission: Permission): TenantRole[] {
  *  except other tenant_admins; it_administrator can manage non-admins. */
 export function canManage(actor: TenantRole, target: TenantRole): boolean {
   if (actor === 'tenant_admin') return target !== 'tenant_admin'
-  if (actor === 'it_administrator') return target !== 'tenant_admin' && target !== 'it_administrator'
+  if (actor === 'it_administrator')
+    return target !== 'tenant_admin' && target !== 'it_administrator'
   return false
 }
 

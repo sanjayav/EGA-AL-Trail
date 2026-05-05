@@ -9,7 +9,9 @@ export function StubPage({ title, blurb, shipsIn, bullets = [] }: StubPageProps)
   return (
     <div className="px-8 py-8">
       <header className="mb-8 flex items-baseline justify-between">
-        <h1 className="text-[28px] font-semibold leading-tight text-[var(--fg-default)]">{title}</h1>
+        <h1 className="text-[28px] font-semibold leading-tight text-[var(--fg-default)]">
+          {title}
+        </h1>
         <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
           {shipsIn}
         </span>

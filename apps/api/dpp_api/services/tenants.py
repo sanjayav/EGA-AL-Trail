@@ -28,7 +28,7 @@ async def list_tenants(session: AsyncSession) -> list[dict[str, Any]]:
     return [dict(r) for r in rows]
 
 
-def text_with_counts():  # type: ignore[no-untyped-def]
+def text_with_counts() -> Any:
     """The aggregation we need is a single LEFT JOIN-driven group-by."""
     from sqlalchemy import text
 
@@ -101,9 +101,7 @@ async def platform_overview(session: AsyncSession) -> dict[str, Any]:
     }
 
 
-def _tenants_table():  # type: ignore[no-untyped-def]
-    from sqlalchemy import Table
-
-    from ..db.models import Base
+def _tenants_table() -> Any:
+    from ..db.session import Base
 
     return Base.metadata.tables["tenants"]

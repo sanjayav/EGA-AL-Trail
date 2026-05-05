@@ -220,7 +220,14 @@ export interface UseAndLife {
 export interface DocumentRef {
   title: string
   url: Url
-  type?: 'mtc' | 'lca_report' | 'verification_statement' | 'certificate' | 'user_manual' | 'sds' | 'other'
+  type?:
+    | 'mtc'
+    | 'lca_report'
+    | 'verification_statement'
+    | 'certificate'
+    | 'user_manual'
+    | 'sds'
+    | 'other'
   sha256?: string
 }
 

@@ -19,9 +19,7 @@ interface PageProps {
 }
 
 function parseAudience(raw: string | undefined): DemoAudience {
-  return (AUDIENCES as readonly string[]).includes(raw ?? '')
-    ? (raw as DemoAudience)
-    : 'public'
+  return (AUDIENCES as readonly string[]).includes(raw ?? '') ? (raw as DemoAudience) : 'public'
 }
 
 export default async function DppPage({ params, searchParams }: PageProps) {

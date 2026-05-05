@@ -49,7 +49,7 @@ export function Hero({ dpp }: { dpp: ViewerDpp }) {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: EASE_STANDARD }}
-            className="mt-4 font-display text-[clamp(56px,10vw,128px)] font-light leading-[0.85] tracking-[-0.02em] text-[var(--fg-default)]"
+            className="font-display mt-4 text-[clamp(56px,10vw,128px)] font-light leading-[0.85] tracking-[-0.02em] text-[var(--fg-default)]"
           >
             {ident.brand}
             <span className="align-super text-[0.4em] font-light text-[var(--color-gold)]">®</span>
@@ -59,7 +59,7 @@ export function Hero({ dpp }: { dpp: ViewerDpp }) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7, ease: EASE_STANDARD }}
-            className="mt-6 max-w-xl font-display text-[clamp(20px,2.6vw,32px)] italic font-light leading-[1.2] text-[var(--fg-muted)]"
+            className="font-display mt-6 max-w-xl text-[clamp(20px,2.6vw,32px)] font-light italic leading-[1.2] text-[var(--fg-muted)]"
           >
             {(dpp.dpp as Record<string, { subhead?: string } | undefined>).story?.subhead ??
               "The world's first aluminium born of desert sun."}
@@ -97,7 +97,7 @@ export function Hero({ dpp }: { dpp: ViewerDpp }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 2.6, ease: EASE_STANDARD }}
-              className="mt-4 max-w-md font-display text-[18px] italic text-[var(--fg-muted)]"
+              className="font-display mt-4 max-w-md text-[18px] italic text-[var(--fg-muted)]"
             >
               {reductionPct}% below the industry average of {industryAvg.toLocaleString()} kg/t.
             </motion.p>
@@ -110,7 +110,7 @@ export function Hero({ dpp }: { dpp: ViewerDpp }) {
           transition={{ duration: 0.7, delay: 1.8, ease: EASE_STANDARD }}
           className="self-end font-mono text-[12px] text-[var(--fg-subtle)]"
         >
-          <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 tabular">
+          <dl className="tabular grid grid-cols-[auto_1fr] gap-x-6 gap-y-2">
             <dt>Alloy</dt>
             <dd className="text-[var(--fg-default)]">{ident.alloyEn}</dd>
             <dt>Verified</dt>
@@ -146,7 +146,7 @@ function SunGlow() {
       animate={{ opacity: 0.85, rotate: 0 }}
       transition={{ duration: 2.4, ease: EASE_STANDARD }}
       viewBox="0 0 200 200"
-      className="pointer-events-none absolute -right-32 top-1/4 h-[80vh] w-[80vh] max-h-[800px] max-w-[800px]"
+      className="pointer-events-none absolute -right-32 top-1/4 h-[80vh] max-h-[800px] w-[80vh] max-w-[800px]"
       aria-hidden
     >
       <defs>

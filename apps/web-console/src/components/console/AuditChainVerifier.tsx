@@ -43,13 +43,11 @@ export function AuditChainVerifier() {
       <Button onClick={run} loading={pending} disabled={pending} variant="secondary">
         {pending ? 'Verifying…' : 'Verify chain integrity'}
       </Button>
-      {error && (
-        <Badge tone="critical">{error}</Badge>
-      )}
+      {error && <Badge tone="critical">{error}</Badge>}
       {result && result.verified && (
         <span className="flex items-center gap-2 text-[12px] text-[var(--fg-muted)]">
           <Badge tone="success">Chain verified</Badge>
-          <span className="font-mono tabular">
+          <span className="tabular font-mono">
             {result.rowsChecked.toLocaleString()} entries · SHA-256 reconciled
           </span>
         </span>
@@ -57,8 +55,9 @@ export function AuditChainVerifier() {
       {result && !result.verified && (
         <span className="flex items-center gap-2 text-[12px] text-[var(--fg-muted)]">
           <Badge tone="critical">Chain broken</Badge>
-          <span className="font-mono tabular">
-            {result.breakCount} break{result.breakCount === 1 ? '' : 's'} · first at #{result.firstBreak?.entryId}
+          <span className="tabular font-mono">
+            {result.breakCount} break{result.breakCount === 1 ? '' : 's'} · first at #
+            {result.firstBreak?.entryId}
             {result.firstBreak ? ` (${result.firstBreak.reason})` : ''}
           </span>
         </span>

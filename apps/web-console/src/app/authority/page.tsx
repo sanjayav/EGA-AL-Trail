@@ -27,13 +27,13 @@ export default async function AuthorityPage() {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
             Authority access
           </p>
-          <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+          <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
             Market surveillance, customs, CBAM.
           </h1>
           <p className="mt-2 max-w-2xl text-[14px] text-[var(--fg-muted)]">
-            Credential-gated read of every issued passport, the full audit log,
-            and tamper-evidence verification. Sign in with your authority DID and
-            all data here is scoped to the tenant declared in your token.
+            Credential-gated read of every issued passport, the full audit log, and tamper-evidence
+            verification. Sign in with your authority DID and all data here is scoped to the tenant
+            declared in your token.
           </p>
         </div>
         <form action="/api/auth/sign-out" method="post">
@@ -60,7 +60,7 @@ export default async function AuthorityPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 text-[20px] font-semibold text-[var(--fg-default)]">
           Recently issued
         </h2>
         <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">
@@ -83,8 +83,8 @@ export default async function AuthorityPage() {
                     colSpan={7}
                     className="px-5 py-12 text-center text-[14px] text-[var(--fg-subtle)]"
                   >
-                    No DPPs visible. Either none have been issued yet or your
-                    authority token is missing the matching tenant claim.
+                    No DPPs visible. Either none have been issued yet or your authority token is
+                    missing the matching tenant claim.
                   </td>
                 </tr>
               )}
@@ -102,9 +102,7 @@ export default async function AuthorityPage() {
                     {d.recycledContentPct.toFixed(1)}
                   </td>
                   <td className="px-5 py-3">
-                    <Badge tone={d.state === 'published' ? 'success' : 'neutral'}>
-                      {d.state}
-                    </Badge>
+                    <Badge tone={d.state === 'published' ? 'success' : 'neutral'}>{d.state}</Badge>
                   </td>
                   <td className="px-5 py-3 font-mono text-[11px] text-[var(--fg-muted)]">
                     {d.issuedAt ? d.issuedAt.slice(0, 10) : '—'}
@@ -116,14 +114,14 @@ export default async function AuthorityPage() {
         </div>
         {list.items.length > 25 && (
           <p className="mt-2 text-[11px] text-[var(--fg-subtle)]">
-            Showing first 25 of {list.total.toLocaleString()}. Bulk export by
-            jurisdiction lands in Sprint 7.
+            Showing first 25 of {list.total.toLocaleString()}. Bulk export by jurisdiction lands in
+            Sprint 7.
           </p>
         )}
       </section>
 
       <section>
-        <h2 className="mb-3 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 text-[20px] font-semibold text-[var(--fg-default)]">
           Recent audit entries
         </h2>
         <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">

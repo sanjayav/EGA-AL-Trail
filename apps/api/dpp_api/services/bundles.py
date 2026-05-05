@@ -13,11 +13,10 @@ from __future__ import annotations
 
 import hashlib
 import io
-import json
 import zipfile
 from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -61,7 +60,7 @@ async def export_bundle(
     if missing:
         raise ValueError(f"DPPs not found: {missing}")
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     receipt_id = f"BUNDLE-{now.strftime('%Y%m%d')}-{hashlib.sha256(repr(upi_list).encode()).hexdigest()[:12]}"
 
     # Slice the audit log for the bundled DPPs — gives the customer / regulator

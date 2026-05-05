@@ -1,10 +1,6 @@
 import { Badge, Stat } from '@dpp/ui'
 
-import {
-  fetchPlatformOverview,
-  fetchTrustList,
-  listTenantsAdmin,
-} from '@/lib/admin-api'
+import { fetchPlatformOverview, fetchTrustList, listTenantsAdmin } from '@/lib/admin-api'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,13 +18,13 @@ export default async function AdminPage() {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
             Super Admin
           </p>
-          <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+          <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
             Platform overview.
           </h1>
           <p className="mt-2 max-w-2xl text-[14px] text-[var(--fg-muted)]">
-            Read-only view of every tenant, every active verifier credential, and
-            the trust list of issuer DIDs. Provisioning + Stripe Billing land in
-            Sprint 8 · until then, manage via the migration + KMS path.
+            Read-only view of every tenant, every active verifier credential, and the trust list of
+            issuer DIDs. Provisioning + Stripe Billing land in Sprint 8 · until then, manage via the
+            migration + KMS path.
           </p>
         </div>
         <form action="/api/auth/sign-out" method="post">
@@ -48,7 +44,7 @@ export default async function AdminPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 text-[20px] font-semibold text-[var(--fg-default)]">
           Tenants
         </h2>
         <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">
@@ -71,9 +67,8 @@ export default async function AdminPage() {
                     colSpan={7}
                     className="px-5 py-12 text-center text-[14px] text-[var(--fg-subtle)]"
                   >
-                    No tenants yet · sign in as a platform admin and provision
-                    one via the migration + manual seed (auto-provisioning lands
-                    in Sprint 8).
+                    No tenants yet · sign in as a platform admin and provision one via the migration
+                    + manual seed (auto-provisioning lands in Sprint 8).
                   </td>
                 </tr>
               )}
@@ -85,9 +80,7 @@ export default async function AdminPage() {
                   <td className="px-5 py-3 text-[var(--fg-default)]">{t.legalName}</td>
                   <td className="px-5 py-3 text-[var(--fg-muted)]">{t.tier}</td>
                   <td className="px-5 py-3">
-                    <Badge tone={t.status === 'active' ? 'success' : 'neutral'}>
-                      {t.status}
-                    </Badge>
+                    <Badge tone={t.status === 'active' ? 'success' : 'neutral'}>{t.status}</Badge>
                   </td>
                   <td className="tabular px-5 py-3 text-right font-mono text-[12px] text-[var(--fg-default)]">
                     {t.dppCount.toLocaleString()}
@@ -106,13 +99,12 @@ export default async function AdminPage() {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 text-[20px] font-semibold text-[var(--fg-default)]">
           Trust list
         </h2>
         <p className="mb-3 max-w-2xl text-[12px] text-[var(--fg-muted)]">
-          Distinct verifier DIDs that have ever issued a credential on the
-          platform. Editable allow-list lands in Sprint 8 · for now this is
-          the authoritative ledger.
+          Distinct verifier DIDs that have ever issued a credential on the platform. Editable
+          allow-list lands in Sprint 8 · for now this is the authoritative ledger.
         </p>
         <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">
           <table className="w-full text-[13px]">

@@ -13,13 +13,12 @@ export default async function ChemistryPage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Zone 05 · Chemistry & Mill Test Certificates
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Per-batch chemistry to EN 573-3 precision.
         </h1>
         <p className="mt-2 max-w-2xl text-[15px] text-[var(--fg-muted)]">
-          Available at DPP 1.5 onward · full elemental composition, mechanical
-          properties, IMDS-format export. v1.0 surfaces the alloy designation
-          and references the underlying MTC.
+          Available at DPP 1.5 onward · full elemental composition, mechanical properties,
+          IMDS-format export. v1.0 surfaces the alloy designation and references the underlying MTC.
         </p>
       </header>
 
@@ -27,14 +26,11 @@ export default async function ChemistryPage() {
         <div className="flex items-start gap-3">
           <Beaker className="mt-0.5 h-5 w-5 text-[var(--color-accent)]" />
           <div>
-            <p className="font-medium text-[var(--fg-default)]">
-              Full chemistry ships at DPP 1.5
-            </p>
+            <p className="font-medium text-[var(--fg-default)]">Full chemistry ships at DPP 1.5</p>
             <p className="mt-1 max-w-xl text-[13px] text-[var(--fg-muted)]">
-              The 47 attributes added at v1.5 (Al/Si/Fe/Cu/Mn/Mg/Cr/Zn/Ti/Pb,
-              tensile, yield, elongation, casthouse origin) require live MES
-              integration. The schema is locked; the supplier turns it on per
-              the version-upgrade workflow.
+              The 47 attributes added at v1.5 (Al/Si/Fe/Cu/Mn/Mg/Cr/Zn/Ti/Pb, tensile, yield,
+              elongation, casthouse origin) require live MES integration. The schema is locked; the
+              supplier turns it on per the version-upgrade workflow.
             </p>
           </div>
         </div>
@@ -65,7 +61,7 @@ export default async function ChemistryPage() {
             )}
             {list.items.map((r) => (
               <tr key={r.upi} className="hover:bg-[var(--surface-hover)]">
-                <td className="px-5 py-3 font-mono text-[12px] truncate max-w-[280px] inline-block align-middle">
+                <td className="inline-block max-w-[280px] truncate px-5 py-3 align-middle font-mono text-[12px]">
                   {r.upi}
                 </td>
                 <td className="px-5 py-3 text-[var(--fg-default)]">{r.alloy}</td>

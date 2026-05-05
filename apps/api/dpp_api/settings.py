@@ -38,10 +38,10 @@ class Settings(BaseSettings):
 
     # ── Postgres ────────────────────────────────────────────────────────────
     database_url: str = Field(
-        default="postgresql+asyncpg://dpp:dpp_local_dev_only@localhost:5432/dpp"
+        default="postgresql+asyncpg://dpp_app:dpp_local_dev_only@localhost:5432/dpp"
     )
     database_url_sync: str = Field(
-        default="postgresql+psycopg://dpp:dpp_local_dev_only@localhost:5432/dpp"
+        default="postgresql+psycopg://dpp_app:dpp_local_dev_only@localhost:5432/dpp"
     )
     db_pool_size: int = Field(default=10)
     db_max_overflow: int = Field(default=20)
@@ -130,7 +130,7 @@ class Settings(BaseSettings):
         return self.dpp_env == "production"
 
     @model_validator(mode="after")
-    def _enforce_production_security(self) -> "Settings":
+    def _enforce_production_security(self) -> Settings:
         """Hard-fail boot if production lacks a real auth/signing config.
 
         These checks exist to keep dev shortcuts from leaking into prod:

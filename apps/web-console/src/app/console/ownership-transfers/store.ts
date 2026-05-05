@@ -13,12 +13,7 @@
 
 export type TransferKind = 'ownership' | 'custody' | 'end_of_life'
 
-export type TransferState =
-  | 'draft'
-  | 'pending_countersign'
-  | 'settled'
-  | 'rejected'
-  | 'disputed'
+export type TransferState = 'draft' | 'pending_countersign' | 'settled' | 'rejected' | 'disputed'
 
 export interface Transfer {
   id: string
@@ -198,7 +193,18 @@ export function getTransfer(id: string): Transfer | null {
   return STORE.find((t) => t.id === id) ?? null
 }
 
-export function addTransfer(input: Omit<Transfer, 'id' | 'initiatedAt' | 'countersignedAt' | 'settledAt' | 'credentialId' | 'bodySha256' | 'countersignedBy'>): Transfer {
+export function addTransfer(
+  input: Omit<
+    Transfer,
+    | 'id'
+    | 'initiatedAt'
+    | 'countersignedAt'
+    | 'settledAt'
+    | 'credentialId'
+    | 'bodySha256'
+    | 'countersignedBy'
+  >,
+): Transfer {
   const t: Transfer = {
     ...input,
     id: `t-${new Date().getFullYear()}-${String(STORE.length + 1).padStart(3, '0')}`,

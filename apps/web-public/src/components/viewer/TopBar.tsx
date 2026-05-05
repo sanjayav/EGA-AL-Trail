@@ -12,14 +12,11 @@ export function TopBar({ dpp }: { dpp: ViewerDpp }) {
   const upiStruct = dpp.dpp.upi as { castNumber?: string } | undefined
 
   return (
-    <motion.div
-      style={{ opacity }}
-      className="fixed inset-x-0 top-0 z-40 backdrop-blur-md"
-    >
-      <div className="border-b border-[var(--surface-divider)] bg-[var(--color-paper)]/85">
+    <motion.div style={{ opacity }} className="fixed inset-x-0 top-0 z-40 backdrop-blur-md">
+      <div className="bg-[var(--color-paper)]/85 border-b border-[var(--surface-divider)]">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-3">
-            <div className="grid h-8 w-8 place-items-center rounded-[var(--radius-sm)] bg-[var(--color-ink)] text-[var(--color-paper)] font-display font-bold">
+            <div className="font-display grid h-8 w-8 place-items-center rounded-[var(--radius-sm)] bg-[var(--color-ink)] font-bold text-[var(--color-paper)]">
               E
             </div>
             <span className="font-display text-[15px] font-semibold tracking-tight text-[var(--fg-default)]">
@@ -31,7 +28,7 @@ export function TopBar({ dpp }: { dpp: ViewerDpp }) {
           </div>
           <div className="flex items-center gap-3">
             {upiStruct?.castNumber && (
-              <span className="hidden font-mono text-[11px] text-[var(--fg-subtle)] md:inline tabular">
+              <span className="tabular hidden font-mono text-[11px] text-[var(--fg-subtle)] md:inline">
                 {upiStruct.castNumber}
               </span>
             )}

@@ -65,7 +65,12 @@ export interface DraftStage {
   ordinal: number
   attributes: DraftAttribute[]
   completion: { complete: number; total: number; pct: number; isComplete: boolean }
-  dataSource: { id: number; origin: string; supplierName: string | null; permissionState: string } | null
+  dataSource: {
+    id: number
+    origin: string
+    supplierName: string | null
+    permissionState: string
+  } | null
 }
 
 export interface DraftView {
@@ -158,7 +163,9 @@ async function safeJson<T>(res: Response | null): Promise<T | null> {
   return (await res.json()) as T
 }
 
-interface ApiError { detail?: string }
+interface ApiError {
+  detail?: string
+}
 
 export class DraftApiError extends Error {
   status: number
@@ -296,7 +303,9 @@ export async function revokeAssignment(assignmentId: number): Promise<DraftAssig
 
 export async function fetchAssignmentInbox(email: string): Promise<InboxAssignment[]> {
   const res = await safeJson<{ assignments: InboxAssignment[] }>(
-    await authedFetch(`/api/v1/draft-passports/assignments/inbox?email=${encodeURIComponent(email)}`),
+    await authedFetch(
+      `/api/v1/draft-passports/assignments/inbox?email=${encodeURIComponent(email)}`,
+    ),
   )
   return res?.assignments ?? []
 }
@@ -327,8 +336,12 @@ export async function updateDisclosure(
   return patch(`/api/v1/draft-passports/${draftId}/disclosure`, input)
 }
 
-export async function publishDraft(
-  draftId: number,
-): Promise<{ draftId: number; dppRecordId: number; upi: string; bodySha256: string; issuedAt: string | null }> {
+export async function publishDraft(draftId: number): Promise<{
+  draftId: number
+  dppRecordId: number
+  upi: string
+  bodySha256: string
+  issuedAt: string | null
+}> {
   return post(`/api/v1/draft-passports/${draftId}/publish`)
 }

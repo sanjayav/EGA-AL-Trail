@@ -11,7 +11,7 @@ from the reference-data store instead.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 from uuid import uuid4
 
@@ -37,7 +37,7 @@ def build_dpp_from_cast_event(
     source = cast_event["source"]
     preset = get_preset(source["presetId"]) if source.get("presetId") else None
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     expires_at = now + timedelta(days=365 * 10)  # ESPR Art 10(3) — 10 year retention
 
     gtin = _gtin_for(cast["brand"], cast["form"])
@@ -46,7 +46,6 @@ def build_dpp_from_cast_event(
     digital_link = (
         f"{settings.dpp_resolver_base_url}/01/{gtin}/10/{cast_number}/21/{item_serial}"
     )
-    upi = f"{gtin}/{cast_number}/{item_serial}"
 
     if cfp_override is not None:
         carbon = _carbon_from_reference(cfp_override)

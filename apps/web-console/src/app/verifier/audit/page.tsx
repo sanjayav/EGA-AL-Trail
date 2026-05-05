@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { Route } from 'next'
 import Link from 'next/link'
 
 import { Badge, type BadgeTone } from '@dpp/ui'
@@ -51,13 +52,16 @@ export default async function VerifierAuditPage({ searchParams }: PageProps) {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
             Audit trail
           </p>
-          <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+          <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
             Your signature ledger.
           </h1>
           <p className="mt-2 text-[14px] text-[var(--fg-muted)]">
-            Hash-chained record of every action authored by your DID (shown in the
-            sidebar). {data.total.toLocaleString()} entries · showing{' '}
-            <span className="tabular font-mono">{showingFrom}–{showingTo}</span>.
+            Hash-chained record of every action authored by your DID (shown in the sidebar).{' '}
+            {data.total.toLocaleString()} entries · showing{' '}
+            <span className="tabular font-mono">
+              {showingFrom}–{showingTo}
+            </span>
+            .
           </p>
         </div>
       </header>
@@ -74,9 +78,7 @@ export default async function VerifierAuditPage({ searchParams }: PageProps) {
         </ol>
       )}
 
-      {lastPage > 0 && (
-        <Pagination page={page} lastPage={lastPage} action={action} />
-      )}
+      {lastPage > 0 && <Pagination page={page} lastPage={lastPage} action={action} />}
     </div>
   )
 }
@@ -88,7 +90,7 @@ function FilterBar({ selected }: { selected: string }) {
       className="flex flex-wrap items-center gap-3 rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-recessed)] px-4 py-3"
     >
       <label className="flex items-center gap-2 text-[12px] text-[var(--fg-muted)]">
-        <span className="font-mono uppercase tracking-[0.1em] text-[10px] text-[var(--fg-subtle)]">
+        <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--fg-subtle)]">
           Action
         </span>
         <select
@@ -135,10 +137,11 @@ function AuditRow({ entry }: { entry: VerifierAuditEntry }) {
           {date.toISOString().replace('T', ' ').slice(0, 19)}Z
         </time>
         <Badge tone={tone}>{entry.action}</Badge>
-        {target && (
-          <span className="font-mono text-[11px] text-[var(--fg-subtle)]">{target}</span>
-        )}
-        <span className="ml-auto font-mono text-[10px] text-[var(--fg-subtle)]" title={entry.currentHash}>
+        {target && <span className="font-mono text-[11px] text-[var(--fg-subtle)]">{target}</span>}
+        <span
+          className="ml-auto font-mono text-[10px] text-[var(--fg-subtle)]"
+          title={entry.currentHash}
+        >
           {entry.currentHash.slice(0, 12)}…
         </span>
       </div>
@@ -204,7 +207,7 @@ function Pagination({
     if (action) sp.set('action', action)
     if (target > 0) sp.set('page', String(target))
     const qs = sp.toString()
-    return qs ? `/verifier/audit?${qs}` : '/verifier/audit'
+    return (qs ? `/verifier/audit?${qs}` : '/verifier/audit') as Route
   }
 
   return (

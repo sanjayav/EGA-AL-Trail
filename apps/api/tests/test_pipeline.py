@@ -2,18 +2,17 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from dpp_api.db.models import AuditLog, CastEvent, DppRecord
 from dpp_api.services.cast_events import ingest_cast_event
 from dpp_api.services.pipeline import run_dpp_pipeline
 from dpp_api.services.plausibility import PlausibilityRejection
 from dpp_api.services.signer import verify_envelope
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 def _event(preset_id: str = "celestial-extrusion-billet-6063") -> dict[str, object]:
@@ -21,7 +20,7 @@ def _event(preset_id: str = "celestial-extrusion-billet-6063") -> dict[str, obje
         "schemaVersion": "1.0.0",
         "trackingId": uuid4().hex,
         "source": {"kind": "simulator", "actor": "tests", "presetId": preset_id},
-        "occurredAt": datetime.now(timezone.utc).isoformat(),
+        "occurredAt": datetime.now(UTC).isoformat(),
         "tenantId": 1,
         "cast": {
             "castNumber": f"C-{uuid4().hex[:8]}",

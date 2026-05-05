@@ -11,14 +11,13 @@ export default function IssuePage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Issue a Verifiable Credential
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           New annual CFP statement.
         </h1>
         <p className="mt-2 max-w-2xl text-[15px] text-[var(--fg-muted)]">
-          The values here are signed into the platform reference store. The
-          prior active credential for this brand is automatically marked
-          superseded. After issuance you can roll forward all referencing DPPs
-          in one explicit step.
+          The values here are signed into the platform reference store. The prior active credential
+          for this brand is automatically marked superseded. After issuance you can roll forward all
+          referencing DPPs in one explicit step.
         </p>
       </header>
 

@@ -7,9 +7,9 @@ import { TENANT_ROLES, canManage, hasPermission, type TenantRole } from '@/lib/r
 
 import { addPendingInvite, removePendingInvite } from './invite-store'
 
-export async function inviteMemberAction(formData: FormData): Promise<
-  { ok: true; email: string; role: TenantRole } | { ok: false; error: string }
-> {
+export async function inviteMemberAction(
+  formData: FormData,
+): Promise<{ ok: true; email: string; role: TenantRole } | { ok: false; error: string }> {
   const me = await currentUser()
   const myRole = (TENANT_ROLES as readonly string[]).includes(me.role)
     ? (me.role as TenantRole)
@@ -19,7 +19,9 @@ export async function inviteMemberAction(formData: FormData): Promise<
     return { ok: false, error: 'You do not have permission to invite members.' }
   }
 
-  const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  const email = String(formData.get('email') ?? '')
+    .trim()
+    .toLowerCase()
   const name = String(formData.get('name') ?? '').trim() || null
   const role = String(formData.get('role') ?? '') as TenantRole
 

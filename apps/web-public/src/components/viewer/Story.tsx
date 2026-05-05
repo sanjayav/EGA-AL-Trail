@@ -39,7 +39,7 @@ export function Story({ dpp }: { dpp: ViewerDpp }) {
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.0, ease: EASE_STANDARD }}
-            className="mt-6 font-display text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
+            className="font-display mt-6 text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
           >
             Most aluminium is made with{' '}
             <em className="not-italic text-[var(--color-gold-deep)]">fossil fuels.</em>
@@ -52,20 +52,14 @@ export function Story({ dpp }: { dpp: ViewerDpp }) {
           >
             The global average carbon footprint of primary aluminium is{' '}
             {industryAvg.toLocaleString()} kilograms of CO₂ for every tonne produced. EGA's{' '}
-            CelestiAL is the first aluminium produced using solar power at scale —
-            verified, traceable, signed.
+            CelestiAL is the first aluminium produced using solar power at scale — verified,
+            traceable, signed.
           </motion.p>
         </div>
 
         <div className="grid gap-6">
           {bars.map((b, i) => (
-            <ComparisonBar
-              key={b.label}
-              {...b}
-              max={max}
-              inView={inView}
-              delay={0.2 + i * 0.2}
-            />
+            <ComparisonBar key={b.label} {...b} max={max} inView={inView} delay={0.2 + i * 0.2} />
           ))}
           <p className="mt-2 font-mono text-[11px] text-[var(--fg-subtle)]">
             kg CO₂e per tonne · cradle-to-gate · ISO 14067
@@ -103,7 +97,11 @@ function ComparisonBar({
   return (
     <div>
       <div className="flex items-baseline justify-between text-[14px]">
-        <span className={tone === 'gold' ? 'font-semibold text-[var(--fg-default)]' : 'text-[var(--fg-muted)]'}>
+        <span
+          className={
+            tone === 'gold' ? 'font-semibold text-[var(--fg-default)]' : 'text-[var(--fg-muted)]'
+          }
+        >
           {label}
         </span>
         <span className="tabular font-mono text-[14px] text-[var(--fg-default)]">

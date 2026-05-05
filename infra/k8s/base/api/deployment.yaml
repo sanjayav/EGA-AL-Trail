@@ -18,7 +18,7 @@ spec:
         app.kubernetes.io/name: dpp-api
       annotations:
         # OTel collector address. Set to "" to disable export.
-        prometheus.io/scrape: "false"
+        prometheus.io/scrape: 'false'
     spec:
       serviceAccountName: dpp-api
       automountServiceAccountToken: true
@@ -71,15 +71,15 @@ spec:
             failureThreshold: 24
           resources:
             requests:
-              cpu: "250m"
-              memory: "384Mi"
+              cpu: '250m'
+              memory: '384Mi'
             limits:
-              cpu: "1000m"
-              memory: "768Mi"
+              cpu: '1000m'
+              memory: '768Mi'
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
-              drop: ["ALL"]
+              drop: ['ALL']
             readOnlyRootFilesystem: true
           volumeMounts:
             - name: tmp

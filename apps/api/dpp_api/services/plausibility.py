@@ -20,6 +20,10 @@ class PlausibilityResult:
     issues: list[str] = field(default_factory=list)
 
 
+# DoD §8.5: every DPP must list ≥5 regulations and ≥5 certifications.
+MIN_COMPLIANCE_ENTRIES = 5
+MAX_PERCENT = 100
+
 # Conservative cradle-to-gate CFP bounds per IAI v2.0 + EGA verified data (kg CO₂e/t).
 # Lower bound: hourly-matched solar (theoretical minimum for primary). Upper bound:
 # coal-grid primary average (China baseline ~20 t/t).
@@ -95,11 +99,17 @@ def check_dpp_body(body: dict[str, Any]) -> PlausibilityResult:
     compliance = body.get("compliance", {})
     regs = compliance.get("regulations", [])
     certs = compliance.get("certifications", [])
-    if len(regs) < 5:
-        issues.append(f"compliance.regulations has {len(regs)} entries; minimum 5 required")
+    if len(regs) < MIN_COMPLIANCE_ENTRIES:
+        issues.append(
+            f"compliance.regulations has {len(regs)} entries; "
+            f"minimum {MIN_COMPLIANCE_ENTRIES} required"
+        )
         severity = "reject"
-    if len(certs) < 5:
-        issues.append(f"compliance.certifications has {len(certs)} entries; minimum 5 required")
+    if len(certs) < MIN_COMPLIANCE_ENTRIES:
+        issues.append(
+            f"compliance.certifications has {len(certs)} entries; "
+            f"minimum {MIN_COMPLIANCE_ENTRIES} required"
+        )
         severity = "reject"
 
     # Carbon must reference a verifier with a non-empty DID.
@@ -110,14 +120,14 @@ def check_dpp_body(body: dict[str, Any]) -> PlausibilityResult:
 
     # Recycled-content total must be 0–100.
     reco = body.get("recycledContent", {}).get("totalPercent")
-    if reco is not None and not (0 <= reco <= 100):
-        issues.append(f"recycledContent.totalPercent {reco} outside 0–100")
+    if reco is not None and not (0 <= reco <= MAX_PERCENT):
+        issues.append(f"recycledContent.totalPercent {reco} outside 0–{MAX_PERCENT}")
         severity = "reject"
 
     return PlausibilityResult(ok=severity != "reject", severity=severity, issues=issues)
 
 
-class PlausibilityRejection(ValueError):
+class PlausibilityRejection(ValueError):  # noqa: N818
     """Raised when a cast event or DPP body fails hard-reject plausibility checks."""
 
     def __init__(self, result: PlausibilityResult) -> None:

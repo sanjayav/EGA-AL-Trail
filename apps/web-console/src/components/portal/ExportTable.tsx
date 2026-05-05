@@ -16,9 +16,11 @@ export function ExportTable({ rows }: ExportTableProps) {
   const [filterBrand, setFilterBrand] = useState<string>('all')
   const [pending, start] = useTransition()
   const [error, setError] = useState<string | null>(null)
-  const [lastReceipt, setLastReceipt] = useState<{ id: string; bytes: number; items: number } | null>(
-    null,
-  )
+  const [lastReceipt, setLastReceipt] = useState<{
+    id: string
+    bytes: number
+    items: number
+  } | null>(null)
 
   const brands = useMemo(() => {
     const set = new Set<string>()
@@ -188,7 +190,7 @@ export function ExportTable({ rows }: ExportTableProps) {
                   />
                 </td>
                 <td className="px-4 py-3">
-                  <span className="font-mono text-[12px] truncate inline-block max-w-[260px]">
+                  <span className="inline-block max-w-[260px] truncate font-mono text-[12px]">
                     {r.upi}
                   </span>
                 </td>
@@ -205,9 +207,7 @@ export function ExportTable({ rows }: ExportTableProps) {
                     {r.recycledContentPct.toFixed(0)}%
                   </Badge>
                 </td>
-                <td className="px-4 py-3 text-[var(--fg-muted)]">
-                  {r.verifierName ?? '—'}
-                </td>
+                <td className="px-4 py-3 text-[var(--fg-muted)]">{r.verifierName ?? '—'}</td>
                 <td className="px-4 py-3 font-mono text-[12px] text-[var(--fg-muted)]">
                   {r.issuedAt?.slice(0, 10) ?? '—'}
                 </td>

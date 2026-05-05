@@ -33,11 +33,11 @@ spec:
               name: http
           env:
             - name: NEXT_PUBLIC_API_BASE_URL
-              value: "http://dpp-api"
+              value: 'http://dpp-api'
             - name: NEXT_TELEMETRY_DISABLED
-              value: "1"
+              value: '1'
             - name: DPP_ENV
-              value: "production"
+              value: 'production'
           envFrom:
             - secretRef:
                 name: dpp-web-secret
@@ -56,15 +56,15 @@ spec:
             periodSeconds: 30
           resources:
             requests:
-              cpu: "200m"
-              memory: "256Mi"
+              cpu: '200m'
+              memory: '256Mi'
             limits:
-              cpu: "750m"
-              memory: "512Mi"
+              cpu: '750m'
+              memory: '512Mi'
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
-              drop: ["ALL"]
+              drop: ['ALL']
             readOnlyRootFilesystem: true
           volumeMounts:
             - name: cache

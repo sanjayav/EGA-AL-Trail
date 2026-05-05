@@ -1,3 +1,4 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 import { ArrowDownRight, ArrowUpRight, AlertTriangle, CheckCircle2 } from 'lucide-react'
 
@@ -5,11 +6,7 @@ import { Badge } from '@dpp/ui'
 
 import { LineChart } from '@/components/console/LineChart'
 import { Sparkline } from '@/components/console/Sparkline'
-import {
-  fetchCarbonAggregate,
-  fetchRecycledAggregate,
-  listCustomerDpps,
-} from '@/lib/customer-api'
+import { fetchCarbonAggregate, fetchRecycledAggregate, listCustomerDpps } from '@/lib/customer-api'
 
 export const revalidate = 30
 
@@ -42,8 +39,7 @@ export default async function SupplierScorecardPage() {
     : 0
   const co2eAvoided =
     list.items.reduce(
-      (s, i) =>
-        s + ((i.weightKg / 1000) * (INDUSTRY_AVG_CFP - i.cfpKgCo2ePerTonne)),
+      (s, i) => s + (i.weightKg / 1000) * (INDUSTRY_AVG_CFP - i.cfpKgCo2ePerTonne),
       0,
     ) / 1000
 
@@ -80,13 +76,16 @@ export default async function SupplierScorecardPage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Supplier scorecard
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           {totalDpps} passport{totalDpps === 1 ? '' : 's'} received from EGA.
         </h1>
         <p className="mt-2 max-w-2xl text-[14px] text-[var(--fg-muted)]">
-          Performance against your procurement targets. Numbers are weighted by
-          mass, so a high-volume brand dominates the headline. Set new targets
-          in <Link href="/portal" className="text-[var(--color-accent)] hover:underline">portal preferences</Link> (v1.5).
+          Performance against your procurement targets. Numbers are weighted by mass, so a
+          high-volume brand dominates the headline. Set new targets in{' '}
+          <Link href="/portal" className="text-[var(--color-accent)] hover:underline">
+            portal preferences
+          </Link>{' '}
+          (v1.5).
         </p>
       </header>
 
@@ -123,10 +122,7 @@ export default async function SupplierScorecardPage() {
 
       {/* Trends */}
       <section className="mb-10 grid gap-6 lg:grid-cols-2">
-        <ChartCard
-          title="CFP trend · last 12 months"
-          subtitle="Mass-weighted average per month"
-        >
+        <ChartCard title="CFP trend · last 12 months" subtitle="Mass-weighted average per month">
           <LineChart
             labels={monthLabels}
             series={[
@@ -167,7 +163,7 @@ export default async function SupplierScorecardPage() {
 
       {/* Brand breakdown */}
       <section className="mb-10">
-        <h2 className="mb-3 font-display text-[20px] font-semibold text-[var(--fg-default)]">
+        <h2 className="font-display mb-3 text-[20px] font-semibold text-[var(--fg-default)]">
           Brand-level breakdown
         </h2>
         <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)]">
@@ -206,7 +202,8 @@ export default async function SupplierScorecardPage() {
                       {Math.round(b.avgCfp).toLocaleString()}
                     </td>
                     <td className="tabular px-5 py-3 text-right font-mono text-[11px] text-[var(--fg-muted)]">
-                      {Math.round(b.minCfp).toLocaleString()} – {Math.round(b.maxCfp).toLocaleString()}
+                      {Math.round(b.minCfp).toLocaleString()} –{' '}
+                      {Math.round(b.maxCfp).toLocaleString()}
                     </td>
                     <td className="tabular px-5 py-3 text-right font-mono text-[12px] text-[var(--fg-default)]">
                       {b.recycledPct.toFixed(1)}%
@@ -256,7 +253,12 @@ interface MonthlyPoint {
 }
 
 function synthesiseMonthlyTrend(
-  items: { issuedAt: string | null; cfpKgCo2ePerTonne: number; recycledContentPct: number; weightKg: number }[],
+  items: {
+    issuedAt: string | null
+    cfpKgCo2ePerTonne: number
+    recycledContentPct: number
+    weightKg: number
+  }[],
   months: number,
 ): MonthlyPoint[] {
   const now = new Date()
@@ -292,8 +294,7 @@ function scoreAgainstTarget(
 ): { tier: 'success' | 'warn' | 'critical'; deltaPct: number } {
   const deltaPct = ((actual - target) / target) * 100
   const onTrack = better === 'lower' ? actual <= target : actual >= target
-  const close =
-    better === 'lower' ? actual <= target * 1.1 : actual >= target * 0.9
+  const close = better === 'lower' ? actual <= target * 1.1 : actual >= target * 0.9
   if (onTrack) return { tier: 'success', deltaPct }
   if (close) return { tier: 'warn', deltaPct }
   return { tier: 'critical', deltaPct }
@@ -361,16 +362,16 @@ function ScoreCard({
         {spark && <Sparkline values={spark} width={64} height={20} stroke={accent} />}
       </div>
       <p
-        className="tabular mt-2 font-display text-[36px] font-semibold leading-none"
+        className="tabular font-display mt-2 text-[36px] font-semibold leading-none"
         style={{ color: accent }}
       >
         {value}
-        {unit && <span className="ml-1 text-[14px] font-normal text-[var(--fg-muted)]">{unit}</span>}
+        {unit && (
+          <span className="ml-1 text-[14px] font-normal text-[var(--fg-muted)]">{unit}</span>
+        )}
       </p>
       <div className="mt-2 flex items-center gap-2">
-        {target && (
-          <span className="font-mono text-[10px] text-[var(--fg-subtle)]">{target}</span>
-        )}
+        {target && <span className="font-mono text-[10px] text-[var(--fg-subtle)]">{target}</span>}
         {delta && (
           <span
             className="inline-flex items-center gap-0.5 font-mono text-[10px]"
@@ -381,9 +382,7 @@ function ScoreCard({
           </span>
         )}
       </div>
-      {context && (
-        <p className="mt-3 text-[12px] text-[var(--fg-muted)]">{context}</p>
-      )}
+      {context && <p className="mt-3 text-[12px] text-[var(--fg-muted)]">{context}</p>}
     </article>
   )
 }
@@ -403,27 +402,17 @@ function ChartCard({
         <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
           {title}
         </p>
-        {subtitle && (
-          <p className="mt-1 text-[12px] text-[var(--fg-muted)]">{subtitle}</p>
-        )}
+        {subtitle && <p className="mt-1 text-[12px] text-[var(--fg-muted)]">{subtitle}</p>}
       </header>
       {children}
     </article>
   )
 }
 
-function ActionLink({
-  href,
-  title,
-  subtitle,
-}: {
-  href: string
-  title: string
-  subtitle: string
-}) {
+function ActionLink({ href, title, subtitle }: { href: string; title: string; subtitle: string }) {
   return (
     <Link
-      href={href as `/${string}`}
+      href={href as Route}
       className="group flex items-center justify-between gap-3 rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-5 transition-colors hover:border-[var(--color-accent)]"
     >
       <div className="min-w-0">

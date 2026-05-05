@@ -3,15 +3,15 @@ kind: ConfigMap
 metadata:
   name: dpp-api-config
 data:
-  DPP_ENV: "production"
-  DPP_LOG_LEVEL: "INFO"
-  DPP_LOG_FORMAT: "json"
-  DPP_OTEL_SERVICE_NAME: "dpp-api"
-  DPP_RATE_LIMIT_ENABLED: "true"
-  DPP_RATE_LIMIT_BURST: "1200"
-  DPP_RATE_LIMIT_PER_MINUTE: "1200"
-  DPP_RATE_LIMIT_ANON_BURST: "240"
-  DPP_RATE_LIMIT_ANON_PER_MINUTE: "240"
-  DPP_SIGNING_PROVIDER: "aws_kms"
-  DPP_JWT_AUDIENCE: "dpp-api"
+  DPP_ENV: 'production'
+  DPP_LOG_LEVEL: 'INFO'
+  DPP_LOG_FORMAT: 'json'
+  DPP_OTEL_SERVICE_NAME: 'dpp-api'
+  DPP_RATE_LIMIT_ENABLED: 'true'
+  DPP_RATE_LIMIT_BURST: '1200'
+  DPP_RATE_LIMIT_PER_MINUTE: '1200'
+  DPP_RATE_LIMIT_ANON_BURST: '240'
+  DPP_RATE_LIMIT_ANON_PER_MINUTE: '240'
+  DPP_SIGNING_PROVIDER: 'aws_kms'
+  DPP_JWT_AUDIENCE: 'dpp-api'
   # Issuer / JWKS / DSN / KMS_KEY_ID land in dpp-api-secret + a per-overlay patch.

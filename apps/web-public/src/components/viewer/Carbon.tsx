@@ -8,10 +8,26 @@ import type { ViewerDpp } from '@/lib/dpp-client'
 
 const STAGES = [
   { key: 'bauxiteMining', label: 'Bauxite mining', color: EDITORIAL_TOKENS.carbon.bauxiteMining },
-  { key: 'bauxiteTransport', label: 'Bauxite transport', color: EDITORIAL_TOKENS.carbon.bauxiteTransport },
-  { key: 'aluminaProduction', label: 'Alumina production', color: EDITORIAL_TOKENS.carbon.aluminaProduction },
-  { key: 'aluminaTransport', label: 'Alumina transport', color: EDITORIAL_TOKENS.carbon.aluminaTransport },
-  { key: 'anodeProduction', label: 'Anode production', color: EDITORIAL_TOKENS.carbon.anodeProduction },
+  {
+    key: 'bauxiteTransport',
+    label: 'Bauxite transport',
+    color: EDITORIAL_TOKENS.carbon.bauxiteTransport,
+  },
+  {
+    key: 'aluminaProduction',
+    label: 'Alumina production',
+    color: EDITORIAL_TOKENS.carbon.aluminaProduction,
+  },
+  {
+    key: 'aluminaTransport',
+    label: 'Alumina transport',
+    color: EDITORIAL_TOKENS.carbon.aluminaTransport,
+  },
+  {
+    key: 'anodeProduction',
+    label: 'Anode production',
+    color: EDITORIAL_TOKENS.carbon.anodeProduction,
+  },
   { key: 'electricity', label: 'Electricity', color: EDITORIAL_TOKENS.carbon.electricity },
   { key: 'electrolysis', label: 'Electrolysis', color: EDITORIAL_TOKENS.carbon.electrolysis },
   { key: 'casting', label: 'Casting', color: EDITORIAL_TOKENS.carbon.casting },
@@ -27,7 +43,8 @@ export function Carbon({ dpp }: { dpp: ViewerDpp }) {
   }
   const decomposition = carbon.decomposition
   if (!decomposition) return null
-  const total = STAGES.reduce((s, st) => s + (decomposition[st.key] ?? 0), 0) || carbon.valueKgCo2ePerTonne
+  const total =
+    STAGES.reduce((s, st) => s + (decomposition[st.key] ?? 0), 0) || carbon.valueKgCo2ePerTonne
 
   return (
     <section
@@ -42,7 +59,7 @@ export function Carbon({ dpp }: { dpp: ViewerDpp }) {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.0, ease: EASE_STANDARD }}
-          className="mt-6 max-w-2xl font-display text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
+          className="font-display mt-6 max-w-2xl text-[clamp(36px,5vw,64px)] font-light leading-[1.05] text-[var(--fg-default)]"
         >
           Eight life-cycle stages, traceable to <em>each tonne shipped.</em>
         </motion.h2>
@@ -116,7 +133,9 @@ function CarbonCell({
       <p className="tabular font-mono text-[11px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
         {percent.toFixed(1)}%
       </p>
-      <p className="mt-1 font-display text-[16px] leading-[1.2] text-[var(--fg-default)]">{label}</p>
+      <p className="font-display mt-1 text-[16px] leading-[1.2] text-[var(--fg-default)]">
+        {label}
+      </p>
       <p className="tabular mt-2 font-mono text-[14px] text-[var(--fg-muted)]">
         {display.toLocaleString()} kg CO₂e/t
       </p>

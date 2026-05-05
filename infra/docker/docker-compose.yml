@@ -21,42 +21,51 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-dpp}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dpp_local_dev_only}
       # Allow row-level security to be enforced for the application user.
-      POSTGRES_INITDB_ARGS: "--locale=C --encoding=UTF8"
+      POSTGRES_INITDB_ARGS: '--locale=C --encoding=UTF8'
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - '${POSTGRES_PORT:-5432}:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dpp} -d ${POSTGRES_DB:-dpp}"]
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-dpp} -d ${POSTGRES_DB:-dpp}']
       interval: 5s
       timeout: 5s
       retries: 10
     command:
-      - "postgres"
-      - "-c"
-      - "max_connections=200"
-      - "-c"
-      - "shared_buffers=256MB"
-      - "-c"
-      - "log_statement=none"
-      - "-c"
-      - "log_min_duration_statement=500"
+      - 'postgres'
+      - '-c'
+      - 'max_connections=200'
+      - '-c'
+      - 'shared_buffers=256MB'
+      - '-c'
+      - 'log_statement=none'
+      - '-c'
+      - 'log_min_duration_statement=500'
 
   redis:
     image: redis:7-alpine
     container_name: dpp-redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redis-data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 5s
       retries: 10
-    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    command:
+      [
+        'redis-server',
+        '--appendonly',
+        'yes',
+        '--maxmemory',
+        '256mb',
+        '--maxmemory-policy',
+        'allkeys-lru',
+      ]
 
   # MinIO — S3-compatible object storage for evidence PDFs, exports, signed bundles.
   # In EGA private cloud this is replaced by MinIO; in cloud-native deploys, S3.
@@ -68,13 +77,13 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-dpp}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-dpp_local_dev_only}
     ports:
-      - "9000:9000"  # S3 API
-      - "9001:9001"  # Console
+      - '9000:9000' # S3 API
+      - '9001:9001' # Console
     volumes:
       - minio-data:/data
-    command: ["server", "/data", "--console-address", ":9001"]
+    command: ['server', '/data', '--console-address', ':9001']
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
+      test: ['CMD', 'mc', 'ready', 'local']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -85,8 +94,8 @@ services:
     container_name: dpp-mailhog
     restart: unless-stopped
     ports:
-      - "1025:1025"  # SMTP
-      - "8025:8025"  # Web UI
+      - '1025:1025' # SMTP
+      - '8025:8025' # Web UI
 
 volumes:
   postgres-data:

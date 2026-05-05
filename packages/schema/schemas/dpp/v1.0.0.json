@@ -164,12 +164,20 @@
     "Identification": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["alloyEn", "alloyAa", "designationNumber", "productionRoute", "brand", "form", "applicableStandards"],
+      "required": [
+        "alloyEn",
+        "alloyAa",
+        "designationNumber",
+        "productionRoute",
+        "brand",
+        "form",
+        "applicableStandards"
+      ],
       "properties": {
         "alloyEn": {
           "type": "string",
-          "pattern": "^EN A[WC]-[0-9]{4}[A-Z]?$",
-          "description": "EN 573-3 alloy designation, e.g. EN AW-6063"
+          "pattern": "^EN A[WC]-[0-9]{4,5}[A-Z]?$",
+          "description": "EN 573-3 (wrought, 4 digit) or EN 1780/EN 1706 (casting, 5 digit) alloy designation, e.g. EN AW-6063 or EN AC-46000"
         },
         "alloyAa": {
           "type": "string",
@@ -536,7 +544,15 @@
         "url": { "$ref": "#/$defs/Url" },
         "type": {
           "type": "string",
-          "enum": ["mtc", "lca_report", "verification_statement", "certificate", "user_manual", "sds", "other"]
+          "enum": [
+            "mtc",
+            "lca_report",
+            "verification_statement",
+            "certificate",
+            "user_manual",
+            "sds",
+            "other"
+          ]
         },
         "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
       }

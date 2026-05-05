@@ -15,24 +15,24 @@ In development / CI:
     `dpp_env != "production"`. The settings layer hard-rejects this combo.
 """
 
-from .principal import Principal, Role, Scope
 from .dependencies import (
+    require_authority,
     require_principal,
     require_role,
-    require_verifier,
     require_tenant_admin,
     require_tenant_auditor,
-    require_authority,
+    require_verifier,
 )
+from .principal import Principal, Role, Scope
 
 __all__ = [
     "Principal",
     "Role",
     "Scope",
+    "require_authority",
     "require_principal",
     "require_role",
-    "require_verifier",
     "require_tenant_admin",
     "require_tenant_auditor",
-    "require_authority",
+    "require_verifier",
 ]

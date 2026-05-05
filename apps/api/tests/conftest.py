@@ -6,7 +6,7 @@ transaction at the start of each test and roll it back at the end so they
 don't pollute each other.
 
 Environment requirements:
-    DATABASE_URL=postgresql+asyncpg://dpp:dpp_local_dev_only@localhost:5432/dpp_test
+    DATABASE_URL=postgresql+asyncpg://dpp_app:dpp_local_dev_only@localhost:5432/dpp_test
 
 Run `pytest --skip-db` to skip integration tests if a Postgres isn't available.
 """
@@ -27,7 +27,25 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from dpp_api.db.models import Base
+
+@pytest_asyncio.fixture(autouse=True)
+async def _reset_runtime_engine() -> AsyncIterator[None]:
+    """Drop the module-cached API engine between tests.
+
+    The engine in `dpp_api.db.session` is a module global; once a test calls
+    `create_app()` and issues a request, the engine binds to that test's event
+    loop. The next test gets a fresh loop and the cached connections error
+    with `Event loop is closed` on cleanup. Disposing per-test prevents this.
+    """
+    yield
+    from dpp_api.db import session as _session
+
+    if _session._engine is not None:
+        try:
+            await _session._engine.dispose()
+        finally:
+            _session._engine = None
+            _session._sessionmaker = None
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
@@ -86,7 +104,7 @@ def _isolate_dev_keys() -> AsyncIterator[None]:
 
 
 @pytest.fixture
-def mint_token() -> "MintTokenFn":
+def mint_token() -> MintTokenFn:
     """Return a callable that issues a fresh JWT with the requested claims."""
     import time
 
@@ -159,14 +177,22 @@ async def db_session() -> AsyncIterator[AsyncSession]:
     """
     url = os.environ.get(
         "DATABASE_URL_TEST",
-        "postgresql+asyncpg://dpp:dpp_local_dev_only@localhost:5432/dpp",
+        "postgresql+asyncpg://dpp_app:dpp_local_dev_only@localhost:5432/dpp",
+    )
+    # The truncate-and-reseed phase needs SUPERUSER (it toggles
+    # session_replication_role to bypass RLS / triggers); the test session must
+    # connect as the non-superuser app role so RLS actually fires. Two engines.
+    admin_url = os.environ.get(
+        "DATABASE_URL_TEST_ADMIN",
+        url.replace("dpp_app:", "dpp:", 1),
     )
     engine = create_async_engine(url, future=True, pool_pre_ping=True)
+    admin_engine = create_async_engine(admin_url, future=True, pool_pre_ping=True)
     sessionmaker = async_sessionmaker(bind=engine, expire_on_commit=False)
 
     await _ensure_migrations_applied()
 
-    async with engine.begin() as conn:
+    async with admin_engine.begin() as conn:
         # Wipe data without dropping the schema. session_replication_role=replica
         # bypasses RLS for the truncate itself.
         await conn.execute(text("SET session_replication_role = 'replica'"))
@@ -194,6 +220,7 @@ async def db_session() -> AsyncIterator[AsyncSession]:
                 "(SELECT max(id) FROM tenants)))"
             )
         )
+    await admin_engine.dispose()
 
     async with sessionmaker() as session:
         # Bind tenant_id=1 by default — tests that need cross-tenant access
@@ -218,7 +245,7 @@ async def _ensure_migrations_applied() -> None:
         "alembic",
         "upgrade",
         "head",
-        cwd=str(Path(__file__).resolve().parents[1]),  # apps/api
+        cwd=str(Path(__file__).resolve().parents[1]),  # apps/api  # noqa: ASYNC240
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )

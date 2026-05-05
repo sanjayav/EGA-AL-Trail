@@ -24,7 +24,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db.models import WebhookSubscription
 
-
 SUPPORTED_EVENTS = (
     "dpp.issued",
     "dpp.revised",

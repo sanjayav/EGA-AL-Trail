@@ -24,6 +24,7 @@ from collections.abc import Awaitable, Callable
 import redis.asyncio as aioredis
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
+from redis.exceptions import NoScriptError
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from ..auth.jwt_verify import AuthError, verify_token
@@ -75,15 +76,15 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             return self._redis
         try:
             client = aioredis.from_url(self._redis_url, decode_responses=True)
-            await client.ping()
+            await client.ping()  # type: ignore[misc]
             self._redis = client
             self._script_sha = await client.script_load(_TOKEN_BUCKET_LUA)
             return client
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log.warning("rate_limit.redis_unavailable", extra={"error": str(exc)})
             return None
 
-    async def dispatch(  # type: ignore[override]
+    async def dispatch(
         self,
         request: Request,
         call_next: Callable[[Request], Awaitable[Response]],
@@ -105,7 +106,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         try:
-            result = await redis.evalsha(
+            result = await redis.evalsha(  # type: ignore[misc]
                 self._script_sha,
                 1,
                 bucket_key,
@@ -113,9 +114,9 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
                 str(rate_per_minute / 60.0),
                 str(int(time.time() * 1000)),
             )
-        except aioredis.NoScriptError:
+        except NoScriptError:
             self._script_sha = await redis.script_load(_TOKEN_BUCKET_LUA)
-            result = await redis.evalsha(
+            result = await redis.evalsha(  # type: ignore[misc]
                 self._script_sha,
                 1,
                 bucket_key,
@@ -123,7 +124,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
                 str(rate_per_minute / 60.0),
                 str(int(time.time() * 1000)),
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log.warning("rate_limit.redis_error", extra={"error": str(exc)})
             return await call_next(request)
 

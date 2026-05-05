@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from typing import Any
 
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
@@ -102,7 +103,7 @@ async def get_session_dependency() -> AsyncIterator[AsyncSession]:
             raise
 
 
-def _make_tenant_session_dep():  # type: ignore[no-untyped-def]
+def _make_tenant_session_dep() -> Any:
     """Build the tenant-scoped session dependency.
 
     Built lazily so importing `db.session` doesn't pull in auth (which would
@@ -138,7 +139,7 @@ def _make_tenant_session_dep():  # type: ignore[no-untyped-def]
 get_tenant_session = _make_tenant_session_dep()
 
 
-def _set_tenant_sql() -> object:
+def _set_tenant_sql() -> Any:
     from sqlalchemy import text
 
     return text("SELECT set_config('app.current_tenant_id', :tenant_id, true)")

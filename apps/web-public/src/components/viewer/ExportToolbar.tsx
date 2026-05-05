@@ -30,10 +30,7 @@ export function ExportToolbar({ dpp, upiPath }: { dpp: ViewerDpp; upiPath: strin
             href={`/api/demo-export/${encodeURIComponent(upiPath)}/credential.vc.json`}
             label="W3C VC"
           />
-          <ExportLink
-            href={`/api/demo-export/${encodeURIComponent(upiPath)}/qr.svg`}
-            label="QR"
-          />
+          <ExportLink href={`/api/demo-export/${encodeURIComponent(upiPath)}/qr.svg`} label="QR" />
           <ExportLink
             href={`/api/demo-export/${encodeURIComponent(upiPath)}/report.pdf`}
             label="PDF report"
@@ -71,15 +68,7 @@ function ScoreRing({ score }: { score: number }) {
   )
 }
 
-function ExportLink({
-  href,
-  label,
-  kind,
-}: {
-  href: string
-  label: string
-  kind?: 'primary'
-}) {
+function ExportLink({ href, label, kind }: { href: string; label: string; kind?: 'primary' }) {
   const isPrimary = kind === 'primary'
   return (
     <a
@@ -88,7 +77,7 @@ function ExportLink({
         'inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] border px-3 text-[12px] font-medium transition',
         isPrimary
           ? 'border-[var(--color-ink)] bg-[var(--color-ink)] text-[var(--color-paper)] hover:opacity-90'
-          : 'border-[var(--surface-divider)] bg-[var(--color-paper)] text-[var(--fg-default)] hover:border-[var(--color-ink)]/40',
+          : 'hover:border-[var(--color-ink)]/40 border-[var(--surface-divider)] bg-[var(--color-paper)] text-[var(--fg-default)]',
       ].join(' ')}
     >
       {label}

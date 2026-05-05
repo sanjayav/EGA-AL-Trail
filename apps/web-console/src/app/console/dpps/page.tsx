@@ -1,13 +1,6 @@
 import Link from 'next/link'
-import {
-  Anchor,
-  Download,
-  Eye,
-  Filter,
-  Globe,
-  Plus,
-  ShieldCheck,
-} from 'lucide-react'
+import { Anchor, ArrowUpRight, Download, Eye, Filter, Globe, Plus, ShieldCheck } from 'lucide-react'
+
 import { generateQrSvg, matchDemoPassport } from '@dpp/ui'
 
 import { listDpps, type DppRow } from '@/lib/api'
@@ -62,14 +55,13 @@ export default async function DppsPage({ searchParams }: PageProps) {
   const totalAnchored = list.items.filter((d) => d.state === 'published').length
   const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
 
-  // Generate QR codes for the visible page only · SVG, server-side, cached.
-  // QR codes are only visible in the row hover popover, so we cap the
-  // server-side batch to the first 12 rows. The remaining rows fall back to
-  // a tiny placeholder · keeps the list page SSR fast even at 50 rows/page.
-  const qrByUpi = await buildQrIndex(paged.slice(0, 12))
+  // QR codes for the visible page · server-rendered SVG, used by the row
+  // hover overlay (mini badge that pops next to the UID on hover). Capped to
+  // the first 24 rows on a page so listing 50 stays fast.
+  const qrByUpi = await buildQrIndex(paged.slice(0, 24))
 
   return (
-    <div className="bg-[var(--surface-canvas)] min-h-[calc(100vh-56px)]">
+    <div className="min-h-[calc(100vh-56px)] bg-[var(--surface-canvas)]">
       <style>{LIST_CSS}</style>
 
       <div className="mx-auto max-w-[1320px] px-7 py-7">
@@ -79,8 +71,8 @@ export default async function DppsPage({ searchParams }: PageProps) {
             <p className="passport-list__eyebrow">Passport Workspace</p>
             <h1 className="passport-list__title">Passports</h1>
             <p className="passport-list__subtitle">
-              Review, search, and publish per-batch passports without mixing registry metadata
-              into the main list. Every row is one cast.
+              Review, search, and publish per-batch passports without mixing registry metadata into
+              the main list. Every row is one cast.
             </p>
           </div>
           <div className="passport-list__header-actions">
@@ -102,18 +94,18 @@ export default async function DppsPage({ searchParams }: PageProps) {
         {/* ── KPI strip + side card ───────────────────────────────── */}
         <div className="passport-list__board">
           <div className="passport-list__kpi-grid">
-            <KpiCard label="Total passports" value={totalAll.toLocaleString()} hint="Across the current workspace" />
+            <KpiCard
+              label="Total passports"
+              value={totalAll.toLocaleString()}
+              hint="Across the current workspace"
+            />
             <KpiCard
               label="Anchored in view"
               value={paged.filter((d) => d.state === 'published').length.toString()}
               hint="Current page only"
               tone="ok"
             />
-            <KpiCard
-              label="EU-linked in view"
-              value="0"
-              hint="Current page only"
-            />
+            <KpiCard label="EU-linked in view" value="0" hint="Current page only" />
           </div>
           <aside className="passport-list__registry">
             <div className="passport-list__registry-pill">
@@ -136,7 +128,10 @@ export default async function DppsPage({ searchParams }: PageProps) {
                 <p className="passport-list__registry-stat-value">0</p>
               </div>
             </div>
-            <Link href="/console/eu-registry" className="passport-list__btn passport-list__btn--registry">
+            <Link
+              href="/console/eu-registry"
+              className="passport-list__btn passport-list__btn--registry"
+            >
               Open Registry →
             </Link>
             <p className="passport-list__registry-foot">
@@ -146,11 +141,7 @@ export default async function DppsPage({ searchParams }: PageProps) {
         </div>
 
         {/* ── Search + filter chip row ───────────────────────────── */}
-        <form
-          action="/console/dpps"
-          method="get"
-          className="passport-list__filters"
-        >
+        <form action="/console/dpps" method="get" className="passport-list__filters">
           <div className="passport-list__search">
             <input
               type="search"
@@ -164,12 +155,7 @@ export default async function DppsPage({ searchParams }: PageProps) {
             </button>
           </div>
           <div className="passport-list__chips">
-            <FilterChip
-              query={{}}
-              active={!stateFilter}
-              tone="muted"
-              label="All"
-            />
+            <FilterChip query={{}} active={!stateFilter} tone="muted" label="All" />
             {STATE_DEFINITIONS.map((s) => (
               <FilterChip
                 key={s.key}
@@ -201,17 +187,16 @@ export default async function DppsPage({ searchParams }: PageProps) {
               <tbody>
                 {paged.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-4 py-16 text-center text-[13px] text-[var(--fg-subtle)]">
+                    <td
+                      colSpan={8}
+                      className="px-4 py-16 text-center text-[13px] text-[var(--fg-subtle)]"
+                    >
                       No passports match these filters.
                     </td>
                   </tr>
                 )}
                 {paged.map((dpp) => (
-                  <PassportRow
-                    key={dpp.upi}
-                    dpp={dpp}
-                    qrSvg={qrByUpi[dpp.upi] ?? null}
-                  />
+                  <PassportRow key={dpp.upi} dpp={dpp} qrSvg={qrByUpi[dpp.upi] ?? null} />
                 ))}
               </tbody>
             </table>
@@ -221,8 +206,8 @@ export default async function DppsPage({ searchParams }: PageProps) {
           {filtered.length > PAGE_SIZE && (
             <div className="passport-list__pager">
               <span>
-                Showing {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, filtered.length)} of{' '}
-                {filtered.length.toLocaleString()}
+                Showing {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, filtered.length)}{' '}
+                of {filtered.length.toLocaleString()}
               </span>
               <div className="flex gap-1">
                 {page > 0 && (
@@ -267,7 +252,8 @@ export default async function DppsPage({ searchParams }: PageProps) {
 // ── Row ──────────────────────────────────────────────────────────────────
 
 function PassportRow({ dpp, qrSvg }: { dpp: DppRow; qrSvg: string | null }) {
-  const demo = matchDemoPassport(dpp.upi) ?? matchDemoPassport(dpp.brand) ?? matchDemoPassport(dpp.alloy)
+  const demo =
+    matchDemoPassport(dpp.upi) ?? matchDemoPassport(dpp.brand) ?? matchDemoPassport(dpp.alloy)
   const productImage =
     demo && (demo.body.media as Record<string, unknown> | undefined)?.productImage
       ? ((demo.body.media as Record<string, unknown>).productImage as string)
@@ -289,18 +275,50 @@ function PassportRow({ dpp, qrSvg }: { dpp: DppRow; qrSvg: string | null }) {
         </span>
       </Td>
 
-      {/* Product UID with hover preview popover (CSS-only) */}
+      {/* Product UID + inline preview + rich hover popover.
+       *
+       * Inline (always visible): mini thumbnail · UID · brand chip · QR · ↗
+       * On hover: a rich 380px popover slides in to the RIGHT of the UID
+       * cell — overlays its own row's columns (Model/Category/Passport ID),
+       * never the rows above or below. */}
       <Td>
         <div className="passport-row__cell-with-pop">
-          <Link
-            href={`/console/dpps/${dpp.upi}`}
-            className="passport-row__uid"
-            title={dpp.upi}
-          >
-            {productUid}
-          </Link>
-          {/* Hover popover · full preview card */}
-          <div className="passport-row__pop" role="dialog">
+          <div className="passport-row__uid-wrap">
+            <span className="passport-row__thumb" aria-hidden>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={productImage} alt="" loading="lazy" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <Link
+                href={`/console/dpps/${dpp.upi}`}
+                className="passport-row__uid"
+                title={dpp.upi}
+              >
+                {productUid}
+              </Link>
+              <p className="passport-row__brand-chip">
+                {dpp.brand} ·{' '}
+                <span className="tabular font-mono">
+                  {Math.round(dpp.weightKg).toLocaleString()} kg
+                </span>{' '}
+                ·{' '}
+                <span className="tabular font-mono">
+                  {Math.round(dpp.cfpKgCo2ePerTonne)} kg CO₂e/t
+                </span>
+              </p>
+            </div>
+            {qrSvg && (
+              <span
+                className="passport-row__qr"
+                aria-label="QR · GS1 Digital Link"
+                dangerouslySetInnerHTML={{ __html: qrSvg }}
+              />
+            )}
+            <ArrowUpRight className="passport-row__open h-3.5 w-3.5" />
+          </div>
+
+          {/* Rich hover popover · CSS-only · opens to the right of the cell */}
+          <div className="passport-row__pop" role="dialog" aria-label={`Preview of ${productUid}`}>
             <div className="passport-row__pop-grid">
               <div className="passport-row__pop-photo">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -402,7 +420,6 @@ function PassportRow({ dpp, qrSvg }: { dpp: DppRow; qrSvg: string | null }) {
 
 async function buildQrIndex(rows: DppRow[]): Promise<Record<string, string>> {
   const out: Record<string, string> = {}
-  // Generate in parallel; fail-soft per row so one bad URL doesn't kill the page.
   await Promise.all(
     rows.map(async (r) => {
       try {
@@ -440,7 +457,10 @@ function stateInfoFor(raw: string): { label: string; tone: StatusTone } {
  *  no recognisable cast is present. */
 function makeProductUid(d: DppRow): string {
   const brand = (d.brand || 'EGA').toUpperCase().slice(0, 8)
-  const alloy = (d.alloy || '').replace(/[^0-9A-Z]/gi, '').slice(0, 6).toUpperCase()
+  const alloy = (d.alloy || '')
+    .replace(/[^0-9A-Z]/gi, '')
+    .slice(0, 6)
+    .toUpperCase()
   const segments = d.upi.split('/').filter(Boolean)
   // Prefer a cast segment (e.g. "C-20260504-51747").
   const castSegment = segments.find((s) => /^C-?\d/i.test(s) || /^[A-Z]+-\d{6,}/i.test(s))
@@ -449,7 +469,7 @@ function makeProductUid(d: DppRow): string {
   const fallback =
     segments.length >= 2
       ? `${segments[segments.length - 2]}-${segments[segments.length - 1]}`
-      : segments[segments.length - 1] ?? ''
+      : (segments[segments.length - 1] ?? '')
   const tail = (castSegment ?? fallback).toUpperCase()
   return [brand, alloy, tail].filter(Boolean).join('-')
 }
@@ -502,7 +522,9 @@ function KpiCard({
   return (
     <div className="passport-list__kpi">
       <p className="passport-list__kpi-label">{label}</p>
-      <p className={`passport-list__kpi-value${tone === 'ok' ? ' passport-list__kpi-value--ok' : ''}`}>
+      <p
+        className={`passport-list__kpi-value${tone === 'ok' ? ' passport-list__kpi-value--ok' : ''}`}
+      >
         {value}
       </p>
       <p className="passport-list__kpi-hint">{hint}</p>
@@ -535,13 +557,7 @@ function FilterChip({
   )
 }
 
-function Th({
-  children,
-  align = 'left',
-}: {
-  children: React.ReactNode
-  align?: 'left' | 'right'
-}) {
+function Th({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return (
     <th
       className={['passport-list__th', align === 'right' ? 'text-right' : 'text-left'].join(' ')}
@@ -552,13 +568,7 @@ function Th({
   )
 }
 
-function Td({
-  children,
-  align = 'left',
-}: {
-  children: React.ReactNode
-  align?: 'left' | 'right'
-}) {
+function Td({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return (
     <td className={['passport-list__td', align === 'right' ? 'text-right' : 'text-left'].join(' ')}>
       {children}
@@ -902,12 +912,196 @@ const LIST_CSS = `
   color: var(--fg-default);
   letter-spacing: 0.01em;
   display: inline-block;
-  max-width: 280px;
+  max-width: 240px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .passport-row__uid:hover { color: var(--color-accent); }
+
+/* ── Inline UID cell with thumbnail + QR + brand chip ────────────────── */
+.passport-row__uid-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 0;
+}
+.passport-row__thumb {
+  display: block;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--surface-border);
+  background: var(--surface-canvas);
+  opacity: 0.78;
+  transition: opacity 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+.passport-row__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.passport-row__brand-chip {
+  margin-top: 2px;
+  font-size: 10.5px;
+  color: var(--fg-muted);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.passport-row__qr {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 2px;
+  background: #fff;
+  border: 1px solid var(--surface-border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  opacity: 0.55;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+.passport-row__qr svg { width: 100%; height: 100%; display: block; }
+.passport-row__open {
+  flex-shrink: 0;
+  color: var(--fg-subtle);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 200ms ease, transform 200ms ease, color 200ms ease;
+}
+
+/* Row hover treatment — inline reveal, no overflow */
+.passport-row { transition: background-color 160ms ease, box-shadow 160ms ease; }
+.passport-row:hover { background: var(--surface-hover); }
+.passport-row:hover .passport-row__thumb {
+  opacity: 1;
+  transform: scale(1.04);
+  box-shadow: 0 4px 10px -6px rgba(15, 23, 42, 0.25);
+}
+.passport-row:hover .passport-row__qr { opacity: 1; transform: scale(1.04); }
+.passport-row:hover .passport-row__open {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--color-accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .passport-row, .passport-row__thumb, .passport-row__qr, .passport-row__open { transition: none; }
+  .passport-row:hover .passport-row__thumb,
+  .passport-row:hover .passport-row__qr { transform: none; }
+}
+
+/* ── Rich hover popover · opens to the RIGHT of the cell so it never
+ * floats over the rows above or below. Overlays only its own row's
+ * remaining columns (Model · Category · Passport ID · Version · Created)
+ * which the user is already focused on. */
+.passport-row__cell-with-pop { position: relative; }
+.passport-row__pop {
+  position: absolute;
+  top: -12px;
+  left: calc(100% + 12px);
+  width: 380px;
+  max-width: min(380px, calc(100vw - 280px));
+  background: var(--surface-page);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  box-shadow:
+    0 16px 48px -12px rgba(15, 23, 42, 0.22),
+    0 4px 12px -4px rgba(15, 23, 42, 0.10);
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-6px) scale(0.985);
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 30;
+}
+.passport-row__cell-with-pop:hover .passport-row__pop,
+.passport-row__cell-with-pop:focus-within .passport-row__pop {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0) scale(1);
+}
+.passport-row__pop-grid {
+  display: grid;
+  grid-template-columns: 88px 1fr 84px;
+  gap: 12px;
+  align-items: center;
+}
+.passport-row__pop-photo {
+  width: 88px; height: 88px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-canvas);
+  border: 1px solid var(--surface-border);
+}
+.passport-row__pop-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.passport-row__pop-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+.passport-row__pop-title {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--fg-default);
+  letter-spacing: -0.005em;
+}
+.passport-row__pop-fields {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+}
+.passport-row__pop-fields > div { min-width: 0; }
+.passport-row__pop-fields dt {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+.passport-row__pop-fields dd {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-default);
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
+}
+.passport-row__pop-unit { font-weight: 400; color: var(--fg-muted); font-size: 10px; }
+.passport-row__pop-qr { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.passport-row__pop-qr-frame {
+  display: block;
+  width: 84px; height: 84px;
+  padding: 4px;
+  border: 1px solid var(--surface-border);
+  background: #fff;
+  border-radius: 6px;
+  line-height: 0;
+}
+.passport-row__pop-qr-frame--empty { background: var(--surface-canvas); }
+.passport-row__pop-qr-frame svg { width: 100%; height: 100%; display: block; }
+.passport-row__pop-qr-caption {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+.passport-row__pop-foot {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid var(--surface-divider, var(--surface-border));
+  padding-top: 12px;
+}
+.passport-row__pop-foot .passport-list__btn { flex: 1; justify-content: center; }
+@media (prefers-reduced-motion: reduce) {
+  .passport-row__pop { transition: none; }
+  .passport-row__cell-with-pop:hover .passport-row__pop { transform: none; }
+}
+
 .passport-row__hash {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -941,112 +1135,6 @@ const LIST_CSS = `
   transition: background 150ms, color 150ms;
 }
 .passport-row__action:hover { background: var(--surface-hover); color: var(--fg-default); }
-
-/* Hover popover · pure CSS, anchored to the cell */
-.passport-row__cell-with-pop { position: relative; }
-.passport-row__pop {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: -8px;
-  width: 480px;
-  max-width: 90vw;
-  background: var(--surface-page);
-  border: 1px solid var(--surface-border);
-  border-radius: 14px;
-  box-shadow: 0 16px 48px -12px rgba(15,23,42,0.20),
-              0 4px 12px -4px rgba(15,23,42,0.10);
-  padding: 16px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-4px) scale(0.98);
-  transition: opacity 180ms ease, transform 180ms ease;
-  z-index: 30;
-}
-.passport-row__cell-with-pop:hover .passport-row__pop,
-.passport-row__cell-with-pop:focus-within .passport-row__pop {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0) scale(1);
-}
-.passport-row__pop-grid {
-  display: grid;
-  grid-template-columns: 96px 1fr 100px;
-  gap: 14px;
-  align-items: center;
-}
-.passport-row__pop-photo {
-  width: 96px; height: 96px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--surface-canvas);
-  border: 1px solid var(--surface-border);
-}
-.passport-row__pop-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.passport-row__pop-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fg-subtle);
-}
-.passport-row__pop-title {
-  margin-top: 4px;
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--fg-default);
-  letter-spacing: -0.005em;
-}
-.passport-row__pop-fields {
-  margin-top: 8px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 14px;
-}
-.passport-row__pop-fields > div { min-width: 0; }
-.passport-row__pop-fields dt {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--fg-subtle);
-}
-.passport-row__pop-fields dd {
-  font-size: 12.5px;
-  font-weight: 500;
-  color: var(--fg-default);
-  font-variant-numeric: tabular-nums;
-  word-break: break-all;
-}
-.passport-row__pop-unit { font-weight: 400; color: var(--fg-muted); font-size: 10.5px; }
-.passport-row__pop-qr {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-}
-.passport-row__pop-qr-frame {
-  display: block;
-  width: 96px; height: 96px;
-  padding: 5px;
-  border: 1px solid var(--surface-border);
-  background: #fff;
-  border-radius: 6px;
-  line-height: 0;
-}
-.passport-row__pop-qr-frame--empty { background: var(--surface-canvas); }
-.passport-row__pop-qr-frame svg { width: 100%; height: 100%; display: block; }
-.passport-row__pop-qr-caption {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--fg-subtle);
-}
-.passport-row__pop-foot {
-  margin-top: 14px;
-  display: flex;
-  gap: 8px;
-  border-top: 1px solid var(--surface-divider);
-  padding-top: 12px;
-}
-.passport-row__pop-foot .passport-list__btn { flex: 1; justify-content: center; }
 
 .passport-list__pager {
   display: flex; align-items: center; justify-content: space-between;

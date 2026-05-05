@@ -19,7 +19,6 @@ from starlette.middleware.base import BaseHTTPMiddleware
 
 from ..settings import get_settings
 
-
 _BASE_CSP = (
     "default-src 'none'; "
     "frame-ancestors 'none'; "
@@ -38,7 +37,7 @@ _DOCS_CSP = (
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
-    async def dispatch(  # type: ignore[override]
+    async def dispatch(
         self,
         request: Request,
         call_next: Callable[[Request], Awaitable[Response]],

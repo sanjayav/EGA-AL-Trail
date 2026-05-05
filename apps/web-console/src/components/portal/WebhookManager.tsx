@@ -87,7 +87,7 @@ export function WebhookManager({ initialItems, supportedEvents }: Props) {
   return (
     <>
       {revealedSecret && (
-        <div className="mb-6 rounded-[var(--radius-md)] border border-[var(--color-amber)]/40 bg-[#FEF3C7] p-4">
+        <div className="border-[var(--color-amber)]/40 mb-6 rounded-[var(--radius-md)] border bg-[#FEF3C7] p-4">
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#92400E]">
             Subscription created · save this secret now
           </p>
@@ -103,8 +103,8 @@ export function WebhookManager({ initialItems, supportedEvents }: Props) {
             </button>
           </div>
           <p className="mt-2 text-[12px] text-[#78350F]">
-            This is the only time the platform will show the plaintext secret.
-            Store it in your secret manager before navigating away.
+            This is the only time the platform will show the plaintext secret. Store it in your
+            secret manager before navigating away.
           </p>
         </div>
       )}

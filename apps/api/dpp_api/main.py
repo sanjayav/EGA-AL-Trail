@@ -10,8 +10,8 @@ runs `uvicorn dpp_api.main:app` with multiple workers behind a load balancer.
 
 from __future__ import annotations
 
-from contextlib import asynccontextmanager
 from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,7 +31,9 @@ from .routers import (
     dpps,
     drafts,
     health,
+    monitoring,
     pipeline,
+    plant_monitor,
     presets,
     products,
     resolver,
@@ -49,6 +51,19 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     settings = get_settings()
     init_observability(settings)
     log.info("dpp_api.boot", version=__version__, env=settings.dpp_env)
+
+    if not settings.is_production:
+        # Idempotent dev seed — ensures the console isn't empty on first boot
+        # against a fresh database (the test suite truncates everything).
+        from .db.session import sessionmaker
+        from .services.bootstrap import run_dev_bootstrap
+
+        try:
+            async with sessionmaker()() as session:
+                await run_dev_bootstrap(session, settings)
+        except Exception as exc:
+            log.warning("dpp_api.bootstrap.skipped", error=str(exc))
+
     yield
     log.info("dpp_api.shutdown")
 
@@ -94,6 +109,8 @@ def create_app() -> FastAPI:
     app.include_router(pipeline.router, prefix="/api/v1")
     app.include_router(products.router, prefix="/api/v1")
     app.include_router(drafts.router, prefix="/api/v1")
+    app.include_router(monitoring.router, prefix="/api/v1")
+    app.include_router(plant_monitor.router, prefix="/api/v1")
     app.include_router(resolver.router)  # No /api prefix — public Digital Link resolver
 
     instrument_app(app, settings)

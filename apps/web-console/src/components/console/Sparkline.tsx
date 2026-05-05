@@ -58,16 +58,20 @@ export function Sparkline({
       <path d={areaPath} fill={fill} stroke="none" />
       <path d={linePath} fill="none" stroke={stroke} strokeWidth="1.5" />
       {showAxis && (
-        <line x1={0} y1={height - 0.5} x2={width} y2={height - 0.5} stroke="var(--surface-border)" strokeWidth="0.5" />
-      )}
-      {points.length > 0 && (
-        <circle
-          cx={points[points.length - 1][0]}
-          cy={points[points.length - 1][1]}
-          r="2"
-          fill={stroke}
+        <line
+          x1={0}
+          y1={height - 0.5}
+          x2={width}
+          y2={height - 0.5}
+          stroke="var(--surface-border)"
+          strokeWidth="0.5"
         />
       )}
+      {points.length > 0 &&
+        (() => {
+          const last = points[points.length - 1]!
+          return <circle cx={last[0]} cy={last[1]} r="2" fill={stroke} />
+        })()}
     </svg>
   )
 }

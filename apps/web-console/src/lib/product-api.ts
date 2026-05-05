@@ -168,7 +168,9 @@ async function postJson<T>(path: string, body?: unknown): Promise<T | null> {
   return safeJson<T>(res)
 }
 
-export async function seedProductConfiguration(): Promise<{ seeded: Record<string, number> } | null> {
+export async function seedProductConfiguration(): Promise<{
+  seeded: Record<string, number>
+} | null> {
   return postJson('/api/v1/products/seed')
 }
 

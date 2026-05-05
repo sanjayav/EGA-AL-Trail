@@ -29,8 +29,29 @@ export interface Integration {
   category: IntegrationCategory
   description: string
   status: IntegrationStatus
-  brandTone: 'sap' | 'eu' | 'catena' | 'mes' | 'asi' | 'oracle' | 'msft' | 'aws' | 'gs1' | 'cdp' | 'custom'
-  iconKind: 'erp' | 'eu' | 'auto' | 'factory' | 'recycle' | 'database' | 'cloud' | 'barcode' | 'leaf' | 'webhook'
+  brandTone:
+    | 'sap'
+    | 'eu'
+    | 'catena'
+    | 'mes'
+    | 'asi'
+    | 'oracle'
+    | 'msft'
+    | 'aws'
+    | 'gs1'
+    | 'cdp'
+    | 'custom'
+  iconKind:
+    | 'erp'
+    | 'eu'
+    | 'auto'
+    | 'factory'
+    | 'recycle'
+    | 'database'
+    | 'cloud'
+    | 'barcode'
+    | 'leaf'
+    | 'webhook'
   lastSyncAt?: string | null
   recordsSynced?: number
   capabilities: string[]
@@ -99,9 +120,24 @@ export const INTEGRATIONS: Integration[] = [
     standards: ['EU 2023/956', 'EU 2023/1773'],
     docsUrl: 'https://taxation-customs.ec.europa.eu/cbam_en',
     fields: [
-      { key: 'declarant_id', label: 'EORI declarant ID', placeholder: 'AE1234567890123', value: '' },
-      { key: 'reporting_period', label: 'Reporting period', placeholder: '2026-Q2', value: '2026-Q2' },
-      { key: 'submitter_email', label: 'Submitter email', placeholder: 'cbam@ega.ae', value: 'cbam@ega.ae' },
+      {
+        key: 'declarant_id',
+        label: 'EORI declarant ID',
+        placeholder: 'AE1234567890123',
+        value: '',
+      },
+      {
+        key: 'reporting_period',
+        label: 'Reporting period',
+        placeholder: '2026-Q2',
+        value: '2026-Q2',
+      },
+      {
+        key: 'submitter_email',
+        label: 'Submitter email',
+        placeholder: 'cbam@ega.ae',
+        value: 'cbam@ega.ae',
+      },
     ],
     webhookUrl: 'https://altrail.ega.ae/webhooks/cbam/inbound',
   },
@@ -152,9 +188,25 @@ export const INTEGRATIONS: Integration[] = [
     ],
     standards: ['OPC-UA', 'MQTT 5.0', 'ISA-95'],
     fields: [
-      { key: 'broker', label: 'MQTT broker', placeholder: 'mqtts://mes.ega.ae:8883', value: 'mqtts://mes.ega.ae:8883' },
-      { key: 'opc_url', label: 'OPC-UA endpoint', placeholder: 'opc.tcp://opc.ega.ae:4840', value: 'opc.tcp://opc.ega.ae:4840' },
-      { key: 'cert', label: 'Client certificate', secret: true, placeholder: '••••••••', value: '****' },
+      {
+        key: 'broker',
+        label: 'MQTT broker',
+        placeholder: 'mqtts://mes.ega.ae:8883',
+        value: 'mqtts://mes.ega.ae:8883',
+      },
+      {
+        key: 'opc_url',
+        label: 'OPC-UA endpoint',
+        placeholder: 'opc.tcp://opc.ega.ae:4840',
+        value: 'opc.tcp://opc.ega.ae:4840',
+      },
+      {
+        key: 'cert',
+        label: 'Client certificate',
+        secret: true,
+        placeholder: '••••••••',
+        value: '****',
+      },
     ],
     webhookUrl: 'https://altrail.ega.ae/webhooks/mes-iot/inbound',
   },
@@ -227,7 +279,11 @@ export const INTEGRATIONS: Integration[] = [
     standards: ['MQTT 5.0', 'AWS Signature v4'],
     fields: [
       { key: 'region', label: 'AWS region', placeholder: 'me-central-1', value: 'me-central-1' },
-      { key: 'role_arn', label: 'Cross-account role ARN', placeholder: 'arn:aws:iam::123:role/altrail' },
+      {
+        key: 'role_arn',
+        label: 'Cross-account role ARN',
+        placeholder: 'arn:aws:iam::123:role/altrail',
+      },
     ],
     webhookUrl: 'https://altrail.ega.ae/webhooks/aws-iot/inbound',
   },
@@ -250,7 +306,12 @@ export const INTEGRATIONS: Integration[] = [
     ],
     standards: ['GS1 Digital Link', 'ISO/IEC 18004'],
     fields: [
-      { key: 'resolver', label: 'Resolver host', placeholder: 'id.ega.example', value: 'id.ega.example' },
+      {
+        key: 'resolver',
+        label: 'Resolver host',
+        placeholder: 'id.ega.example',
+        value: 'id.ega.example',
+      },
       { key: 'gcp', label: 'GCP prefix', placeholder: '0814406', value: '0814406' },
     ],
     webhookUrl: 'https://altrail.ega.ae/webhooks/gs1/inbound',

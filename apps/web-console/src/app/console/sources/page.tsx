@@ -19,8 +19,8 @@ export default async function SourcesPage() {
         </span>
       </header>
       <p className="text-[14px] text-[var(--fg-muted)]">
-        Each preset is seeded with verified EGA values (DNV CFP, ASI #428, DEWA solar PPA).
-        Firing a preset creates a real DPP visible under the DPPs tab and on the public viewer.
+        Each preset is seeded with verified EGA values (DNV CFP, ASI #428, DEWA solar PPA). Firing a
+        preset creates a real DPP visible under the DPPs tab and on the public viewer.
       </p>
 
       {presets.length === 0 ? (
@@ -51,7 +51,12 @@ export default async function SourcesPage() {
                 <div>
                   <dt className="text-[var(--fg-subtle)]">vs industry</dt>
                   <dd className="tabular mt-0.5 font-mono text-[14px] text-[var(--color-green)]">
-                    -{Math.round((1 - p.carbon.valueKgCo2ePerTonne / p.carbon.industryAverageKgCo2ePerTonne) * 100)}%
+                    -
+                    {Math.round(
+                      (1 - p.carbon.valueKgCo2ePerTonne / p.carbon.industryAverageKgCo2ePerTonne) *
+                        100,
+                    )}
+                    %
                   </dd>
                 </div>
                 <div>

@@ -10,19 +10,18 @@ Issue a DPP, then issue a new credential, then roll over. After rollover:
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from dpp_api.db.models import AuditLog, DppRecord
 from dpp_api.services.cast_events import ingest_cast_event
 from dpp_api.services.pipeline import run_dpp_pipeline
 from dpp_api.services.rollover import rollover_dpps_to_credential
 from dpp_api.services.signer import verify_envelope
 from dpp_api.services.verifier_credentials import issue_cfp_credential
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 def _event() -> dict[str, object]:
@@ -30,7 +29,7 @@ def _event() -> dict[str, object]:
         "schemaVersion": "1.0.0",
         "trackingId": uuid4().hex,
         "source": {"kind": "simulator", "actor": "tests", "presetId": "celestial-extrusion-billet-6063"},
-        "occurredAt": datetime.now(timezone.utc).isoformat(),
+        "occurredAt": datetime.now(UTC).isoformat(),
         "tenantId": 1,
         "cast": {
             "castNumber": f"C-{uuid4().hex[:8]}",
@@ -67,8 +66,8 @@ async def test_rollover_re_signs_and_records_history(db_session: AsyncSession) -
         db_session,
         tenant_id=1,
         brand="CelestiAL",
-        period_from=datetime(2026, 1, 1, tzinfo=timezone.utc),
-        period_to=datetime(2026, 12, 31, tzinfo=timezone.utc),
+        period_from=datetime(2026, 1, 1, tzinfo=UTC),
+        period_to=datetime(2026, 12, 31, tzinfo=UTC),
         value_kg_co2e_per_tonne=4150,
         verifier_did="did:web:dnv.com:cfp",
         verifier_name="DNV — test",
@@ -129,8 +128,8 @@ async def test_rollover_skips_dpps_already_on_target(db_session: AsyncSession) -
         db_session,
         tenant_id=1,
         brand="CelestiAL",
-        period_from=datetime(2026, 1, 1, tzinfo=timezone.utc),
-        period_to=datetime(2026, 12, 31, tzinfo=timezone.utc),
+        period_from=datetime(2026, 1, 1, tzinfo=UTC),
+        period_to=datetime(2026, 12, 31, tzinfo=UTC),
         value_kg_co2e_per_tonne=4150,
         verifier_did="did:web:dnv.com:cfp",
         verifier_name="DNV",
@@ -164,8 +163,8 @@ async def test_rollover_dry_run_does_not_mutate(db_session: AsyncSession) -> Non
         db_session,
         tenant_id=1,
         brand="CelestiAL",
-        period_from=datetime(2026, 1, 1, tzinfo=timezone.utc),
-        period_to=datetime(2026, 12, 31, tzinfo=timezone.utc),
+        period_from=datetime(2026, 1, 1, tzinfo=UTC),
+        period_to=datetime(2026, 12, 31, tzinfo=UTC),
         value_kg_co2e_per_tonne=4150,
         verifier_did="did:web:dnv.com:cfp",
         verifier_name="DNV",
@@ -199,8 +198,8 @@ async def test_rollover_rejects_non_active_credential(db_session: AsyncSession) 
         db_session,
         tenant_id=1,
         brand="CelestiAL",
-        period_from=datetime(2026, 1, 1, tzinfo=timezone.utc),
-        period_to=datetime(2026, 12, 31, tzinfo=timezone.utc),
+        period_from=datetime(2026, 1, 1, tzinfo=UTC),
+        period_to=datetime(2026, 12, 31, tzinfo=UTC),
         value_kg_co2e_per_tonne=4150,
         verifier_did="did:web:dnv.com:cfp",
         verifier_name="DNV",
@@ -211,8 +210,8 @@ async def test_rollover_rejects_non_active_credential(db_session: AsyncSession) 
         db_session,
         tenant_id=1,
         brand="CelestiAL",
-        period_from=datetime(2026, 1, 1, tzinfo=timezone.utc),
-        period_to=datetime(2026, 12, 31, tzinfo=timezone.utc),
+        period_from=datetime(2026, 1, 1, tzinfo=UTC),
+        period_to=datetime(2026, 12, 31, tzinfo=UTC),
         value_kg_co2e_per_tonne=4100,
         verifier_did="did:web:dnv.com:cfp",
         verifier_name="DNV",

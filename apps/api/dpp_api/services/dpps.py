@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, Literal
 
 from sqlalchemy import func, select
@@ -194,7 +194,7 @@ async def withdraw_dpp(
     record = await session.scalar(select(DppRecord).where(DppRecord.upi == upi))
     if record is None:
         return None
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     record.state = "withdrawn"
     record.withdrawn_at = now
     await append_audit(
@@ -219,4 +219,5 @@ async def resolve_by_digital_link(
     )
     if serial:
         stmt = stmt.where(DppRecord.item_serial == serial)
-    return await session.scalar(stmt)
+    result: str | None = await session.scalar(stmt)
+    return result

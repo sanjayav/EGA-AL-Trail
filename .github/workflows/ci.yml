@@ -10,8 +10,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PYTHON_VERSION: "3.12"
-  NODE_VERSION: "20.18.0"
+  PYTHON_VERSION: '3.12'
+  NODE_VERSION: '20.18.0'
 
 jobs:
   schema:
@@ -52,7 +52,7 @@ jobs:
           POSTGRES_DB: dpp
           POSTGRES_USER: dpp
           POSTGRES_PASSWORD: dpp_local_dev_only
-        ports: ["5432:5432"]
+        ports: ['5432:5432']
         options: >-
           --health-cmd "pg_isready -U dpp"
           --health-interval 5s
@@ -60,7 +60,7 @@ jobs:
           --health-retries 10
       redis:
         image: redis:7-alpine
-        ports: ["6379:6379"]
+        ports: ['6379:6379']
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 5s

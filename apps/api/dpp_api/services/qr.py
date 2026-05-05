@@ -25,7 +25,7 @@ def png_bytes(payload: str, *, box_size: int = 10, border: int = 2) -> bytes:
     qr.make(fit=True)
     img = qr.make_image(fill_color="#0A0908", back_color="#F5F1E8")
     out = io.BytesIO()
-    img.save(out, format="PNG")
+    img.save(out, format="PNG")  # type: ignore[call-arg]
     return out.getvalue()
 
 

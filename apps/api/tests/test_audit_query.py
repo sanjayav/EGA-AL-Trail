@@ -8,13 +8,10 @@ SHA-256(prev_hash || canonical(body)). A clean log MUST verify; tampering at
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
 import pytest
-from sqlalchemy import select, text, update
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from dpp_api.db.models import AuditLog
 from dpp_api.services.audit import append_audit
 from dpp_api.services.audit_query import (
@@ -23,6 +20,8 @@ from dpp_api.services.audit_query import (
     query_audit_log,
     verify_audit_chain,
 )
+from sqlalchemy import text, update
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 async def _seed_three(session: AsyncSession) -> list[AuditLog]:
@@ -97,8 +96,8 @@ async def test_query_filters_by_action_and_actor(db_session: AsyncSession) -> No
 @pytest.mark.asyncio
 async def test_query_time_window(db_session: AsyncSession) -> None:
     await _seed_three(db_session)
-    future = datetime.now(timezone.utc) + timedelta(days=1)
-    past = datetime.now(timezone.utc) - timedelta(days=1)
+    future = datetime.now(UTC) + timedelta(days=1)
+    past = datetime.now(UTC) - timedelta(days=1)
 
     none, _ = await query_audit_log(db_session, AuditQuery(tenant_id=1, since=future))
     assert none == []
@@ -181,6 +180,11 @@ async def test_query_isolates_tenants(db_session: AsyncSession) -> None:
             " ON CONFLICT (id) DO NOTHING"
         )
     )
+    # RLS demands the GUC match the row's tenant_id on INSERT. Swap it so the
+    # tenant-2 row is allowed in, then swap back for the queries below.
+    await db_session.execute(
+        text("SELECT set_config('app.current_tenant_id', '2', true)")
+    )
     await append_audit(
         db_session,
         tenant_id=2,
@@ -191,8 +195,13 @@ async def test_query_isolates_tenants(db_session: AsyncSession) -> None:
         target_id="other-dpp",
     )
     await db_session.flush()
+    # Unscoped (platform-tier) so both queries can see their respective rows
+    # — query_audit_log applies the WHERE tenant_id filter itself.
+    await db_session.execute(
+        text("SELECT set_config('app.current_tenant_id', '', true)")
+    )
 
-    items_t1, total_t1 = await query_audit_log(db_session, AuditQuery(tenant_id=1, limit=100))
+    items_t1, _ = await query_audit_log(db_session, AuditQuery(tenant_id=1, limit=100))
     items_t2, total_t2 = await query_audit_log(db_session, AuditQuery(tenant_id=2, limit=100))
     assert all(r["targetId"] != "other-dpp" for r in items_t1)
     assert total_t2 == 1

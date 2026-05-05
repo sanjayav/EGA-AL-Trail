@@ -101,8 +101,7 @@ export default async function SupplyChainPage({ searchParams }: PageProps) {
   const openGaps = PARTNERS.filter((p) => p.status === 'active' && p.coverage < 100).length
   const totalPassports = activePartners.reduce((s, p) => s + p.passportsCovered, 0)
 
-  const filtered =
-    filterType === 'All' ? PARTNERS : PARTNERS.filter((p) => p.type === filterType)
+  const filtered = filterType === 'All' ? PARTNERS : PARTNERS.filter((p) => p.type === filterType)
 
   return (
     <div className="px-8 py-8">

@@ -42,28 +42,212 @@ interface Member {
 }
 
 const MEMBERS: Member[] = [
-  { id: 'u-ega-admin',     name: 'Fatima Al-Mansoori',     email: 'sustainability.lead@ega.ae', role: 'tenant_admin',     status: 'active',  invitedAt: '2025-12-01', joinedAt: '2025-12-02', lastActiveAt: '2026-05-05T09:32:00Z', mfaEnabled: true,  invitedBy: 'platform' },
-  { id: 'u-ega-it',        name: 'Mohammed Al-Zaabi',      email: 'it@ega.ae',                  role: 'it_administrator', status: 'active',  invitedAt: '2026-01-10', joinedAt: '2026-01-10', lastActiveAt: '2026-05-04T17:11:00Z', mfaEnabled: true,  invitedBy: 'sustainability.lead@ega.ae' },
-  { id: 'u-ega-ops',       name: 'Ahmed Al-Hashimi',       email: 'casthouse.ops@ega.ae',       role: 'dpp_operator',     status: 'active',  invitedAt: '2026-01-15', joinedAt: '2026-01-15', lastActiveAt: '2026-05-05T07:45:00Z', mfaEnabled: true,  invitedBy: 'it@ega.ae' },
-  { id: 'u-ega-ops-2',     name: 'Rashid Al-Suwaidi',      email: 'smelter.ops@ega.ae',         role: 'dpp_operator',     status: 'active',  invitedAt: '2026-02-01', joinedAt: '2026-02-02', lastActiveAt: '2026-05-04T22:18:00Z', mfaEnabled: false, invitedBy: 'it@ega.ae' },
-  { id: 'u-ega-ops-3',     name: 'Hamdan Al-Shamsi',       email: 'refinery.lead@ega.ae',       role: 'dpp_operator',     status: 'active',  invitedAt: '2026-02-15', joinedAt: '2026-02-16', lastActiveAt: '2026-05-03T13:09:00Z', mfaEnabled: true,  invitedBy: 'it@ega.ae' },
-  { id: 'u-ega-qa',        name: 'Sara Al-Blooshi',        email: 'qa@ega.ae',                  role: 'dpp_reviewer',     status: 'active',  invitedAt: '2026-01-20', joinedAt: '2026-01-21', lastActiveAt: '2026-05-05T08:50:00Z', mfaEnabled: true,  invitedBy: 'sustainability.lead@ega.ae' },
-  { id: 'u-ega-qa-2',      name: 'Noura Al-Ketbi',         email: 'carbon.analyst@ega.ae',      role: 'dpp_reviewer',     status: 'active',  invitedAt: '2026-02-05', joinedAt: '2026-02-05', lastActiveAt: '2026-05-04T11:30:00Z', mfaEnabled: true,  invitedBy: 'sustainability.lead@ega.ae' },
-  { id: 'u-ega-audit',     name: 'Khalid Al-Nuaimi',       email: 'audit@ega.ae',               role: 'tenant_auditor',   status: 'active',  invitedAt: '2026-01-20', joinedAt: '2026-01-22', lastActiveAt: '2026-05-02T16:00:00Z', mfaEnabled: true,  invitedBy: 'sustainability.lead@ega.ae' },
-  { id: 'u-ega-audit-2',   name: 'Omar Al-Dhaheri',        email: 'compliance.lead@ega.ae',     role: 'tenant_auditor',   status: 'active',  invitedAt: '2026-02-10', joinedAt: '2026-02-11', lastActiveAt: '2026-05-04T09:42:00Z', mfaEnabled: false, invitedBy: 'sustainability.lead@ega.ae' },
-  { id: 'inv-1', name: null, email: 'logistics@ega.ae',          role: 'dpp_operator',     status: 'pending', invitedAt: '2026-04-22', joinedAt: null, lastActiveAt: null, mfaEnabled: false, invitedBy: 'it@ega.ae' },
-  { id: 'inv-2', name: null, email: 'lab.technician@ega.ae',     role: 'dpp_operator',     status: 'pending', invitedAt: '2026-04-25', joinedAt: null, lastActiveAt: null, mfaEnabled: false, invitedBy: 'it@ega.ae' },
-  { id: 'inv-3', name: null, email: 'environmental@ega.ae',      role: 'tenant_auditor',   status: 'pending', invitedAt: '2026-04-28', joinedAt: null, lastActiveAt: null, mfaEnabled: false, invitedBy: 'sustainability.lead@ega.ae' },
-  { id: 'inv-4', name: null, email: 'casting.supervisor@ega.ae', role: 'dpp_operator',     status: 'pending', invitedAt: '2026-05-01', joinedAt: null, lastActiveAt: null, mfaEnabled: false, invitedBy: 'it@ega.ae' },
-  { id: 'sus-1', name: 'Ali Al-Jazeeri', email: 'former.ops@ega.ae', role: 'dpp_operator', status: 'suspended', invitedAt: '2025-08-15', joinedAt: '2025-08-16', lastActiveAt: '2026-03-01T12:00:00Z', mfaEnabled: true, invitedBy: 'it@ega.ae' },
+  {
+    id: 'u-ega-admin',
+    name: 'Fatima Al-Mansoori',
+    email: 'sustainability.lead@ega.ae',
+    role: 'tenant_admin',
+    status: 'active',
+    invitedAt: '2025-12-01',
+    joinedAt: '2025-12-02',
+    lastActiveAt: '2026-05-05T09:32:00Z',
+    mfaEnabled: true,
+    invitedBy: 'platform',
+  },
+  {
+    id: 'u-ega-it',
+    name: 'Mohammed Al-Zaabi',
+    email: 'it@ega.ae',
+    role: 'it_administrator',
+    status: 'active',
+    invitedAt: '2026-01-10',
+    joinedAt: '2026-01-10',
+    lastActiveAt: '2026-05-04T17:11:00Z',
+    mfaEnabled: true,
+    invitedBy: 'sustainability.lead@ega.ae',
+  },
+  {
+    id: 'u-ega-ops',
+    name: 'Ahmed Al-Hashimi',
+    email: 'casthouse.ops@ega.ae',
+    role: 'dpp_operator',
+    status: 'active',
+    invitedAt: '2026-01-15',
+    joinedAt: '2026-01-15',
+    lastActiveAt: '2026-05-05T07:45:00Z',
+    mfaEnabled: true,
+    invitedBy: 'it@ega.ae',
+  },
+  {
+    id: 'u-ega-ops-2',
+    name: 'Rashid Al-Suwaidi',
+    email: 'smelter.ops@ega.ae',
+    role: 'dpp_operator',
+    status: 'active',
+    invitedAt: '2026-02-01',
+    joinedAt: '2026-02-02',
+    lastActiveAt: '2026-05-04T22:18:00Z',
+    mfaEnabled: false,
+    invitedBy: 'it@ega.ae',
+  },
+  {
+    id: 'u-ega-ops-3',
+    name: 'Hamdan Al-Shamsi',
+    email: 'refinery.lead@ega.ae',
+    role: 'dpp_operator',
+    status: 'active',
+    invitedAt: '2026-02-15',
+    joinedAt: '2026-02-16',
+    lastActiveAt: '2026-05-03T13:09:00Z',
+    mfaEnabled: true,
+    invitedBy: 'it@ega.ae',
+  },
+  {
+    id: 'u-ega-qa',
+    name: 'Sara Al-Blooshi',
+    email: 'qa@ega.ae',
+    role: 'dpp_reviewer',
+    status: 'active',
+    invitedAt: '2026-01-20',
+    joinedAt: '2026-01-21',
+    lastActiveAt: '2026-05-05T08:50:00Z',
+    mfaEnabled: true,
+    invitedBy: 'sustainability.lead@ega.ae',
+  },
+  {
+    id: 'u-ega-qa-2',
+    name: 'Noura Al-Ketbi',
+    email: 'carbon.analyst@ega.ae',
+    role: 'dpp_reviewer',
+    status: 'active',
+    invitedAt: '2026-02-05',
+    joinedAt: '2026-02-05',
+    lastActiveAt: '2026-05-04T11:30:00Z',
+    mfaEnabled: true,
+    invitedBy: 'sustainability.lead@ega.ae',
+  },
+  {
+    id: 'u-ega-audit',
+    name: 'Khalid Al-Nuaimi',
+    email: 'audit@ega.ae',
+    role: 'tenant_auditor',
+    status: 'active',
+    invitedAt: '2026-01-20',
+    joinedAt: '2026-01-22',
+    lastActiveAt: '2026-05-02T16:00:00Z',
+    mfaEnabled: true,
+    invitedBy: 'sustainability.lead@ega.ae',
+  },
+  {
+    id: 'u-ega-audit-2',
+    name: 'Omar Al-Dhaheri',
+    email: 'compliance.lead@ega.ae',
+    role: 'tenant_auditor',
+    status: 'active',
+    invitedAt: '2026-02-10',
+    joinedAt: '2026-02-11',
+    lastActiveAt: '2026-05-04T09:42:00Z',
+    mfaEnabled: false,
+    invitedBy: 'sustainability.lead@ega.ae',
+  },
+  {
+    id: 'inv-1',
+    name: null,
+    email: 'logistics@ega.ae',
+    role: 'dpp_operator',
+    status: 'pending',
+    invitedAt: '2026-04-22',
+    joinedAt: null,
+    lastActiveAt: null,
+    mfaEnabled: false,
+    invitedBy: 'it@ega.ae',
+  },
+  {
+    id: 'inv-2',
+    name: null,
+    email: 'lab.technician@ega.ae',
+    role: 'dpp_operator',
+    status: 'pending',
+    invitedAt: '2026-04-25',
+    joinedAt: null,
+    lastActiveAt: null,
+    mfaEnabled: false,
+    invitedBy: 'it@ega.ae',
+  },
+  {
+    id: 'inv-3',
+    name: null,
+    email: 'environmental@ega.ae',
+    role: 'tenant_auditor',
+    status: 'pending',
+    invitedAt: '2026-04-28',
+    joinedAt: null,
+    lastActiveAt: null,
+    mfaEnabled: false,
+    invitedBy: 'sustainability.lead@ega.ae',
+  },
+  {
+    id: 'inv-4',
+    name: null,
+    email: 'casting.supervisor@ega.ae',
+    role: 'dpp_operator',
+    status: 'pending',
+    invitedAt: '2026-05-01',
+    joinedAt: null,
+    lastActiveAt: null,
+    mfaEnabled: false,
+    invitedBy: 'it@ega.ae',
+  },
+  {
+    id: 'sus-1',
+    name: 'Ali Al-Jazeeri',
+    email: 'former.ops@ega.ae',
+    role: 'dpp_operator',
+    status: 'suspended',
+    invitedAt: '2025-08-15',
+    joinedAt: '2025-08-16',
+    lastActiveAt: '2026-03-01T12:00:00Z',
+    mfaEnabled: true,
+    invitedBy: 'it@ega.ae',
+  },
 ]
 
 const RECENT_RBAC_EVENTS = [
-  { at: '2026-05-04T17:11:00Z', actor: 'it@ega.ae',                   action: 'invited',      target: 'lab.technician@ega.ae',     detail: 'Role: DPP Operator' },
-  { at: '2026-05-03T09:00:00Z', actor: 'sustainability.lead@ega.ae',  action: 'role_changed', target: 'qa@ega.ae',                 detail: 'Operator → DPP Reviewer' },
-  { at: '2026-04-29T14:30:00Z', actor: 'it@ega.ae',                   action: 'mfa_enforced', target: 'tenant',                    detail: 'MFA now required for all roles' },
-  { at: '2026-04-22T08:30:00Z', actor: 'it@ega.ae',                   action: 'invited',      target: 'logistics@ega.ae',          detail: 'Role: DPP Operator' },
-  { at: '2026-03-01T12:00:00Z', actor: 'sustainability.lead@ega.ae',  action: 'suspended',    target: 'former.ops@ega.ae',         detail: 'Reason: left organisation' },
+  {
+    at: '2026-05-04T17:11:00Z',
+    actor: 'it@ega.ae',
+    action: 'invited',
+    target: 'lab.technician@ega.ae',
+    detail: 'Role: DPP Operator',
+  },
+  {
+    at: '2026-05-03T09:00:00Z',
+    actor: 'sustainability.lead@ega.ae',
+    action: 'role_changed',
+    target: 'qa@ega.ae',
+    detail: 'Operator → DPP Reviewer',
+  },
+  {
+    at: '2026-04-29T14:30:00Z',
+    actor: 'it@ega.ae',
+    action: 'mfa_enforced',
+    target: 'tenant',
+    detail: 'MFA now required for all roles',
+  },
+  {
+    at: '2026-04-22T08:30:00Z',
+    actor: 'it@ega.ae',
+    action: 'invited',
+    target: 'logistics@ega.ae',
+    detail: 'Role: DPP Operator',
+  },
+  {
+    at: '2026-03-01T12:00:00Z',
+    actor: 'sustainability.lead@ega.ae',
+    action: 'suspended',
+    target: 'former.ops@ega.ae',
+    detail: 'Reason: left organisation',
+  },
 ]
 
 export default async function TeamPage() {
@@ -103,7 +287,7 @@ export default async function TeamPage() {
   const canManageUsers = hasPermission(myRole, 'manage_users')
 
   return (
-    <div className="bg-[var(--surface-canvas)] min-h-[calc(100vh-56px)]">
+    <div className="min-h-[calc(100vh-56px)] bg-[var(--surface-canvas)]">
       <style>{TEAM_CSS}</style>
 
       <div className="mx-auto max-w-[1320px] px-7 py-7">
@@ -116,7 +300,8 @@ export default async function TeamPage() {
             <div className="min-w-0">
               <h1 className="team__title">Team</h1>
               <p className="team__subtitle">
-                {me.tenantSlug.toUpperCase()} · member management & RBAC. Roles map 1:1 to SDD §12.1.1.
+                {me.tenantSlug.toUpperCase()} · member management & RBAC. Roles map 1:1 to SDD
+                §12.1.1.
               </p>
             </div>
           </div>
@@ -186,7 +371,9 @@ export default async function TeamPage() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="team__row-primary">{m.email}</p>
-                    <p className="team__row-secondary">Invited {formatDate(m.invitedAt)} by {m.invitedBy}</p>
+                    <p className="team__row-secondary">
+                      Invited {formatDate(m.invitedAt)} by {m.invitedBy}
+                    </p>
                   </div>
                   <div className="team__row-meta">
                     <RoleBadge role={m.role} />
@@ -219,9 +406,7 @@ export default async function TeamPage() {
                 return (
                   <li key={m.id} className="team__row team__row--member">
                     <div className="team__row-name">
-                      <div className="team__avatar">
-                        {(m.name ?? m.email)[0]?.toUpperCase()}
-                      </div>
+                      <div className="team__avatar">{(m.name ?? m.email)[0]?.toUpperCase()}</div>
                       <div className="min-w-0">
                         <p className="team__row-primary">
                           {m.name ?? m.email}
@@ -234,8 +419,14 @@ export default async function TeamPage() {
                     <span className="team__status">
                       <span className="team__status-dot" /> Active
                     </span>
-                    <span className="team__row-meta-text">{formatDate(m.joinedAt ?? m.invitedAt)}</span>
-                    {editable ? <RowMenu kind="member" /> : <span className="team__row-meta-text">—</span>}
+                    <span className="team__row-meta-text">
+                      {formatDate(m.joinedAt ?? m.invitedAt)}
+                    </span>
+                    {editable ? (
+                      <RowMenu kind="member" />
+                    ) : (
+                      <span className="team__row-meta-text">—</span>
+                    )}
                   </li>
                 )
               })}
@@ -248,7 +439,9 @@ export default async function TeamPage() {
           <section className="team__section">
             <h2 className="team__section-title">
               Suspended
-              <span className="team__count-badge team__count-badge--danger">{suspended.length}</span>
+              <span className="team__count-badge team__count-badge--danger">
+                {suspended.length}
+              </span>
             </h2>
             <ul className="team__rows">
               {suspended.map((m) => (
@@ -266,7 +459,9 @@ export default async function TeamPage() {
                   <span className="team__status team__status--muted">
                     <span className="team__status-dot team__status-dot--muted" /> Suspended
                   </span>
-                  <span className="team__row-meta-text">{m.lastActiveAt ? formatDate(m.lastActiveAt) : '—'}</span>
+                  <span className="team__row-meta-text">
+                    {m.lastActiveAt ? formatDate(m.lastActiveAt) : '—'}
+                  </span>
                   {canManage(myRole, m.role) && <RowMenu kind="suspended" />}
                 </li>
               ))}
@@ -299,9 +494,7 @@ export default async function TeamPage() {
         <details className="team__expander">
           <summary className="team__expander-summary">
             <span className="team__expander-title">Permission matrix</span>
-            <span className="team__expander-sub">
-              19 permissions × 5 roles · click to expand
-            </span>
+            <span className="team__expander-sub">19 permissions × 5 roles · click to expand</span>
             <ChevronDown className="team__expander-chev h-4 w-4" />
           </summary>
           <div className="team__expander-body">
@@ -368,38 +561,59 @@ function RowMenu({ kind }: { kind: 'pending' | 'member' | 'suspended' }) {
   // Keeps the page server-rendered with no client JS.
   return (
     <details className="team__menu">
-      <summary
-        className="team__menu-trigger"
-        aria-label="Open member actions"
-      >
+      <summary className="team__menu-trigger" aria-label="Open member actions">
         <MoreHorizontal className="h-4 w-4" />
       </summary>
       <ul className="team__menu-list" role="menu">
         {kind === 'pending' && (
           <>
-            <li><button>Resend invitation</button></li>
-            <li><button>Copy invite link</button></li>
-            <li><button>Change role</button></li>
+            <li>
+              <button>Resend invitation</button>
+            </li>
+            <li>
+              <button>Copy invite link</button>
+            </li>
+            <li>
+              <button>Change role</button>
+            </li>
             <li className="team__menu-divider" />
-            <li><button className="team__menu-danger">Revoke invite</button></li>
+            <li>
+              <button className="team__menu-danger">Revoke invite</button>
+            </li>
           </>
         )}
         {kind === 'member' && (
           <>
-            <li><button>Edit profile</button></li>
-            <li><button>Change role</button></li>
-            <li><button>Reset MFA</button></li>
-            <li><button>View activity</button></li>
+            <li>
+              <button>Edit profile</button>
+            </li>
+            <li>
+              <button>Change role</button>
+            </li>
+            <li>
+              <button>Reset MFA</button>
+            </li>
+            <li>
+              <button>View activity</button>
+            </li>
             <li className="team__menu-divider" />
-            <li><button className="team__menu-danger">Suspend access</button></li>
+            <li>
+              <button className="team__menu-danger">Suspend access</button>
+            </li>
           </>
         )}
         {kind === 'suspended' && (
           <>
-            <li><button>Reinstate</button></li>
-            <li><button>View activity</button></li>
+            <li>
+              <button>Reinstate</button>
+            </li>
+            <li>
+              <button>View activity</button>
+            </li>
             <li className="team__menu-divider" />
-            <li><button className="team__menu-danger">Delete record</button></li>
+            <li>
+              <button className="team__menu-danger">Delete record</button>
+            </li>
           </>
         )}
       </ul>
@@ -419,9 +633,11 @@ function RoleCard({
   return (
     <details className="team__role">
       <summary className="team__role-summary">
-        <span className={`team__role-glyph team__role-glyph--${profile.tone}`}>{profile.glyph}</span>
+        <span className={`team__role-glyph team__role-glyph--${profile.tone}`}>
+          {profile.glyph}
+        </span>
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-2 flex-wrap">
+          <span className="flex flex-wrap items-center gap-2">
             <span className="team__role-label">{profile.label}</span>
             {isMine && <span className="team__youtag">Your role</span>}
           </span>
@@ -504,10 +720,14 @@ function PermissionMatrix() {
                       <td
                         key={r}
                         className={`team__matrix-cell${
-                          hasPermission(r, p) ? ' team__matrix-cell--on' : ''
+                          hasPermission(r, p) ? 'team__matrix-cell--on' : ''
                         }`}
                       >
-                        {hasPermission(r, p) ? <CheckCircle2 className="mx-auto h-3.5 w-3.5" /> : '·'}
+                        {hasPermission(r, p) ? (
+                          <CheckCircle2 className="mx-auto h-3.5 w-3.5" />
+                        ) : (
+                          '·'
+                        )}
                       </td>
                     ))}
                   </tr>
@@ -525,7 +745,7 @@ function RoleBadge({ role, muted }: { role: TenantRole; muted?: boolean }) {
   const p = ROLE_PROFILES[role]
   return (
     <span
-      className={`team__rolebadge team__rolebadge--${p.tone}${muted ? ' team__rolebadge--muted' : ''}`}
+      className={`team__rolebadge team__rolebadge--${p.tone}${muted ? 'team__rolebadge--muted' : ''}`}
     >
       <span className="team__rolebadge-glyph">{p.glyph}</span>
       {p.label}

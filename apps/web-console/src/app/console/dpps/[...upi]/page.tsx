@@ -28,8 +28,12 @@ function enrichWithDemoFallback(
 ): Record<string, unknown> {
   const demo =
     matchDemoPassport(upi) ??
-    matchDemoPassport((liveBody.identification as Record<string, unknown> | undefined)?.brand as string ?? '') ??
-    matchDemoPassport(((liveBody.identification ?? {}) as Record<string, unknown>).alloyEn as string ?? '') ??
+    matchDemoPassport(
+      ((liveBody.identification as Record<string, unknown> | undefined)?.brand as string) ?? '',
+    ) ??
+    matchDemoPassport(
+      (((liveBody.identification ?? {}) as Record<string, unknown>).alloyEn as string) ?? '',
+    ) ??
     matchDemoPassport('celestial')
   if (!demo) return liveBody
   // Shallow-merge each top-level section: keep live keys, fill missing keys
@@ -72,7 +76,7 @@ export default async function DppDetailPage({ params }: PageProps) {
   const score = (meta.complianceScore as number) ?? (isPublished ? 98 : 64)
 
   return (
-    <div className="bg-[var(--surface-canvas)] min-h-[calc(100vh-56px)]">
+    <div className="min-h-[calc(100vh-56px)] bg-[var(--surface-canvas)]">
       <div className="mx-auto max-w-[1320px] px-7 py-6">
         {/* Operator-side action bar · same actions as the public viewer's
             ExportToolbar plus tenant-only controls (Edit, Recall). */}
@@ -95,7 +99,7 @@ export default async function DppDetailPage({ params }: PageProps) {
               href={`/dpp/${upi}`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] bg-[var(--color-accent)] px-3 text-[12px] font-semibold text-white shadow-[0_1px_2px_rgba(15,76,129,0.2)] transition hover:opacity-92"
+              className="hover:opacity-92 inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] bg-[var(--color-accent)] px-3 text-[12px] font-semibold text-white shadow-[0_1px_2px_rgba(15,76,129,0.2)] transition"
             >
               <ExternalLink className="h-3.5 w-3.5" /> View Public Passport
             </a>
@@ -125,11 +129,7 @@ export default async function DppDetailPage({ params }: PageProps) {
               icon={<Download className="h-3.5 w-3.5" />}
               label="PDF"
             />
-            <ActionButton
-              href="#"
-              icon={<Share2 className="h-3.5 w-3.5" />}
-              label="Share"
-            />
+            <ActionButton href="#" icon={<Share2 className="h-3.5 w-3.5" />} label="Share" />
             <Link
               href="/console/eu-registry"
               className="inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-sm)] border border-[var(--surface-border)] bg-white px-3 text-[12px] font-medium text-[var(--fg-default)] transition hover:bg-[var(--surface-hover)]"
@@ -151,7 +151,11 @@ export default async function DppDetailPage({ params }: PageProps) {
         <div className="mb-5 grid grid-cols-1 gap-3 rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-white px-5 py-4 text-[11px] sm:grid-cols-2 lg:grid-cols-4">
           <ProvenanceItem label="UPI" value={upi} />
           <ProvenanceItem label="Issued" value={formatTimestamp(dpp.issuedAt)} />
-          <ProvenanceItem label="Body SHA-256" value={dpp.signatureRef?.bodySha256 ?? '—'} truncate />
+          <ProvenanceItem
+            label="Body SHA-256"
+            value={dpp.signatureRef?.bodySha256 ?? '—'}
+            truncate
+          />
           <ProvenanceItem
             label="Signature"
             value={`${dpp.signatureRef?.algorithm ?? '—'}${dpp.signatureRef?.value ? ` · ${dpp.signatureRef.value.slice(0, 24)}…` : ''}`}
@@ -173,7 +177,8 @@ export default async function DppDetailPage({ params }: PageProps) {
 
         {/* Brand identity hint at the very bottom */}
         <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
-          Operator view · {ident.brand as string ?? 'EGA'} · DPP {body.dppVersion as string ?? '1.0'}
+          Operator view · {(ident.brand as string) ?? 'EGA'} · DPP{' '}
+          {(body.dppVersion as string) ?? '1.0'}
         </p>
       </div>
     </div>

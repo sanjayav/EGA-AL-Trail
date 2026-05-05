@@ -5,7 +5,7 @@
   "description": "Public DPP Viewer — the signature surface every QR scan lands on. Editorial Apple-Environmental-Report aesthetic. Next.js 15 SSR + Motion choreography.",
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbo --port 3000",
+    "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
     "lint": "next lint",

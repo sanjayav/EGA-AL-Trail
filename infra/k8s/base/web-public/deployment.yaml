@@ -33,9 +33,9 @@ spec:
               name: http
           env:
             - name: NEXT_PUBLIC_API_BASE_URL
-              value: "http://dpp-api"
+              value: 'http://dpp-api'
             - name: NEXT_TELEMETRY_DISABLED
-              value: "1"
+              value: '1'
           readinessProbe:
             httpGet:
               path: /
@@ -51,15 +51,15 @@ spec:
             periodSeconds: 30
           resources:
             requests:
-              cpu: "150m"
-              memory: "192Mi"
+              cpu: '150m'
+              memory: '192Mi'
             limits:
-              cpu: "500m"
-              memory: "384Mi"
+              cpu: '500m'
+              memory: '384Mi'
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
-              drop: ["ALL"]
+              drop: ['ALL']
             readOnlyRootFilesystem: true
           volumeMounts:
             - name: cache

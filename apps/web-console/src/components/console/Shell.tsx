@@ -41,28 +41,103 @@ interface NavItem {
 
 const NAV: NavItem[] = [
   // Workspace · what an operator looks at every day
-  { href: '/console/overview',                     label: 'Dashboard',          icon: Gauge,            section: 'workspace', roles: ['tenant_admin', 'tenant_auditor'] },
-  { href: '/console/dpps',                         label: 'Passports',          icon: Layers,           section: 'workspace' },
-  { href: '/console/eu-registry',                  label: 'EU Registry',        icon: Globe,            section: 'workspace' },
-  { href: '/console/create-passport' as Route,     label: 'Create Passport',    icon: ClipboardList,    section: 'workspace', roles: ['tenant_admin', 'dpp_operator'] },
-  { href: '/console/my-assignments' as Route,      label: 'My Assignments',     icon: Inbox,            section: 'workspace' },
-  { href: '/console/batch-import',                 label: 'Batch Import',       icon: FileSpreadsheet,  section: 'workspace', roles: ['tenant_admin', 'dpp_operator'] },
+  {
+    href: '/console/overview',
+    label: 'Dashboard',
+    icon: Gauge,
+    section: 'workspace',
+    roles: ['tenant_admin', 'tenant_auditor'],
+  },
+  { href: '/console/dpps', label: 'Passports', icon: Layers, section: 'workspace' },
+  { href: '/console/eu-registry', label: 'EU Registry', icon: Globe, section: 'workspace' },
+  {
+    href: '/console/create-passport' as Route,
+    label: 'Create Passport',
+    icon: ClipboardList,
+    section: 'workspace',
+    roles: ['tenant_admin', 'dpp_operator'],
+  },
+  {
+    href: '/console/my-assignments' as Route,
+    label: 'My Assignments',
+    icon: Inbox,
+    section: 'workspace',
+  },
+  {
+    href: '/console/batch-import',
+    label: 'Batch Import',
+    icon: FileSpreadsheet,
+    section: 'workspace',
+    roles: ['tenant_admin', 'dpp_operator'],
+  },
 
   // Manage · tenant admin & supply-chain
-  { href: '/console/team',                         label: 'Team',               icon: Users,            section: 'manage' },
-  { href: '/console/supply-chain',                 label: 'Supply Chain',       icon: Link2,            section: 'manage' },
-  { href: '/console/ownership-transfers',          label: 'Ownership Transfers',icon: RefreshCw,        section: 'manage' },
-  { href: '/console/compliance-report',            label: 'Compliance Report',  icon: FileText,         section: 'manage' },
+  { href: '/console/team', label: 'Team', icon: Users, section: 'manage' },
+  { href: '/console/supply-chain', label: 'Supply Chain', icon: Link2, section: 'manage' },
+  {
+    href: '/console/ownership-transfers',
+    label: 'Ownership Transfers',
+    icon: RefreshCw,
+    section: 'manage',
+  },
+  {
+    href: '/console/compliance-report',
+    label: 'Compliance Report',
+    icon: FileText,
+    section: 'manage',
+  },
 
   // Data · pipeline & sources
-  { href: '/console/pipeline',                     label: 'Data Collection',    icon: Activity,         section: 'data' },
-  { href: '/console/sources',                      label: 'Data Sources',       icon: Database,         section: 'data', roles: ['dpp_operator', 'tenant_admin'] },
-  { href: '/console/verifiers',                    label: 'Assurance',          icon: ShieldCheck,      section: 'data', roles: ['tenant_admin', 'it_administrator'] },
+  { href: '/console/pipeline', label: 'Data Collection', icon: Activity, section: 'data' },
+  {
+    href: '/console/sources',
+    label: 'Data Sources',
+    icon: Database,
+    section: 'data',
+    roles: ['dpp_operator', 'tenant_admin'],
+  },
+  {
+    href: '/console/plant-monitor',
+    label: 'Plant Monitor',
+    icon: Gauge,
+    section: 'data',
+  },
+  {
+    href: '/console/monitoring',
+    label: 'Attribute Monitor',
+    icon: Activity,
+    section: 'data',
+  },
+  {
+    href: '/console/verifiers',
+    label: 'Assurance',
+    icon: ShieldCheck,
+    section: 'data',
+    roles: ['tenant_admin', 'it_administrator'],
+  },
 
   // Admin · guarded
-  { href: '/console/audit',                        label: 'Audit Trail',        icon: FileSearch,       section: 'admin', roles: ['tenant_auditor', 'tenant_admin'] },
-  { href: '/console/integrations',                 label: 'Integrations',       icon: Plug,             section: 'admin', roles: ['tenant_admin', 'it_administrator'] },
-  { href: '/console/settings',                     label: 'Settings',           icon: Settings,         section: 'admin', roles: ['tenant_admin', 'it_administrator'] },
+  {
+    href: '/console/audit',
+    label: 'Audit Trail',
+    icon: FileSearch,
+    section: 'admin',
+    roles: ['tenant_auditor', 'tenant_admin'],
+  },
+  {
+    href: '/console/integrations',
+    label: 'Integrations',
+    icon: Plug,
+    section: 'admin',
+    roles: ['tenant_admin', 'it_administrator'],
+  },
+  {
+    href: '/console/settings',
+    label: 'Settings',
+    icon: Settings,
+    section: 'admin',
+    roles: ['tenant_admin', 'it_administrator'],
+  },
 ]
 
 const SECTION_LABEL: Record<NavSection, string> = {
@@ -122,8 +197,7 @@ export function ConsoleShell({
                 <p className="al-nav-section-label">{SECTION_LABEL[section]}</p>
                 <ul className="al-nav-list">
                   {items.map((item) => {
-                    const isActive =
-                      pathname === item.href || pathname?.startsWith(item.href + '/')
+                    const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
                     return (
                       <li key={item.href}>
                         <Link
@@ -136,7 +210,7 @@ export function ConsoleShell({
                             <item.icon className="h-4 w-4" />
                           </span>
                           <span className="al-nav-label">{item.label}</span>
-                          {isActive && <ChevronRight className="h-3 w-3 al-nav-active-chev" />}
+                          {isActive && <ChevronRight className="al-nav-active-chev h-3 w-3" />}
                         </Link>
                       </li>
                     )
@@ -235,10 +309,7 @@ function BrandMark() {
         strokeWidth="0.5"
       />
       {/* Inner highlight */}
-      <path
-        d="M16 5 L24.5 9.7 L24.5 14 L16 9 L7.5 14 L7.5 9.7 Z"
-        fill="url(#al-mark-glow)"
-      />
+      <path d="M16 5 L24.5 9.7 L24.5 14 L16 9 L7.5 14 L7.5 9.7 Z" fill="url(#al-mark-glow)" />
       {/* Trail mark · three dots flowing */}
       <circle cx="11.5" cy="20" r="1.4" fill="#fff" opacity="0.92" />
       <circle cx="16" cy="18" r="1.6" fill="#fff" />

@@ -1,3 +1,4 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 import { ArrowRight, BarChart3, Beaker, FileDown, Leaf, ShieldCheck } from 'lucide-react'
 
@@ -34,12 +35,9 @@ export default async function PortalLanding() {
     fetchRecycledAggregate(),
   ])
 
-  const totalCfp =
-    carbon.items.reduce((s, i) => s + i.embodiedTonnesCo2e, 0) || 0
+  const totalCfp = carbon.items.reduce((s, i) => s + i.embodiedTonnesCo2e, 0) || 0
   const fullyCompliantPct = compliance.items.length
-    ? Math.round(
-        compliance.items.reduce((s, i) => s + i.coveragePct, 0) / compliance.items.length,
-      )
+    ? Math.round(compliance.items.reduce((s, i) => s + i.coveragePct, 0) / compliance.items.length)
     : 0
   const lowestCfp = carbon.items.length
     ? Math.min(...carbon.items.map((i) => i.minCfpKgCo2ePerTonne))
@@ -90,12 +88,12 @@ export default async function PortalLanding() {
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
             Procurement command centre
           </p>
-          <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+          <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
             Welcome back, {user.displayName.split(' ')[0]}.
           </h1>
           <p className="mt-2 max-w-xl text-[15px] text-[var(--fg-muted)]">
-            Every aluminium passport you receive · verified, signed, exportable.
-            Five zones, one source of truth for ESG reporting and Tier 1 audit.
+            Every aluminium passport you receive · verified, signed, exportable. Five zones, one
+            source of truth for ESG reporting and Tier 1 audit.
           </p>
         </div>
       </header>
@@ -132,7 +130,7 @@ export default async function PortalLanding() {
 function ZoneCard({ href, title, primary, secondary, icon: Icon }: ZoneCardProps) {
   return (
     <Link
-      href={href}
+      href={href as Route}
       className="group flex flex-col gap-3 rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-6 transition-colors hover:border-[var(--color-accent)]"
     >
       <div className="flex items-center justify-between">

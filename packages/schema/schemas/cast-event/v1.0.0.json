@@ -5,14 +5,7 @@
   "description": "The canonical event emitted by every ingestion source — simulator, public-data importer, manual entry, and (in v2) live MES. Every source produces an identical payload regardless of origin. The DPP generator consumes this to mint a canonical DPP record.",
   "type": "object",
   "additionalProperties": false,
-  "required": [
-    "schemaVersion",
-    "trackingId",
-    "source",
-    "occurredAt",
-    "tenantId",
-    "cast"
-  ],
+  "required": ["schemaVersion", "trackingId", "source", "occurredAt", "tenantId", "cast"],
   "properties": {
     "schemaVersion": { "type": "string", "const": "1.0.0" },
     "trackingId": {
@@ -28,11 +21,26 @@
       "properties": {
         "kind": {
           "type": "string",
-          "enum": ["simulator", "public_data", "manual_entry", "csv_import", "mes_rest", "mes_kafka", "mes_opcua"]
+          "enum": [
+            "simulator",
+            "public_data",
+            "manual_entry",
+            "csv_import",
+            "mes_rest",
+            "mes_kafka",
+            "mes_opcua"
+          ]
         },
         "actor": { "type": "string", "description": "User or system that fired the event" },
-        "presetId": { "type": "string", "description": "If kind=simulator, the preset that was fired" },
-        "publicSourceUrl": { "type": "string", "format": "uri", "description": "If kind=public_data, the URL the values were extracted from" }
+        "presetId": {
+          "type": "string",
+          "description": "If kind=simulator, the preset that was fired"
+        },
+        "publicSourceUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "If kind=public_data, the URL the values were extracted from"
+        }
       }
     },
     "occurredAt": {
@@ -44,14 +52,7 @@
     "cast": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "castNumber",
-        "alloyEn",
-        "brand",
-        "form",
-        "weightKg",
-        "casthouseUfi"
-      ],
+      "required": ["castNumber", "alloyEn", "brand", "form", "weightKg", "casthouseUfi"],
       "properties": {
         "castNumber": {
           "type": "string",
@@ -61,7 +62,7 @@
         },
         "alloyEn": {
           "type": "string",
-          "pattern": "^EN A[WC]-[0-9]{4}[A-Z]?$"
+          "pattern": "^EN A[WC]-[0-9]{4,5}[A-Z]?$"
         },
         "alloyAa": {
           "type": "string",
@@ -98,7 +99,10 @@
         },
         "smelterUfi": { "type": "string", "pattern": "^[0-9]{13}$" },
         "purityGrade": { "type": "string" },
-        "customerReference": { "type": "string", "description": "Optional shipment / order reference" }
+        "customerReference": {
+          "type": "string",
+          "description": "Optional shipment / order reference"
+        }
       }
     },
     "overrides": {

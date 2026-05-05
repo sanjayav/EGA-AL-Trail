@@ -44,11 +44,7 @@ type Search = {
   version?: string | string[]
 }
 
-export default async function OnboardingPage({
-  searchParams,
-}: {
-  searchParams?: Promise<Search>
-}) {
+export default async function OnboardingPage({ searchParams }: { searchParams?: Promise<Search> }) {
   const params = (await searchParams) ?? {}
   const portfolio = await listProductPortfolio()
 
@@ -79,8 +75,8 @@ export default async function OnboardingPage({
             Aluminium Product Setup
           </h1>
           <p className="mt-1 max-w-3xl text-[14px] leading-6 text-[var(--fg-muted)]">
-            Curate EGA's alloy portfolio, value-chain evidence, source ownership,
-            permissions, and data collection readiness for aluminium DPP go-live.
+            Curate EGA's alloy portfolio, value-chain evidence, source ownership, permissions, and
+            data collection readiness for aluminium DPP go-live.
           </p>
         </div>
         <form action={seedAction}>
@@ -229,7 +225,8 @@ function AluminiumReadinessStrip({
   manifest: ProductManifest | null
   readiness: ProductReadiness | null
 }) {
-  const totalAttrs = manifest?.stepsWithAttrs.reduce((sum, step) => sum + step.attributes.length, 0) ?? 0
+  const totalAttrs =
+    manifest?.stepsWithAttrs.reduce((sum, step) => sum + step.attributes.length, 0) ?? 0
   const mandatoryAttrs =
     manifest?.stepsWithAttrs.reduce(
       (sum, step) => sum + step.attributes.filter((attr) => attr.necessity === 'mandatory').length,
@@ -237,10 +234,27 @@ function AluminiumReadinessStrip({
     ) ?? 0
   return (
     <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-      <PortalMetric label="Aluminium products" value={portfolio.products.length} context="CelestiAL, recycled, standard and foundry lines" />
-      <PortalMetric label="Value-chain steps" value={detail?.chain.length ?? 0} context="mining to customer delivery" />
-      <PortalMetric label="DPP attributes" value={totalAttrs} context={`${mandatoryAttrs} mandatory in version scope`} />
-      <PortalMetric label="Go-live gate" value={readiness?.ready ? 'Ready' : 'Open'} context="ESPR, CBAM, ASI and CFP evidence" tone={readiness?.ready ? 'success' : 'warning'} />
+      <PortalMetric
+        label="Aluminium products"
+        value={portfolio.products.length}
+        context="CelestiAL, recycled, standard and foundry lines"
+      />
+      <PortalMetric
+        label="Value-chain steps"
+        value={detail?.chain.length ?? 0}
+        context="mining to customer delivery"
+      />
+      <PortalMetric
+        label="DPP attributes"
+        value={totalAttrs}
+        context={`${mandatoryAttrs} mandatory in version scope`}
+      />
+      <PortalMetric
+        label="Go-live gate"
+        value={readiness?.ready ? 'Ready' : 'Open'}
+        context="ESPR, CBAM, ASI and CFP evidence"
+        tone={readiness?.ready ? 'success' : 'warning'}
+      />
     </section>
   )
 }
@@ -462,9 +476,21 @@ function LevelThree({
       <div className="mt-4 grid gap-5 xl:grid-cols-[280px_1fr]">
         <div className="rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-recessed)] p-5">
           <div className="space-y-5">
-            <Stat label="DPP version" value={version} context={manifest.versionsInScope.join(' + ')} />
-            <Stat label="Mandatory" value={mandatoryAttrs} context="ESPR/CBAM/ASI evidence fields" />
-            <Stat label="Manifest state" value={config?.state ?? 'draft'} context={config?.lockedBy ?? 'not locked'} />
+            <Stat
+              label="DPP version"
+              value={version}
+              context={manifest.versionsInScope.join(' + ')}
+            />
+            <Stat
+              label="Mandatory"
+              value={mandatoryAttrs}
+              context="ESPR/CBAM/ASI evidence fields"
+            />
+            <Stat
+              label="Manifest state"
+              value={config?.state ?? 'draft'}
+              context={config?.lockedBy ?? 'not locked'}
+            />
           </div>
         </div>
 
@@ -521,7 +547,9 @@ function ManifestStepRows({
   selections?: Record<string, number[]>
   disabled: boolean
 }) {
-  const selected = new Set(selections?.[String(step.stepId)] ?? step.attributes.map((attr) => attr.id))
+  const selected = new Set(
+    selections?.[String(step.stepId)] ?? step.attributes.map((attr) => attr.id),
+  )
   return (
     <details open className="group">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 hover:bg-[var(--surface-hover)]">
@@ -676,7 +704,11 @@ function SourceRow({
           />
         </div>
         <div className="grid gap-2">
-          <select name="connectorKind" defaultValue={source?.connectorKind ?? ''} className={inputClass}>
+          <select
+            name="connectorKind"
+            defaultValue={source?.connectorKind ?? ''}
+            className={inputClass}
+          >
             <option value="">connector</option>
             <option value="http_pull">HTTP pull</option>
             <option value="api_push">API push</option>
@@ -809,7 +841,9 @@ function ProductCard({
   version: string
   canonicalChain: ProductPortfolio['canonicalChain']
 }) {
-  const locked = product.dppConfigs.filter((cfg) => cfg.state === 'locked').map((cfg) => cfg.version)
+  const locked = product.dppConfigs
+    .filter((cfg) => cfg.state === 'locked')
+    .map((cfg) => cfg.version)
   const chain = canonicalChain.filter((step) => product.chainStepIds.includes(step.id))
   return (
     <Link
@@ -825,7 +859,9 @@ function ProductCard({
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
             {product.brand}
           </p>
-          <h3 className="mt-1 text-[16px] font-semibold text-[var(--fg-default)]">{product.name}</h3>
+          <h3 className="mt-1 text-[16px] font-semibold text-[var(--fg-default)]">
+            {product.name}
+          </h3>
         </div>
         <Badge tone={locked.length ? 'success' : 'neutral'}>
           {locked.length ? `${locked.length} locked` : 'draft'}
@@ -885,7 +921,9 @@ function EmptyPortfolio() {
   return (
     <section className="rounded-[var(--radius-md)] border border-dashed border-[var(--surface-border)] bg-[var(--surface-recessed)] p-8 text-center">
       <Package className="mx-auto h-8 w-8 text-[var(--fg-subtle)]" />
-      <h2 className="mt-3 text-[16px] font-semibold text-[var(--fg-default)]">No aluminium products seeded</h2>
+      <h2 className="mt-3 text-[16px] font-semibold text-[var(--fg-default)]">
+        No aluminium products seeded
+      </h2>
       <p className="mt-1 text-[13px] text-[var(--fg-muted)]">
         Seed the EGA portfolio before starting alloy, manifest, and source setup.
       </p>
@@ -959,7 +997,10 @@ function MiniButton({
 const inputClass =
   'h-8 rounded-[var(--radius-sm)] border border-[var(--surface-border)] bg-[var(--surface-page)] px-2 text-[12px] text-[var(--fg-default)] outline-none focus:[box-shadow:var(--shadow-focus)]'
 
-function selectedProductId(raw: Search['product'], portfolio: ProductPortfolio): number | undefined {
+function selectedProductId(
+  raw: Search['product'],
+  portfolio: ProductPortfolio,
+): number | undefined {
   const value = numberValue(Array.isArray(raw) ? raw[0] : raw)
   if (value && portfolio.products.some((product) => product.id === value)) return value
   return portfolio.products[0]?.id
@@ -1079,7 +1120,9 @@ function stringValue(value: FormDataEntryValue | string | string[] | null | unde
   return typeof value === 'string' ? value : ''
 }
 
-function numberValue(value: FormDataEntryValue | string | number | null | undefined): number | null {
+function numberValue(
+  value: FormDataEntryValue | string | number | null | undefined,
+): number | null {
   if (typeof value === 'number') return Number.isFinite(value) ? value : null
   const parsed = Number(stringValue(value))
   return Number.isFinite(parsed) && parsed > 0 ? parsed : null

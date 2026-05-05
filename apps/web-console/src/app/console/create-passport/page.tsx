@@ -17,9 +17,7 @@ function isFeatured(p: ProductSummary): boolean {
 export default async function CreatePassportLandingPage() {
   const [drafts, portfolio] = await Promise.all([listDrafts(), listProductPortfolio()])
   const featured = (portfolio?.products ?? []).filter(isFeatured)
-  const lockedCount = featured.filter((p) =>
-    p.dppConfigs.some((c) => c.state === 'locked'),
-  ).length
+  const lockedCount = featured.filter((p) => p.dppConfigs.some((c) => c.state === 'locked')).length
 
   return (
     <div className="mx-auto w-full max-w-[1200px] px-7 py-8">
@@ -89,7 +87,9 @@ export default async function CreatePassportLandingPage() {
                   >
                     {p.brand}
                   </span>
-                  <p className="mt-2 text-[13px] font-semibold text-[var(--fg-default)]">{p.name}</p>
+                  <p className="mt-2 text-[13px] font-semibold text-[var(--fg-default)]">
+                    {p.name}
+                  </p>
                   <p className="mt-0.5 font-mono text-[10px] text-[var(--fg-subtle)]">
                     {p.alloyFamily}
                   </p>
@@ -144,8 +144,8 @@ export default async function CreatePassportLandingPage() {
                     <FileText className="h-4 w-4 shrink-0 text-[var(--fg-subtle)]" />
                     <div className="min-w-0">
                       <p className="text-[13px] font-medium text-[var(--fg-default)]">
-                        {d.productName ?? '—'}{' '}
-                        <span className="text-[var(--fg-subtle)]">·</span> Cast {d.castNumber}
+                        {d.productName ?? '—'} <span className="text-[var(--fg-subtle)]">·</span>{' '}
+                        Cast {d.castNumber}
                       </p>
                       <p className="text-[11px] text-[var(--fg-subtle)]">
                         DPP {d.dppVersion} · created by {d.createdBy} · {fmt(d.updatedAt)}

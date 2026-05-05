@@ -3,8 +3,8 @@
 A production-foundation, ESPR-aligned, multi-tenant DPP platform for Emirates
 Global Aluminium and downstream customers.
 
-> **Status** — foundation in place. End-to-end pipeline (simulator → signed
-> DPP → public viewer) is wired and demoable. Sprint backlog continues per the
+> **Status** — foundation in place. End-to-end pipeline (simulator → signed DPP
+> → public viewer) is wired and demoable. Sprint backlog continues per the
 > Software Design Document (`EGA_DPP_SoftwareDocument.pdf`) and the version
 > manifests workbook (`EGA_DPP_Version_Manifests.pdf`).
 
@@ -66,23 +66,23 @@ pnpm sim:fire celestial-extrusion-billet-6063
 
 ## What works today
 
-- **Canonical schema** (`packages/schema/schemas/dpp/v1.0.0.json`) — JSON
-  Schema Draft 2020-12 covering the 106 mandatory + recommended attributes
-  for the trust-building DPP 1.0 manifest. Validates against ajv (Node) and
-  jsonschema (Python).
+- **Canonical schema** (`packages/schema/schemas/dpp/v1.0.0.json`) — JSON Schema
+  Draft 2020-12 covering the 106 mandatory + recommended attributes for the
+  trust-building DPP 1.0 manifest. Validates against ajv (Node) and jsonschema
+  (Python).
 - **Cast event → DPP pipeline** — POST a canonical cast event to
-  `/api/v1/cast-events/`, the API validates, persists, generates a canonical
-  DPP body, signs it with Ed25519 inside a W3C VC 2.0 envelope, writes a
-  hash-chained audit-log entry, and returns the resolvable UPI. Total wall
-  time on a laptop: ~150ms.
+  `/api/v1/cast-events/`, the API validates, persists, generates a canonical DPP
+  body, signs it with Ed25519 inside a W3C VC 2.0 envelope, writes a
+  hash-chained audit-log entry, and returns the resolvable UPI. Total wall time
+  on a laptop: ~150ms.
 - **Public viewer** — server-rendered scroll-driven story with Hero, Story
   (comparison bars), Carbon (8-stage decomposition), Compliance (dark grid),
-  Verification (cryptographic-signature ceremony with three-state button),
-  and Footer. Honours `prefers-reduced-motion`. Sample routes available at
+  Verification (cryptographic-signature ceremony with three-state button), and
+  Footer. Honours `prefers-reduced-motion`. Sample routes available at
   `/dpp/sample/celestial`, `/dpp/sample/celestial-r`, `/dpp/sample/standard`.
-- **Console** — Stripe-dashboard layout with role-driven default landing,
-  live Pipeline activity feed, DPPs table, Sources tab with one-click "Fire
-  event" against the simulator presets.
+- **Console** — Stripe-dashboard layout with role-driven default landing, live
+  Pipeline activity feed, DPPs table, Sources tab with one-click "Fire event"
+  against the simulator presets.
 - **Multi-tenant data plane** — Postgres row-level security enforced on
   `cast_events`, `dpp_records`, `audit_log`. EGA seeded as `tenant_id=1`.
 - **GS1 Digital Link resolver** — `/01/{gtin}/10/{batch}/21/{serial}` redirects
@@ -90,38 +90,38 @@ pnpm sim:fire celestial-extrusion-billet-6063
 
 ## What's next (per the SDD sprint plan)
 
-| Sprint  | Weeks   | Focus                                                  |
-|---------|---------|--------------------------------------------------------|
-| 1       | 1–2     | ✅ Foundation                                          |
-| 2       | 3–4     | ✅ Cast event flow                                     |
-| 3       | 5–6     | DPP generator hardening (CFP enrichment, MTC linkage)  |
-| 4       | 7–8     | ✅ Signing + QR (PNG/SVG/ZPL ready in service layer)   |
-| 5       | 9–10    | ✅ Public viewer + resolver                            |
-| 6       | 11–12   | Customer Portal (5 zones, IMDS export, webhooks)       |
-| 7       | 13–14   | Authority + Verifier + Audit                           |
-| 8       | 15–16   | Super Admin + DPP Management Console + hardening       |
+| Sprint | Weeks | Focus                                                 |
+| ------ | ----- | ----------------------------------------------------- |
+| 1      | 1–2   | ✅ Foundation                                         |
+| 2      | 3–4   | ✅ Cast event flow                                    |
+| 3      | 5–6   | DPP generator hardening (CFP enrichment, MTC linkage) |
+| 4      | 7–8   | ✅ Signing + QR (PNG/SVG/ZPL ready in service layer)  |
+| 5      | 9–10  | ✅ Public viewer + resolver                           |
+| 6      | 11–12 | Customer Portal (5 zones, IMDS export, webhooks)      |
+| 7      | 13–14 | Authority + Verifier + Audit                          |
+| 8      | 15–16 | Super Admin + DPP Management Console + hardening      |
 
 ## Architecture notes
 
 - **Two aesthetics, one design system.** All authenticated surfaces share the
   Stripe/Linear/Notion enterprise aesthetic (signature blue `#0F4C81`, Inter).
   The public viewer breaks from that with the editorial Apple Environmental
-  Report aesthetic (Fraunces serif, desert-sun gold `#D4A574`). Both consume
-  the same design tokens via `data-theme="enterprise"` and
-  `data-theme="editorial"` on `<html>`. See `packages/ui/src/tokens/tokens.css`.
-- **Schema is the contract.** `packages/schema/schemas/*.json` is the source
-  of truth. Hand-authored TypeScript mirrors live in `packages/schema/src/types/`.
-  Pydantic models are codegen'd into `apps/api/dpp_api/_generated/`. CI runs
-  ajv validation against fixtures to keep them honest.
+  Report aesthetic (Fraunces serif, desert-sun gold `#D4A574`). Both consume the
+  same design tokens via `data-theme="enterprise"` and `data-theme="editorial"`
+  on `<html>`. See `packages/ui/src/tokens/tokens.css`.
+- **Schema is the contract.** `packages/schema/schemas/*.json` is the source of
+  truth. Hand-authored TypeScript mirrors live in `packages/schema/src/types/`.
+  Pydantic models are codegen'd into `apps/api/dpp_api/_generated/`. CI runs ajv
+  validation against fixtures to keep them honest.
 - **Ed25519, not ECDSA.** Per SDD §8.3 risk register — Ed25519 is conservative,
   widely supported, and aligns with W3C VC 2.0 Ed25519Signature2020.
 - **Append-only everything.** Cast events, DPP records (revisions never
   overwrite), audit log (hash-chained). The DPP record table is the only one
   with `UPDATE` traffic, and only for lifecycle state transitions.
-- **Multi-tenancy from day one.** `tenant_id` on every row, RLS enforced at
-  the database, every request runs inside `SET LOCAL app.current_tenant_id`.
-  EGA is `tenant_id=1`. Adding Hydro/Speira/Novelis is a tenant-onboarding
-  workflow, not a code change.
+- **Multi-tenancy from day one.** `tenant_id` on every row, RLS enforced at the
+  database, every request runs inside `SET LOCAL app.current_tenant_id`. EGA is
+  `tenant_id=1`. Adding Hydro/Speira/Novelis is a tenant-onboarding workflow,
+  not a code change.
 
 ## Useful commands
 

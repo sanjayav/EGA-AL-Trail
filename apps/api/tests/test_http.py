@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from uuid import uuid4
 
 import httpx
 import pytest
-
 from dpp_api.main import create_app
 
 

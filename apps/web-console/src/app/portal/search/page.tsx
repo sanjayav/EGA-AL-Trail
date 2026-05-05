@@ -28,7 +28,7 @@ export default async function SearchPage({ searchParams }: SearchProps) {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Search
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Find any passport, fast.
         </h1>
       </header>
@@ -69,9 +69,12 @@ export default async function SearchPage({ searchParams }: SearchProps) {
           </li>
         )}
         {filtered.map((r) => (
-          <li key={r.upi} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 px-5 py-3 text-[13px]">
+          <li
+            key={r.upi}
+            className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 px-5 py-3 text-[13px]"
+          >
             <div className="min-w-0">
-              <p className="font-mono text-[12px] truncate text-[var(--fg-default)]">{r.upi}</p>
+              <p className="truncate font-mono text-[12px] text-[var(--fg-default)]">{r.upi}</p>
               <p className="text-[12px] text-[var(--fg-muted)]">
                 {r.brand} · {r.alloy} · {r.form.replace(/_/g, ' ')} · {Math.round(r.weightKg)} kg
               </p>
@@ -83,13 +86,14 @@ export default async function SearchPage({ searchParams }: SearchProps) {
               {r.issuedAt?.slice(0, 10) ?? '—'}
             </span>
             {r.digitalLinkUrl && (
-              <Link
+              <a
                 href={r.digitalLinkUrl}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-[var(--color-accent)] hover:underline"
               >
                 view ↗
-              </Link>
+              </a>
             )}
           </li>
         ))}

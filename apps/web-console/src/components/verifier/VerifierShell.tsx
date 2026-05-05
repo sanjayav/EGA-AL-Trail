@@ -1,8 +1,9 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 import { ClipboardList, FileSignature, History, KeyRound, Layers, LogOut } from 'lucide-react'
 
 interface NavItem {
-  href: string
+  href: Route
   label: string
   icon: React.ComponentType<{ className?: string }>
 }
@@ -29,7 +30,7 @@ export function VerifierShell({
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
             Verifier &amp; Auditor
           </p>
-          <p className="mt-2 font-display text-[18px] font-semibold leading-tight text-[var(--fg-default)]">
+          <p className="font-display mt-2 text-[18px] font-semibold leading-tight text-[var(--fg-default)]">
             {verifier.name}
           </p>
           <p className="break-all font-mono text-[11px] text-[var(--fg-muted)]">{verifier.did}</p>
@@ -51,9 +52,7 @@ export function VerifierShell({
         </nav>
         <div className="border-t border-[var(--surface-border)] px-5 py-3 text-[11px] text-[var(--fg-subtle)]">
           <p className="font-mono uppercase tracking-[0.15em]">Authenticated via</p>
-          <p className="mt-1 text-[var(--fg-muted)]">
-            W3C Verifiable Credential · {verifier.org}
-          </p>
+          <p className="mt-1 text-[var(--fg-muted)]">W3C Verifiable Credential · {verifier.org}</p>
           <form action="/api/auth/sign-out" method="post" className="mt-3">
             <button
               type="submit"

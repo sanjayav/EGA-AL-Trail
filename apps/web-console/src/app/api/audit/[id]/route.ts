@@ -8,10 +8,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const { id } = await params
   const upstream = await proxyFetch(`${API_BASE}/api/v1/audit/${id}`)
   if (!upstream)
-    return NextResponse.json(
-      { detail: 'API unreachable or sign in required' },
-      { status: 502 },
-    )
+    return NextResponse.json({ detail: 'API unreachable or sign in required' }, { status: 502 })
   const data = await upstream.json().catch(() => ({}))
   return NextResponse.json(data, { status: upstream.status })
 }

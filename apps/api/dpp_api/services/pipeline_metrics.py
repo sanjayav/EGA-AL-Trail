@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from sqlalchemy import and_, func, select
@@ -39,7 +39,7 @@ class PipelineMetrics:
 
 
 async def compute_metrics(session: AsyncSession) -> PipelineMetrics:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
     window_24h = now - timedelta(hours=24)
     window_60min = now - timedelta(minutes=60)
@@ -134,14 +134,15 @@ async def compute_metrics(session: AsyncSession) -> PipelineMetrics:
             )
         )
     ).all()
-    buckets = Counter()
+    spark_minutes = 15
+    buckets: Counter[int] = Counter()
     for (ts,) in spark_rows:
         if ts is None:
             continue
         delta_min = int((now - ts).total_seconds() // 60)
-        if 0 <= delta_min < 15:
-            buckets[14 - delta_min] += 1
-    sparkline_15min = [buckets.get(i, 0) for i in range(15)]
+        if 0 <= delta_min < spark_minutes:
+            buckets[spark_minutes - 1 - delta_min] += 1
+    sparkline_15min = [buckets.get(i, 0) for i in range(spark_minutes)]
 
     return PipelineMetrics(
         issued_24h=int(issued_24h),
@@ -198,7 +199,7 @@ async def issuance_timeseries(
     issuance return zero counts (we backfill server-side so the client gets
     a contiguous series).
     """
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start = (now - timedelta(days=days - 1)).replace(
         hour=0, minute=0, second=0, microsecond=0
     )
@@ -207,7 +208,7 @@ async def issuance_timeseries(
         await session.execute(
             select(
                 func.date_trunc("day", DppRecord.issued_at).label("day"),
-                func.count().label("count"),
+                func.count().label("dpp_count"),
                 func.avg(DppRecord.cfp_kg_co2e_per_tonne).label("avg_cfp"),
                 func.avg(DppRecord.recycled_content_pct).label("avg_recycled"),
             )
@@ -229,7 +230,7 @@ async def issuance_timeseries(
             continue
         by_day[key] = {
             "date": key,
-            "count": int(r.count),
+            "count": int(r.dpp_count),
             "avgCfp": float(r.avg_cfp) if r.avg_cfp is not None else None,
             "avgRecycled": float(r.avg_recycled) if r.avg_recycled is not None else None,
         }

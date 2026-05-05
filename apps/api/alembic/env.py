@@ -1,7 +1,14 @@
-"""Alembic env — uses the synchronous psycopg URL since Alembic itself is sync."""
+"""Alembic env — uses the synchronous psycopg URL since Alembic itself is sync.
+
+DDL is run as the schema owner (`dpp` locally), not the runtime application
+role (`dpp_app`). The owner connection is read from DATABASE_URL_SYNC_ADMIN
+when present, falling back to DATABASE_URL_SYNC for environments where the
+runtime user already owns the schema.
+"""
 
 from __future__ import annotations
 
+import os
 from logging.config import fileConfig
 
 from alembic import context
@@ -16,14 +23,15 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 settings = get_settings()
-config.set_main_option("sqlalchemy.url", settings.database_url_sync)
+admin_url = os.environ.get("DATABASE_URL_SYNC_ADMIN", settings.database_url_sync)
+config.set_main_option("sqlalchemy.url", admin_url)
 
 target_metadata = ModelsBase.metadata
 
 
 def run_migrations_offline() -> None:
     context.configure(
-        url=settings.database_url_sync,
+        url=admin_url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},

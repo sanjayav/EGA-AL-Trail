@@ -29,8 +29,8 @@ export default async function SettingsPage() {
           Settings
         </h1>
         <p className="mt-1 text-[14px] text-[var(--fg-muted)]">
-          Tenant configuration. Editable panels land in Sprint 8; today this is
-          a read-only view of what's currently applied.
+          Tenant configuration. Editable panels land in Sprint 8; today this is a read-only view of
+          what's currently applied.
         </p>
       </header>
 
@@ -48,9 +48,7 @@ export default async function SettingsPage() {
           value={
             <span className="flex items-center gap-2">
               <Badge tone="neutral">configured server-side</Badge>
-              <span className="text-[12px] text-[var(--fg-muted)]">
-                local_file · env · aws_kms
-              </span>
+              <span className="text-[12px] text-[var(--fg-muted)]">local_file · env · aws_kms</span>
             </span>
           }
         />
@@ -71,7 +69,8 @@ export default async function SettingsPage() {
           label="Tenancy claim"
           value={
             <span>
-              <code className="font-mono text-[12px]">tnt</code> · pinned by IdP, never accepted from headers
+              <code className="font-mono text-[12px]">tnt</code> · pinned by IdP, never accepted
+              from headers
             </span>
           }
         />
@@ -79,14 +78,8 @@ export default async function SettingsPage() {
 
       <Section title="Reference data">
         <Field label="Schema contract" value="DPP 1.0 manifest (106 attributes)" />
-        <Field
-          label="CFP source"
-          value="reference_cfp table (managed by verifier surface)"
-        />
-        <Field
-          label="Brand presets"
-          value="packages/schema/presets · version-pinned"
-        />
+        <Field label="CFP source" value="reference_cfp table (managed by verifier surface)" />
+        <Field label="Brand presets" value="packages/schema/presets · version-pinned" />
       </Section>
 
       <Section title="Pending Sprint 8">
@@ -136,12 +129,7 @@ function Field({
         }
       >
         {link && isString ? (
-          <a
-            href={value as string}
-            target="_blank"
-            rel="noreferrer"
-            className="hover:underline"
-          >
+          <a href={value as string} target="_blank" rel="noreferrer" className="hover:underline">
             {value}
           </a>
         ) : (

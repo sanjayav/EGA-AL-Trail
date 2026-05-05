@@ -28,8 +28,8 @@ export default async function MyAssignmentsPage() {
         </h1>
         <p className="mt-1 max-w-2xl text-[14px] leading-6 text-[var(--fg-muted)]">
           Attributes that other tenants have asked you to supply for their digital product
-          passports. You can only see and submit values for the items below · every other
-          tenant surface is locked.
+          passports. You can only see and submit values for the items below · every other tenant
+          surface is locked.
         </p>
         <p className="mt-2 inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] bg-[var(--surface-hover)] px-2.5 py-1 text-[11px] text-[var(--fg-muted)]">
           <Lock className="h-3 w-3" />
@@ -92,7 +92,7 @@ function Section({
       <div className="mb-3 flex items-center gap-2">
         <ClipboardList className="h-4 w-4 text-[var(--fg-subtle)]" />
         <h2 className="text-[14px] font-semibold text-[var(--fg-default)]">{title}</h2>
-        <span className="rounded-[var(--radius-pill)] bg-[var(--surface-hover)] px-2 py-0.5 text-[10px] font-mono text-[var(--fg-subtle)]">
+        <span className="rounded-[var(--radius-pill)] bg-[var(--surface-hover)] px-2 py-0.5 font-mono text-[10px] text-[var(--fg-subtle)]">
           {count}
         </span>
       </div>
@@ -136,8 +136,7 @@ function AssignmentCard({
           </p>
           <p className="mt-2 text-[11px] text-[var(--fg-muted)]">
             For <strong>{assignment.draft.productName}</strong> · cast{' '}
-            <strong>{assignment.draft.castNumber}</strong> · DPP{' '}
-            {assignment.manifestAttr.version}
+            <strong>{assignment.draft.castNumber}</strong> · DPP {assignment.manifestAttr.version}
           </p>
           {assignment.note && (
             <p className="mt-2 rounded-[var(--radius-sm)] bg-[var(--color-fog)] p-2 text-[11px] text-[var(--fg-muted)]">

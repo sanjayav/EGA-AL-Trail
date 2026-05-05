@@ -38,7 +38,7 @@ export function CredentialActions({
         body: JSON.stringify({ dry_run: dryRun }),
       })
       const body = (await res.json().catch(() => ({}))) as
-        | RolloverResult & { detail?: string }
+        | (RolloverResult & { detail?: string })
         | { detail?: string }
       if (!res.ok) {
         setError((body as { detail?: string }).detail ?? `HTTP ${res.status}`)
@@ -82,10 +82,9 @@ export function CredentialActions({
 
       {state !== 'active' && (
         <p className="mt-3 rounded-[var(--radius-sm)] bg-[var(--surface-recessed)] p-3 text-[13px] text-[var(--fg-muted)]">
-          This credential is{' '}
-          <strong className="text-[var(--fg-default)]">{state}</strong>. Issuance,
-          rollover, and revocation are unavailable. Issue a new credential to
-          publish updated values.
+          This credential is <strong className="text-[var(--fg-default)]">{state}</strong>.
+          Issuance, rollover, and revocation are unavailable. Issue a new credential to publish
+          updated values.
         </p>
       )}
 
@@ -134,12 +133,12 @@ export function CredentialActions({
       )}
 
       {rollover && (
-        <div className="mt-5 rounded-[var(--radius-md)] border border-[var(--color-green)]/40 bg-[#DCFCE7] p-4 text-[13px] text-[#166534]">
+        <div className="border-[var(--color-green)]/40 mt-5 rounded-[var(--radius-md)] border bg-[#DCFCE7] p-4 text-[13px] text-[#166534]">
           <CheckCircle2 className="mb-2 h-4 w-4" />
           <p className="font-medium">Rollover complete</p>
           <p className="mt-1">
-            {rollover.succeeded.length} re-signed · {rollover.skipped.length}{' '}
-            already current · {rollover.failed.length} failed
+            {rollover.succeeded.length} re-signed · {rollover.skipped.length} already current ·{' '}
+            {rollover.failed.length} failed
           </p>
           {rollover.failed.length > 0 && (
             <ul className="mt-2 list-disc pl-5 text-[12px]">

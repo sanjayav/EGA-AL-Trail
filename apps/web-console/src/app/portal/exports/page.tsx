@@ -10,14 +10,13 @@ export default async function ExportsPage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Zone 04 · Audit-Ready Document Export
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           One ZIP, every claim, signed.
         </h1>
         <p className="mt-2 max-w-2xl text-[15px] text-[var(--fg-muted)]">
-          Select the DPPs you want bundled. The platform generates a signed ZIP
-          containing the canonical JSON-LD bodies, original VC envelopes,
-          hash-chained audit slice, and a receipt cryptographically signed by
-          the issuer DID. Take this directly into a Tier 1 audit.
+          Select the DPPs you want bundled. The platform generates a signed ZIP containing the
+          canonical JSON-LD bodies, original VC envelopes, hash-chained audit slice, and a receipt
+          cryptographically signed by the issuer DID. Take this directly into a Tier 1 audit.
         </p>
       </header>
 

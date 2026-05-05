@@ -63,7 +63,7 @@ def _verify_with_jwks(token: str, settings: Settings) -> _VerifiedToken:
     client = _get_jwks_client(settings.dpp_jwt_jwks_url)
     try:
         signing_key = client.get_signing_key_from_jwt(token).key
-    except Exception as exc:  # noqa: BLE001 — wrap any JWKS error as auth fail
+    except Exception as exc:
         raise AuthError(f"unable to resolve signing key: {exc}") from exc
 
     try:
@@ -135,7 +135,7 @@ def verify_token(token: str, *, settings: Settings | None = None) -> Principal:
     raise last_error or AuthError("no JWT verifier configured")
 
 
-def _principal_from_claims(claims: dict[str, Any], settings: Settings) -> Principal:
+def _principal_from_claims(claims: dict[str, Any], settings: Settings) -> Principal:  # noqa: PLR0912
     sub = str(claims.get("sub", ""))
     if not sub:
         raise AuthError("token missing 'sub'")
@@ -201,4 +201,5 @@ async def fetch_jwks(url: str) -> dict[str, Any]:
     async with httpx.AsyncClient(timeout=5.0) as client:
         res = await client.get(url)
         res.raise_for_status()
-        return res.json()
+        body: dict[str, Any] = res.json()
+        return body

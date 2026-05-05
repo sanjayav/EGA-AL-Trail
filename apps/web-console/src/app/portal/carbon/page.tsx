@@ -28,12 +28,12 @@ export default async function CarbonPage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Zone 02 · Carbon Footprint Tracker
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Cradle-to-gate, brand by brand.
         </h1>
         <p className="mt-2 max-w-2xl text-[15px] text-[var(--fg-muted)]">
-          Every value is verified by DNV under ISO 14067:2018. Use the embodied
-          tonnes column to populate your downstream Scope 3 reporting.
+          Every value is verified by DNV under ISO 14067:2018. Use the embodied tonnes column to
+          populate your downstream Scope 3 reporting.
         </p>
       </header>
 

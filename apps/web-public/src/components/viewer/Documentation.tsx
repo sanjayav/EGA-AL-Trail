@@ -40,7 +40,7 @@ export function Documentation({ dpp }: { dpp: ViewerDpp }) {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Documentation
         </p>
-        <h2 className="mt-2 max-w-3xl font-display text-[clamp(34px,5vw,56px)] font-light leading-[1.05] tracking-[-0.015em] text-[var(--fg-default)]">
+        <h2 className="font-display mt-2 max-w-3xl text-[clamp(34px,5vw,56px)] font-light leading-[1.05] tracking-[-0.015em] text-[var(--fg-default)]">
           Every document a regulator could ask for, in one place.
         </h2>
         <p className="mt-3 max-w-2xl text-[14px] leading-[1.7] text-[var(--fg-muted)]">
@@ -55,7 +55,7 @@ export function Documentation({ dpp }: { dpp: ViewerDpp }) {
               <a
                 key={d.id}
                 href={d.url}
-                className="group flex items-start gap-4 rounded-[var(--radius-md)] border border-[var(--surface-divider)] bg-[var(--color-paper)] p-5 transition hover:border-[var(--color-ink)]/40"
+                className="hover:border-[var(--color-ink)]/40 group flex items-start gap-4 rounded-[var(--radius-md)] border border-[var(--surface-divider)] bg-[var(--color-paper)] p-5 transition"
               >
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-[var(--radius-sm)] bg-[var(--color-ink)] text-[var(--color-paper)]">
                   <DocIcon kind={d.kind} />
@@ -71,7 +71,8 @@ export function Documentation({ dpp }: { dpp: ViewerDpp }) {
                     </span>
                   </div>
                   <p className="mt-1 text-[11px] text-[var(--fg-muted)]">
-                    Issued by {d.issuer} · {d.kind.toUpperCase()} · {(d.sizeKb / 1024).toFixed(2)} MB
+                    Issued by {d.issuer} · {d.kind.toUpperCase()} · {(d.sizeKb / 1024).toFixed(2)}{' '}
+                    MB
                   </p>
                   <p className="mt-1 break-all font-mono text-[10px] text-[var(--fg-subtle)]">
                     SHA-256 {d.sha256}
@@ -90,9 +91,5 @@ export function Documentation({ dpp }: { dpp: ViewerDpp }) {
 }
 
 function DocIcon({ kind }: { kind: 'pdf' | 'csv' | 'json' }) {
-  return (
-    <span className="font-mono text-[9px] font-bold uppercase tracking-[0.05em]">
-      {kind}
-    </span>
-  )
+  return <span className="font-mono text-[9px] font-bold uppercase tracking-[0.05em]">{kind}</span>
 }

@@ -5,8 +5,6 @@ from __future__ import annotations
 import time
 
 import pytest
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from dpp_api.services.webhooks import (
     create_subscription,
     delete_subscription,
@@ -14,6 +12,7 @@ from dpp_api.services.webhooks import (
     sign_payload,
     verify_signature,
 )
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 @pytest.mark.asyncio

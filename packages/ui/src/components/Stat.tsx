@@ -15,16 +15,14 @@ const TREND_GLYPH = { up: '↑', down: '↓', flat: '→' } as const
 export function Stat({ label, value, unit, context, trend, className }: StatProps) {
   return (
     <div className={cn('flex flex-col gap-1', className)}>
-      <div className="text-[11px] font-mono uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
+      <div className="font-mono text-[11px] uppercase tracking-[0.15em] text-[var(--fg-subtle)]">
         {label}
       </div>
       <div className="flex items-baseline gap-2">
         <span className="tabular text-[28px] font-semibold leading-none text-[var(--fg-default)]">
           {value}
         </span>
-        {unit && (
-          <span className="text-[13px] font-mono text-[var(--fg-muted)]">{unit}</span>
-        )}
+        {unit && <span className="font-mono text-[13px] text-[var(--fg-muted)]">{unit}</span>}
       </div>
       {(context || trend) && (
         <div className="flex items-center gap-2 text-[13px] text-[var(--fg-muted)]">

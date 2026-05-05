@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import uuid4
 
 import pytest
-
 from dpp_api.services.generator import build_dpp_from_cast_event
 from dpp_api.services.schema_validator import validate_against
 
@@ -24,7 +23,7 @@ def test_generator_produces_schema_valid_dpp(preset_id: str, brand: str, form: s
         "schemaVersion": "1.0.0",
         "trackingId": uuid4().hex,
         "source": {"kind": "simulator", "actor": "tests", "presetId": preset_id},
-        "occurredAt": datetime.now(timezone.utc).isoformat(),
+        "occurredAt": datetime.now(UTC).isoformat(),
         "tenantId": 1,
         "cast": _cast_for(preset_id, brand, form),
     }

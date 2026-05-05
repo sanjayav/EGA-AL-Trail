@@ -154,8 +154,8 @@ export function IssueCredentialForm({ defaults }: { defaults: FormDefaults }) {
             {pending ? 'Issuing…' : 'Issue credential'}
           </Button>
           <p className="text-[12px] text-[var(--fg-subtle)]">
-            Issuing supersedes the prior active credential for{' '}
-            <strong>{brand}</strong>. Rollover is a separate explicit action.
+            Issuing supersedes the prior active credential for <strong>{brand}</strong>. Rollover is
+            a separate explicit action.
           </p>
         </div>
       </section>
@@ -166,20 +166,16 @@ export function IssueCredentialForm({ defaults }: { defaults: FormDefaults }) {
             Methodology
           </p>
           <p className="mt-2 text-[var(--fg-muted)]">
-            ISO 14067:2018 + IAI Carbon Footprint Methodology v2.0 + PCR
-            2022:08 v1.0. The platform records the full methodology string on
-            the credential.
+            ISO 14067:2018 + IAI Carbon Footprint Methodology v2.0 + PCR 2022:08 v1.0. The platform
+            records the full methodology string on the credential.
           </p>
         </div>
         {result && (
-          <div className="mt-5 rounded-[var(--radius-md)] border border-[var(--color-green)]/40 bg-[#DCFCE7] p-5 text-[13px] text-[#166534]">
-            <p className="font-mono text-[10px] uppercase tracking-[0.15em]">
-              Credential issued
-            </p>
+          <div className="border-[var(--color-green)]/40 mt-5 rounded-[var(--radius-md)] border bg-[#DCFCE7] p-5 text-[13px] text-[#166534]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.15em]">Credential issued</p>
             <p className="mt-2">
-              ID #{result.credentialId} · {result.supersededIds.length} prior
-              credential{result.supersededIds.length === 1 ? '' : 's'} marked
-              superseded.
+              ID #{result.credentialId} · {result.supersededIds.length} prior credential
+              {result.supersededIds.length === 1 ? '' : 's'} marked superseded.
             </p>
             <p className="mt-2">
               {result.affectedDppCount} active DPP

@@ -74,9 +74,7 @@ export interface AffectedDppsResult {
   }[]
 }
 
-export async function fetchAffectedDpps(
-  credentialId: number,
-): Promise<AffectedDppsResult | null> {
+export async function fetchAffectedDpps(credentialId: number): Promise<AffectedDppsResult | null> {
   const res = await authedFetch(
     `${API_BASE}/api/v1/verifier/credentials/${credentialId}/affected-dpps`,
   )

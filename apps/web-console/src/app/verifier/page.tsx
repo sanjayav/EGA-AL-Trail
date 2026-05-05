@@ -1,3 +1,4 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 import { ArrowRight, FileSignature, History, Layers } from 'lucide-react'
 
@@ -19,13 +20,13 @@ export default async function VerifierLanding() {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Verifier overview
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           Issue, renew, revoke.
         </h1>
         <p className="mt-2 max-w-2xl text-[15px] text-[var(--fg-muted)]">
-          Every credential you issue here is signed into the platform's
-          reference store, atomically rolls forward to active DPPs on demand,
-          and is independently verifiable from the audit log.
+          Every credential you issue here is signed into the platform's reference store, atomically
+          rolls forward to active DPPs on demand, and is independently verifiable from the audit
+          log.
         </p>
       </header>
 
@@ -73,7 +74,7 @@ function ZoneCard({
 }) {
   return (
     <Link
-      href={href}
+      href={href as Route}
       className="group flex flex-col gap-3 rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-6 transition-colors hover:border-[var(--color-accent)]"
     >
       <div className="flex items-center justify-between">

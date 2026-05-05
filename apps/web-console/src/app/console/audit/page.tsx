@@ -1,3 +1,4 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 
 import { Badge, type BadgeTone } from '@dpp/ui'
@@ -96,7 +97,7 @@ export default async function AuditPage({ searchParams }: PageProps) {
           </h1>
           <p className="mt-1 text-[14px] text-[var(--fg-muted)]">
             Hash-chained record of every mutation. {list.total.toLocaleString()} entries · showing{' '}
-            <span className="font-mono tabular">
+            <span className="tabular font-mono">
               {showingFrom}–{showingTo}
             </span>
             .
@@ -128,7 +129,12 @@ function FilterBar({ current }: { current: AuditFilters }) {
       method="GET"
       className="flex flex-wrap items-center gap-3 rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-recessed)] px-4 py-3"
     >
-      <FilterSelect name="action" label="Action" value={current.action ?? ''} options={ACTION_OPTIONS} />
+      <FilterSelect
+        name="action"
+        label="Action"
+        value={current.action ?? ''}
+        options={ACTION_OPTIONS}
+      />
       <FilterSelect
         name="actorKind"
         label="Actor"
@@ -170,7 +176,7 @@ function FilterSelect({
 }) {
   return (
     <label className="flex items-center gap-2 text-[12px] text-[var(--fg-muted)]">
-      <span className="font-mono uppercase tracking-[0.1em] text-[10px] text-[var(--fg-subtle)]">
+      <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-[var(--fg-subtle)]">
         {label}
       </span>
       <select
@@ -200,17 +206,14 @@ function AuditRow({ entry }: { entry: AuditEntry }) {
         <time
           dateTime={entry.occurredAt}
           title={entry.occurredAt}
-          className="font-mono tabular text-[11px] text-[var(--fg-muted)]"
+          className="tabular font-mono text-[11px] text-[var(--fg-muted)]"
         >
           {date.toISOString().replace('T', ' ').slice(0, 19)}Z
         </time>
         <Badge tone={tone}>{entry.action}</Badge>
         {entry.severity !== 'info' && <Badge tone={sev}>{entry.severity}</Badge>}
         <span className="text-[12px] text-[var(--fg-muted)]">
-          by{' '}
-          <span className="text-[var(--fg-default)]">
-            {entry.actorId ?? entry.actorKind}
-          </span>
+          by <span className="text-[var(--fg-default)]">{entry.actorId ?? entry.actorKind}</span>
         </span>
         {target && (
           <span className="ml-auto font-mono text-[11px] text-[var(--fg-subtle)]">{target}</span>
@@ -277,19 +280,19 @@ function Pagination({
   const lastPage = Math.max(0, Math.ceil(total / pageSize) - 1)
   if (lastPage === 0) return null
 
-  function href(targetPage: number): string {
+  function href(targetPage: number): Route {
     const sp = new URLSearchParams()
     if (filters.action) sp.set('action', filters.action)
     if (filters.actorKind) sp.set('actorKind', filters.actorKind)
     if (filters.severity) sp.set('severity', filters.severity)
     if (targetPage > 0) sp.set('page', String(targetPage))
     const qs = sp.toString()
-    return qs ? `/console/audit?${qs}` : '/console/audit'
+    return (qs ? `/console/audit?${qs}` : '/console/audit') as Route
   }
 
   return (
     <nav className="mt-6 flex items-center justify-between text-[12px] text-[var(--fg-muted)]">
-      <span className="font-mono tabular">
+      <span className="tabular font-mono">
         Page {page + 1} of {lastPage + 1}
       </span>
       <div className="flex gap-2">

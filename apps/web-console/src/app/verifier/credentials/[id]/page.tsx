@@ -14,10 +14,7 @@ export default async function CredentialDetailPage({ params }: PageProps) {
   const credentialId = Number(id)
   if (!Number.isInteger(credentialId)) notFound()
 
-  const [list, affected] = await Promise.all([
-    listMyCredentials(),
-    fetchAffectedDpps(credentialId),
-  ])
+  const [list, affected] = await Promise.all([listMyCredentials(), fetchAffectedDpps(credentialId)])
   const credential = list.items.find((c) => c.id === credentialId)
   if (!credential) notFound()
 
@@ -27,7 +24,7 @@ export default async function CredentialDetailPage({ params }: PageProps) {
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--fg-subtle)]">
           Credential #{credential.id}
         </p>
-        <h1 className="mt-2 font-display text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
+        <h1 className="font-display mt-2 text-[36px] font-semibold leading-tight text-[var(--fg-default)]">
           {credential.brand} ·{' '}
           <span className="tabular font-mono text-[var(--color-gold-deep,var(--color-accent))]">
             {Math.round(credential.valueKgCo2ePerTonne).toLocaleString()}
@@ -103,7 +100,7 @@ export default async function CredentialDetailPage({ params }: PageProps) {
             <tbody className="divide-y divide-[var(--surface-divider)]">
               {affected.samples.map((s) => (
                 <tr key={s.upi} className="hover:bg-[var(--surface-hover)]">
-                  <td className="px-5 py-3 font-mono text-[12px] truncate max-w-[280px] inline-block align-middle">
+                  <td className="inline-block max-w-[280px] truncate px-5 py-3 align-middle font-mono text-[12px]">
                     {s.upi}
                   </td>
                   <td className="px-5 py-3 font-mono text-[12px] text-[var(--fg-muted)]">

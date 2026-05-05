@@ -1257,7 +1257,8 @@ def _build_body(
     # demo values, hand-typed variants) to keep the dpp_records.gtin VARCHAR(14)
     # column happy and the public viewer URL well-formed.
     gtin_raw = str(body["upi"]["gtin"])
-    if not (gtin_raw.isdigit() and len(gtin_raw) == 14):
+    gs1_gtin_digits = 14
+    if not (gtin_raw.isdigit() and len(gtin_raw) == gs1_gtin_digits):
         body["upi"]["gtin"] = "07640100040030"
     body["upi"].setdefault(
         "digitalLinkUrl",

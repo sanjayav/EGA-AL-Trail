@@ -97,16 +97,31 @@ export default async function BatchImportPage() {
 }
 
 const FIELDS = [
-  { column: 'product_identifier', type: 'string', example: 'CELESTIAL-EB-6063-001', required: true },
+  {
+    column: 'product_identifier',
+    type: 'string',
+    example: 'CELESTIAL-EB-6063-001',
+    required: true,
+  },
   { column: 'brand', type: 'string', example: 'CelestiAL', required: true },
   { column: 'alloy', type: 'EN alloy code', example: 'EN AW-6063', required: true },
   { column: 'form', type: 'enum', example: 'extrusion_billet', required: true },
   { column: 'weight_kg', type: 'number', example: '850', required: true },
   { column: 'cfp_kg_co2e_per_tonne', type: 'number', example: '4273', required: true },
   { column: 'recycled_content_pct', type: 'number (0-100)', example: '30.5', required: true },
-  { column: 'manufacturer_name', type: 'string', example: 'Emirates Global Aluminium', required: true },
+  {
+    column: 'manufacturer_name',
+    type: 'string',
+    example: 'Emirates Global Aluminium',
+    required: true,
+  },
   { column: 'manufacturing_date', type: 'ISO date', example: '2026-05-01', required: true },
-  { column: 'manufacturing_facility', type: 'string', example: 'Jebel Ali Smelter', required: false },
+  {
+    column: 'manufacturing_facility',
+    type: 'string',
+    example: 'Jebel Ali Smelter',
+    required: false,
+  },
   { column: 'energy_source', type: 'string', example: 'Solar PPA', required: false },
   { column: 'certification', type: 'string', example: 'ASI Performance #27', required: false },
 ]

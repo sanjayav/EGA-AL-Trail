@@ -67,10 +67,29 @@ src = ["dpp_api", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "N", "S", "C4", "RUF", "ASYNC", "PL"]
-ignore = ["S101", "PLR0913"]
+ignore = [
+  "S101",      # assert is fine in tests / runtime invariants
+  "PLR0913",   # too-many-arguments
+  "B008",      # FastAPI Depends() / Query() / Body() in defaults is idiomatic
+  "PLC0415",   # local imports used to avoid circular import cycles
+  "RUF001",    # ambiguous unicode in strings (we use ·, °, etc. legitimately)
+  "RUF002",    # ambiguous unicode in docstrings
+  "RUF003",    # ambiguous unicode in comments
+  "PLW0603",   # global statements for module-level caches
+]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S", "PLR2004"]
+"tests/*" = ["S", "PLR2004", "E501"]
+"dpp_api/services/product_seed.py" = ["E501"]   # data file: long URL/asset literals
+"dpp_api/services/plant_signals.py" = ["E501", "PLR0911", "PLR2004"]  # data catalogue + classifier
+"dpp_api/db/models.py" = ["E501"]               # SQLAlchemy CheckConstraint literals
+"dpp_api/services/signer.py" = ["E501"]         # canonicalisation comments referencing specs
+"dpp_api/services/generator.py" = ["E501"]      # ESPR article references in comments
+"dpp_api/services/bundles.py" = ["E501"]
+"dpp_api/services/customer_views.py" = ["E501"]
+"dpp_api/middleware/security_headers.py" = ["E501"]
+"dpp_api/main.py" = ["S104"]                    # uvicorn binds 0.0.0.0 by design
+"dpp_api/middleware/rate_limit.py" = ["S105"]   # Lua script literal, not a credential
 
 [tool.ruff.format]
 quote-style = "double"
@@ -82,6 +101,17 @@ strict = true
 warn_unused_ignores = true
 warn_return_any = true
 plugins = ["pydantic.mypy"]
+
+# SQLAlchemy MappedAsDataclass(kw_only=True) is correct at runtime, but mypy
+# evaluates dataclass field ordering before honouring kw_only — every
+# Mapped[...] without a default after one with a default trips [misc].
+[[tool.mypy.overrides]]
+module = "dpp_api.db.models"
+disable_error_code = ["misc"]
+
+[[tool.mypy.overrides]]
+module = "boto3.*"
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

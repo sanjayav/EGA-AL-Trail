@@ -27,7 +27,7 @@ def init_observability(settings: Settings) -> None:
     _init_otel(settings)
 
 
-def instrument_app(app: "FastAPI", settings: Settings) -> None:
+def instrument_app(app: FastAPI, settings: Settings) -> None:
     """Attach FastAPI instrumentation. Called after middleware is registered."""
     if settings.dpp_otel_exporter_otlp_endpoint is None:
         return
@@ -37,7 +37,7 @@ def instrument_app(app: "FastAPI", settings: Settings) -> None:
 
         FastAPIInstrumentor.instrument_app(app)
         SQLAlchemyInstrumentor().instrument()
-    except Exception as exc:  # noqa: BLE001 — observability is best-effort
+    except Exception as exc:
         log.warning("observability.instrumentation_failed", extra={"error": str(exc)})
 
 
@@ -56,7 +56,7 @@ def _init_sentry(settings: Settings) -> None:
             integrations=[StarletteIntegration(), FastApiIntegration()],
             send_default_pii=False,
         )
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         log.warning("observability.sentry_init_failed", extra={"error": str(exc)})
 
 
@@ -84,5 +84,5 @@ def _init_otel(settings: Settings) -> None:
             )
         )
         trace.set_tracer_provider(provider)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         log.warning("observability.otel_init_failed", extra={"error": str(exc)})

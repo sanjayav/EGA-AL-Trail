@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
-
 from dpp_api.services.signer import (
     body_sha256,
     canonicalise,
@@ -16,7 +15,7 @@ from dpp_api.services.signer import (
 
 def _stub_dpp() -> dict[str, object]:
     """Minimal DPP shape sufficient for the signer (full schema validity isn't required here)."""
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     return {
         "upi": {
             "digitalLinkUrl": "http://localhost:3000/01/08174060638123/10/C-TEST/21/0001",

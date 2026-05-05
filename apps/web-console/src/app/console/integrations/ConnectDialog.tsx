@@ -87,7 +87,11 @@ export function ConnectDialog({ integration, triggerLabel = 'Configure' }: Props
                       className="int-dlg__copybtn"
                       aria-label="Copy URL"
                     >
-                      {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                      {copied ? (
+                        <Check className="h-3.5 w-3.5" />
+                      ) : (
+                        <Copy className="h-3.5 w-3.5" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -133,7 +137,7 @@ export function ConnectDialog({ integration, triggerLabel = 'Configure' }: Props
               <ShieldCheck className="inline h-3 w-3 align-text-top" /> Credentials are encrypted at
               rest with the tenant KMS key.
             </span>
-            <div className="flex gap-8px gap-2">
+            <div className="gap-8px flex gap-2">
               <button type="button" onClick={close} className="int-dlg__btn int-dlg__btn--ghost">
                 Cancel
               </button>

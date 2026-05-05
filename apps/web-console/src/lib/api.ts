@@ -196,7 +196,9 @@ export async function listPresets(): Promise<PresetSummary[]> {
   return body?.items ?? []
 }
 
-export async function firePreset(presetId: string): Promise<{ ok: boolean; upi?: string; detail?: string }> {
+export async function firePreset(
+  presetId: string,
+): Promise<{ ok: boolean; upi?: string; detail?: string }> {
   // For v1.0 we POST a synthesized cast event built from the preset.
   // The simulator package owns the canonical builder; we duplicate the minimum
   // here so the console works without depending on @dpp/sim's CLI.

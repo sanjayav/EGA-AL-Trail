@@ -73,13 +73,19 @@ export function RowActions({ id, state }: { id: string; state: TransferState }) 
       </summary>
       <ul className="ot-row__menu-list">
         <li>
-          <button type="button" className="ot-row__menu-item">View VC envelope</button>
+          <button type="button" className="ot-row__menu-item">
+            View VC envelope
+          </button>
         </li>
         <li>
-          <button type="button" className="ot-row__menu-item">Download proof</button>
+          <button type="button" className="ot-row__menu-item">
+            Download proof
+          </button>
         </li>
         <li>
-          <button type="button" className="ot-row__menu-item">Open in audit log</button>
+          <button type="button" className="ot-row__menu-item">
+            Open in audit log
+          </button>
         </li>
       </ul>
     </details>

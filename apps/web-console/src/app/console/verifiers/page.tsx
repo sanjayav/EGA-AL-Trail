@@ -50,9 +50,7 @@ function VerifierCard({ verifier: v }: { verifier: VerifierRegistryEntry }) {
     <article className="rounded-[var(--radius-md)] border border-[var(--surface-border)] bg-[var(--surface-page)] p-5">
       <header className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="text-[16px] font-semibold text-[var(--fg-default)]">
-            {v.verifierName}
-          </h2>
+          <h2 className="text-[16px] font-semibold text-[var(--fg-default)]">{v.verifierName}</h2>
           <p className="mt-1 break-all font-mono text-[11px] text-[var(--fg-muted)]">
             {v.verifierDid}
           </p>
@@ -68,9 +66,7 @@ function VerifierCard({ verifier: v }: { verifier: VerifierRegistryEntry }) {
       </header>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {v.stateCounts.active > 0 && (
-          <Badge tone="success">{v.stateCounts.active} active</Badge>
-        )}
+        {v.stateCounts.active > 0 && <Badge tone="success">{v.stateCounts.active} active</Badge>}
         {v.stateCounts.superseded > 0 && (
           <Badge tone="neutral">{v.stateCounts.superseded} superseded</Badge>
         )}
@@ -143,8 +139,8 @@ function EmptyState() {
     <div className="rounded-[var(--radius-md)] border border-dashed border-[var(--surface-border)] bg-[var(--surface-recessed)] px-8 py-16 text-center">
       <p className="text-[14px] text-[var(--fg-default)]">No external verifiers yet.</p>
       <p className="mt-1 text-[12px] text-[var(--fg-muted)]">
-        Once a verifier (DNV, Bureau Veritas, ASI, a notified body) issues their first credential
-        on this tenant, they'll appear here.
+        Once a verifier (DNV, Bureau Veritas, ASI, a notified body) issues their first credential on
+        this tenant, they'll appear here.
       </p>
     </div>
   )

@@ -15,7 +15,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from nacl.exceptions import BadSignatureError
@@ -51,7 +51,7 @@ def sign_dpp_envelope(dpp_body: dict[str, Any]) -> dict[str, Any]:
     settings = get_settings()
     provider = get_key_provider()
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     issuer_did = settings.dpp_issuer_did
     verification_method = f"{issuer_did}#key-1"
 

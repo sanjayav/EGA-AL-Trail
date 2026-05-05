@@ -1,11 +1,4 @@
-import {
-  ArrowRightLeft,
-  CheckCircle2,
-  Clock,
-  Recycle,
-  ShieldAlert,
-  Truck,
-} from 'lucide-react'
+import { ArrowRightLeft, CheckCircle2, Clock, Recycle, ShieldAlert, Truck } from 'lucide-react'
 
 import { matchDemoPassport } from '@dpp/ui'
 
@@ -67,8 +60,8 @@ export default async function OwnershipTransfersPage({ searchParams }: PageProps
     if (stateFilter && t.state !== stateFilter) return false
     if (kindFilter && t.kind !== kindFilter) return false
     if (query) {
-      const blob = `${t.passportUpi} ${t.productLabel} ${t.toOrg} ${t.fromOrg} ${t.reference ?? ''}`
-        .toLowerCase()
+      const blob =
+        `${t.passportUpi} ${t.productLabel} ${t.toOrg} ${t.fromOrg} ${t.reference ?? ''}`.toLowerCase()
       if (!blob.includes(query)) return false
     }
     return true
@@ -95,7 +88,7 @@ export default async function OwnershipTransfersPage({ searchParams }: PageProps
   }))
 
   return (
-    <div className="ot-page bg-[var(--surface-canvas)] min-h-[calc(100vh-56px)]">
+    <div className="ot-page min-h-[calc(100vh-56px)] bg-[var(--surface-canvas)]">
       <style>{OT_PAGE_CSS}</style>
 
       <div className="mx-auto max-w-[1320px] px-7 py-7">
@@ -228,7 +221,10 @@ export default async function OwnershipTransfersPage({ searchParams }: PageProps
               <tbody>
                 {filtered.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-4 py-16 text-center text-[13px] text-[var(--fg-subtle)]">
+                    <td
+                      colSpan={8}
+                      className="px-4 py-16 text-center text-[13px] text-[var(--fg-subtle)]"
+                    >
                       No transfers match these filters.
                     </td>
                   </tr>
@@ -253,8 +249,9 @@ function TransferRow({ t, canAct }: { t: Transfer; canAct: boolean }) {
     tone: 'muted' as StateTone,
   }
   const demo = matchDemoPassport(t.passportUpi)
-  const productImage =
-    (demo?.body.media as Record<string, unknown> | undefined)?.productImage as string | undefined
+  const productImage = (demo?.body.media as Record<string, unknown> | undefined)?.productImage as
+    | string
+    | undefined
 
   return (
     <tr className="ot-row">
@@ -306,9 +303,17 @@ function TransferRow({ t, canAct }: { t: Transfer; canAct: boolean }) {
       </Td>
       <Td>
         <p className="ot-row__time">{formatRelative(t.initiatedAt)}</p>
-        {t.settledAt && <p className="ot-row__time-secondary">settled {formatRelative(t.settledAt)}</p>}
+        {t.settledAt && (
+          <p className="ot-row__time-secondary">settled {formatRelative(t.settledAt)}</p>
+        )}
       </Td>
-      <Td align="right">{canAct ? <RowActions id={t.id} state={t.state} /> : <span className="ot-row__time-secondary">—</span>}</Td>
+      <Td align="right">
+        {canAct ? (
+          <RowActions id={t.id} state={t.state} />
+        ) : (
+          <span className="ot-row__time-secondary">—</span>
+        )}
+      </Td>
     </tr>
   )
 }
@@ -330,7 +335,9 @@ function KpiCard({
     <article className={`ot-page__kpi${tone ? ` ot-page__kpi--${tone}` : ''}`}>
       <div className="ot-page__kpi-head">
         <p className="ot-page__kpi-label">{label}</p>
-        <span className={`ot-page__kpi-icon${tone ? ` ot-page__kpi-icon--${tone}` : ''}`}>{icon}</span>
+        <span className={`ot-page__kpi-icon${tone ? ` ot-page__kpi-icon--${tone}` : ''}`}>
+          {icon}
+        </span>
       </div>
       <p className="ot-page__kpi-value">{value}</p>
       <p className="ot-page__kpi-sub">{sub}</p>
@@ -349,17 +356,52 @@ function Donut({ byKind }: { byKind: Record<TransferKind, number> }) {
     <div className="ot-donut">
       <svg viewBox="0 0 80 80" className="ot-donut__svg" aria-hidden>
         <circle cx="40" cy="40" r={r} fill="none" stroke="var(--surface-hover)" strokeWidth="10" />
-        <circle cx="40" cy="40" r={r} fill="none" stroke="var(--color-accent)" strokeWidth="10"
-          strokeDasharray={`${ownLen} ${c}`} transform="rotate(-90 40 40)" />
-        <circle cx="40" cy="40" r={r} fill="none" stroke="#f59e0b" strokeWidth="10"
-          strokeDasharray={`${cusLen} ${c}`} strokeDashoffset={-ownLen} transform="rotate(-90 40 40)" />
-        <circle cx="40" cy="40" r={r} fill="none" stroke="#16a34a" strokeWidth="10"
-          strokeDasharray={`${eolLen} ${c}`} strokeDashoffset={-(ownLen + cusLen)} transform="rotate(-90 40 40)" />
+        <circle
+          cx="40"
+          cy="40"
+          r={r}
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth="10"
+          strokeDasharray={`${ownLen} ${c}`}
+          transform="rotate(-90 40 40)"
+        />
+        <circle
+          cx="40"
+          cy="40"
+          r={r}
+          fill="none"
+          stroke="#f59e0b"
+          strokeWidth="10"
+          strokeDasharray={`${cusLen} ${c}`}
+          strokeDashoffset={-ownLen}
+          transform="rotate(-90 40 40)"
+        />
+        <circle
+          cx="40"
+          cy="40"
+          r={r}
+          fill="none"
+          stroke="#16a34a"
+          strokeWidth="10"
+          strokeDasharray={`${eolLen} ${c}`}
+          strokeDashoffset={-(ownLen + cusLen)}
+          transform="rotate(-90 40 40)"
+        />
       </svg>
       <ul className="ot-donut__legend">
-        <li><span className="ot-donut__swatch" style={{ background: 'var(--color-accent)' }} /> Ownership <strong>{byKind.ownership}</strong></li>
-        <li><span className="ot-donut__swatch" style={{ background: '#f59e0b' }} /> Custody <strong>{byKind.custody}</strong></li>
-        <li><span className="ot-donut__swatch" style={{ background: '#16a34a' }} /> End-of-Life <strong>{byKind.end_of_life}</strong></li>
+        <li>
+          <span className="ot-donut__swatch" style={{ background: 'var(--color-accent)' }} />{' '}
+          Ownership <strong>{byKind.ownership}</strong>
+        </li>
+        <li>
+          <span className="ot-donut__swatch" style={{ background: '#f59e0b' }} /> Custody{' '}
+          <strong>{byKind.custody}</strong>
+        </li>
+        <li>
+          <span className="ot-donut__swatch" style={{ background: '#16a34a' }} /> End-of-Life{' '}
+          <strong>{byKind.end_of_life}</strong>
+        </li>
       </ul>
     </div>
   )
@@ -394,16 +436,10 @@ function FilterPill({
   )
 }
 
-function Th({
-  children,
-  align = 'left',
-}: {
-  children: React.ReactNode
-  align?: 'left' | 'right'
-}) {
+function Th({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return (
     <th
-      className={`ot-page__th${align === 'right' ? ' text-right' : ' text-left'}`}
+      className={`ot-page__th ${align === 'right' ? 'text-right' : 'text-left'}`}
       scope="col"
     >
       {children}
@@ -411,15 +447,11 @@ function Th({
   )
 }
 
-function Td({
-  children,
-  align = 'left',
-}: {
-  children: React.ReactNode
-  align?: 'left' | 'right'
-}) {
+function Td({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return (
-    <td className={`ot-page__td${align === 'right' ? ' text-right' : ' text-left'}`}>{children}</td>
+    <td className={`ot-page__td ${align === 'right' ? 'text-right' : 'text-left'}`}>
+      {children}
+    </td>
   )
 }
 

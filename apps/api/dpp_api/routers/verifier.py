@@ -15,7 +15,7 @@ in-process Principal of the same shape.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from dateutil.parser import isoparse
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -269,5 +269,5 @@ async def list_my_audit_entries(
 def _parse_dt(value: str) -> datetime:
     parsed = isoparse(value)
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
+        parsed = parsed.replace(tzinfo=UTC)
     return parsed

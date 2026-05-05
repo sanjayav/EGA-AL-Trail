@@ -86,10 +86,7 @@ export class ApiAuthError extends Error {}
  * Pass-through fetch helper for Next proxies. Forwards Authorization +
  * declines to inject hardcoded tenant/verifier/customer headers.
  */
-export async function proxyFetch(
-  url: string,
-  init: RequestInit = {},
-): Promise<Response | null> {
+export async function proxyFetch(url: string, init: RequestInit = {}): Promise<Response | null> {
   let auth: HeadersInit
   try {
     auth = await authHeaders()

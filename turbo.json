@@ -32,10 +32,7 @@
       "outputs": []
     },
     "codegen": {
-      "outputs": [
-        "../ts-types/src/generated/**",
-        "../py-models/dpp_models/generated/**"
-      ]
+      "outputs": ["../ts-types/src/generated/**", "../py-models/dpp_models/generated/**"]
     }
   }
 }

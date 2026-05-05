@@ -15,7 +15,11 @@
     "./presets/celestial-r": "./presets/celestial-r.json",
     "./presets/standard": "./presets/standard.json"
   },
-  "files": ["schemas", "presets", "src"],
+  "files": [
+    "schemas",
+    "presets",
+    "src"
+  ],
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "codegen": "node scripts/codegen-ts.mjs && node scripts/codegen-py.mjs",

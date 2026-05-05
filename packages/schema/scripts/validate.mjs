@@ -50,7 +50,8 @@ for (const f of schemaFiles) {
 for (const f of schemaFiles) {
   const schema = loadJson(f)
   try {
-    ajv.compile(schema)
+    const validate = schema.$id ? ajv.getSchema(schema.$id) : ajv.compile(schema)
+    if (!validate) throw new Error(`could not retrieve compiled schema for ${schema.$id}`)
     process.stdout.write(`  ✓ compiled  ${schema.$id || f}\n`)
   } catch (e) {
     process.stderr.write(`  ✗ compile failed ${f}: ${e.message}\n`)

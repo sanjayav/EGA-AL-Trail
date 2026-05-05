@@ -18,13 +18,13 @@ console can map them to a "Permission denied" UI without parsing prose.
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
+from typing import Any
 
 from fastapi import Header, HTTPException, status
 from fastapi.security.utils import get_authorization_scheme_param
 
 from .jwt_verify import AuthError, verify_token
 from .principal import Principal, Role, Scope
-
 
 _BEARER = "bearer"
 
@@ -59,7 +59,7 @@ async def require_principal(
         raise _unauthorized(str(exc)) from exc
 
 
-def require_role(*roles: Role) -> Callable[[Principal], Principal]:
+def require_role(*roles: Role) -> Callable[..., Any]:
     allowed = frozenset(roles)
 
     async def _dep(principal: Principal = None) -> Principal:  # type: ignore[assignment]
@@ -78,7 +78,7 @@ def require_role(*roles: Role) -> Callable[[Principal], Principal]:
     return _role_dep_factory(allowed)
 
 
-def _role_dep_factory(allowed: frozenset[Role]) -> Callable[[Principal], Principal]:
+def _role_dep_factory(allowed: frozenset[Role]) -> Callable[..., Any]:
     """Build a FastAPI-compatible dependency that requires one of `allowed`."""
     from fastapi import Depends
 
@@ -91,7 +91,7 @@ def _role_dep_factory(allowed: frozenset[Role]) -> Callable[[Principal], Princip
     return _dep
 
 
-def require_scope(*scopes: Scope) -> Callable[[Principal], Principal]:
+def require_scope(*scopes: Scope) -> Callable[..., Any]:
     needed = frozenset(scopes)
     from fastapi import Depends
 
@@ -105,7 +105,7 @@ def require_scope(*scopes: Scope) -> Callable[[Principal], Principal]:
     return _dep
 
 
-def require_in(roles: Iterable[Role]) -> Callable[[Principal], Principal]:
+def require_in(roles: Iterable[Role]) -> Callable[..., Any]:
     return _role_dep_factory(frozenset(roles))
 
 

@@ -7,7 +7,7 @@ contract is enforced before anything reaches the database.
 from __future__ import annotations
 
 import json
-from functools import lru_cache
+from functools import cache
 from pathlib import Path
 from typing import Any
 
@@ -19,14 +19,15 @@ _ROOT = next(p for p in _HERE.parents if (p / "pnpm-workspace.yaml").exists())
 _SCHEMA_DIR = _ROOT / "packages" / "schema" / "schemas"
 
 
-@lru_cache(maxsize=None)
+@cache
 def _load_schema(name: str) -> dict[str, Any]:
     path = _SCHEMA_DIR / f"{name}.json"
     with path.open("r", encoding="utf-8") as fh:
-        return json.load(fh)
+        loaded: dict[str, Any] = json.load(fh)
+        return loaded
 
 
-@lru_cache(maxsize=None)
+@cache
 def _validator(name: str) -> Draft202012Validator:
     schema = _load_schema(name)
     store = {

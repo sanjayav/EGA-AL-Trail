@@ -9,7 +9,7 @@ retry, parallelise, and observe each layer independently.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -79,7 +79,7 @@ async def run_dpp_pipeline(session: AsyncSession, cast_event_id: int) -> Pipelin
         existing.body_sha256 = sha
         existing.signature = envelope["proof"]["proofValue"]
         existing.state = "published"
-        existing.issued_at = datetime.now(timezone.utc)
+        existing.issued_at = datetime.now(UTC)
         record = existing
     else:
         record = DppRecord(
@@ -100,7 +100,7 @@ async def run_dpp_pipeline(session: AsyncSession, cast_event_id: int) -> Pipelin
             body_sha256=sha,
             signature=envelope["proof"]["proofValue"],
             cast_event_id=cast_event.id,
-            issued_at=datetime.now(timezone.utc),
+            issued_at=datetime.now(UTC),
         )
         session.add(record)
 

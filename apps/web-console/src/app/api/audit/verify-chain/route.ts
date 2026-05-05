@@ -12,10 +12,7 @@ export async function POST(req: Request) {
     body: JSON.stringify(body ?? {}),
   })
   if (!upstream)
-    return NextResponse.json(
-      { detail: 'API unreachable or sign in required' },
-      { status: 502 },
-    )
+    return NextResponse.json({ detail: 'API unreachable or sign in required' }, { status: 502 })
   const data = await upstream.json().catch(() => ({}))
   return NextResponse.json(data, { status: upstream.status })
 }

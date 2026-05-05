@@ -25,6 +25,9 @@ the catch-all `GET /{upi:path}` so the path parser doesn't swallow them.
 
 from __future__ import annotations
 
+from datetime import UTC
+from typing import Any
+
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
 from fastapi.responses import PlainTextResponse, Response
 from sqlalchemy import select
@@ -32,11 +35,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..auth import Principal
 from ..auth.dependencies import (
-    require_authority,
-    require_customer,
     require_dpp_operator,
     require_dpp_reviewer,
-    require_tenant_auditor,
 )
 from ..db import get_session_dependency, get_tenant_session
 from ..db.models import DppRecord
@@ -156,7 +156,7 @@ async def withdraw_endpoint(
     gtin: str,
     cast: str,
     serial: str,
-    payload: dict,
+    payload: dict[str, Any],
     principal: Principal = Depends(require_dpp_operator),
     session: AsyncSession = Depends(get_tenant_session),
 ) -> dict[str, object]:
@@ -259,6 +259,6 @@ async def _require_role_for_tier(tier: AccessTier, authorization: str | None) ->
 
 
 def _utcnow_iso() -> str:
-    from datetime import datetime, timezone
+    from datetime import datetime
 
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()

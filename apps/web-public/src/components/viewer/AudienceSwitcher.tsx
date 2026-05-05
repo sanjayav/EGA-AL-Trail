@@ -13,13 +13,7 @@ const SHORT: Record<DemoAudience, string> = {
 
 /** Server-rendered audience switcher.
  * Uses URL params (?view=customer) so deep-links share · no client state. */
-export function AudienceSwitcher({
-  dpp,
-  upiPath,
-}: {
-  dpp: ViewerDpp
-  upiPath: string
-}) {
+export function AudienceSwitcher({ dpp, upiPath }: { dpp: ViewerDpp; upiPath: string }) {
   const active = dpp.audience
   return (
     <section className="border-y border-[var(--surface-divider)] bg-[var(--surface-recessed)]">
