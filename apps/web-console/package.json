@@ -18,9 +18,9 @@
     "jose": "^5.9.6",
     "lucide-react": "^0.456.0",
     "motion": "^11.11.17",
-    "next": "15.0.3",
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "next": "15.5.23",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "reactflow": "^11.11.4"
   },
   "devDependencies": {
