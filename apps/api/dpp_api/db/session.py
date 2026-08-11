@@ -46,6 +46,11 @@ def _get_engine() -> AsyncEngine:
             pool_pre_ping=settings.db_pool_pre_ping,
             echo=settings.db_echo,
             future=True,
+            # Transaction-mode poolers (pgbouncer / Supavisor :6543) break on
+            # asyncpg's named prepared statements; DB_STATEMENT_CACHE_SIZE=0
+            # disables the cache for those deployments. Default keeps asyncpg's
+            # normal caching for direct/session connections.
+            connect_args={"statement_cache_size": settings.db_statement_cache_size},
         )
     return _engine
 

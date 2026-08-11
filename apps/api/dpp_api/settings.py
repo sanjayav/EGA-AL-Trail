@@ -47,6 +47,14 @@ class Settings(BaseSettings):
     db_max_overflow: int = Field(default=20)
     db_pool_pre_ping: bool = Field(default=True)
     db_echo: bool = Field(default=False)
+    # asyncpg prepared-statement cache. Set to 0 when connecting through a
+    # transaction-mode pooler (pgbouncer / Supavisor :6543), which cannot track
+    # named prepared statements across pooled backends.
+    db_statement_cache_size: int = Field(default=256)
+    # Dev/staging boot seed. Serverless deploys set this false after the first
+    # boot: reseeding on every cold start costs tens of seconds and races when
+    # several instances start at once.
+    dpp_bootstrap_seed: bool = Field(default=True)
 
     # ── Redis ───────────────────────────────────────────────────────────────
     redis_url: str = Field(default="redis://localhost:6379/0")

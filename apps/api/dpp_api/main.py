@@ -52,7 +52,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
     init_observability(settings)
     log.info("dpp_api.boot", version=__version__, env=settings.dpp_env)
 
-    if not settings.is_production:
+    if not settings.is_production and settings.dpp_bootstrap_seed:
         # Idempotent dev seed — ensures the console isn't empty on first boot
         # against a fresh database (the test suite truncates everything).
         from .db.session import sessionmaker
