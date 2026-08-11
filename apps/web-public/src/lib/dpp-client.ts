@@ -20,6 +20,15 @@ import { filterBodyByAudience } from './audience'
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000'
 const RESOLVER_BASE = process.env.NEXT_PUBLIC_RESOLVER_BASE_URL ?? 'http://localhost:3000'
 
+// Viewer-only deploys (Vercel without a hosted API) leave the API base unset.
+// Reaching for the localhost default there means every non-demo UPI blocks the
+// render until the serverless function times out, so skip the hop entirely.
+const API_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_API_BASE_URL)
+
+// An unreachable API makes Next's cached fetch hang rather than reject, and it
+// swallows an AbortSignal, so the cap has to be a race the fetch cannot absorb.
+const API_TIMEOUT_MS = 3000
+
 export type ViewerDpp = {
   upi: string
   state: string
@@ -60,11 +69,21 @@ export async function fetchDpp(
   // 3. Live UPIs · fetch from the API. If the API is down or returns 404,
   // fall back to the CelestiAL demo so a cold install still renders something
   // pretty for the operator demo.
+  if (!API_CONFIGURED) {
+    const fallback = matchDemoPassport('celestial')
+    return fallback ? materialiseDemo(fallback, upi, audience) : null
+  }
+
   try {
-    const res = await fetch(`${API_BASE}/api/v1/dpps/${encodeURIComponent(upi)}?tier=public`, {
-      next: { revalidate: 60 },
-    })
-    if (!res.ok) {
+    const res = await Promise.race([
+      fetch(`${API_BASE}/api/v1/dpps/${encodeURIComponent(upi)}?tier=public`, {
+        next: { revalidate: 60 },
+      }),
+      new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), API_TIMEOUT_MS).unref?.()
+      }),
+    ])
+    if (!res || !res.ok) {
       const fallback = matchDemoPassport('celestial')
       return fallback ? materialiseDemo(fallback, upi, audience) : null
     }
