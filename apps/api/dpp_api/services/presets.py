@@ -11,10 +11,32 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-# Resolve the monorepo root by walking up from this file.
+# Resolve the presets directory across deployment shapes — monorepo checkout
+# or a serverless bundle that vendors them under _presets/ (see the matching
+# logic in services/schema_validator.py).
 _HERE = Path(__file__).resolve()
-_ROOT = next(p for p in _HERE.parents if (p / "pnpm-workspace.yaml").exists())
-_PRESETS_DIR = _ROOT / "packages" / "schema" / "presets"
+
+
+def _find_presets_dir() -> Path:
+    import os
+
+    override = os.environ.get("DPP_PRESETS_DIR")
+    if override:
+        return Path(override)
+    for p in _HERE.parents:
+        if (p / "pnpm-workspace.yaml").exists():
+            return p / "packages" / "schema" / "presets"
+    for p in _HERE.parents:
+        vendored = p / "_presets"
+        if vendored.is_dir():
+            return vendored
+    raise RuntimeError(
+        "cannot locate the presets directory: no pnpm-workspace.yaml ancestor, "
+        "no vendored _presets/, and DPP_PRESETS_DIR is unset"
+    )
+
+
+_PRESETS_DIR = _find_presets_dir()
 
 
 @lru_cache(maxsize=1)

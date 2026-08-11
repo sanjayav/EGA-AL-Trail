@@ -96,3 +96,9 @@ test-results/
 .terraform/
 *.tfstate
 *.tfstate.backup
+.vercel
+.env*.local
+
+# vendored into the serverless bundle at build time (see apps/api vercel build command)
+apps/api/_schemas/
+apps/api/_presets/

@@ -15,8 +15,35 @@ from jsonschema import Draft202012Validator, RefResolver
 from jsonschema.exceptions import ValidationError
 
 _HERE = Path(__file__).resolve()
-_ROOT = next(p for p in _HERE.parents if (p / "pnpm-workspace.yaml").exists())
-_SCHEMA_DIR = _ROOT / "packages" / "schema" / "schemas"
+
+
+def _find_schema_dir() -> Path:
+    """Locate packages/schema/schemas across deployment shapes.
+
+    Priority: DPP_SCHEMA_DIR env override → monorepo root (pnpm-workspace.yaml
+    marker) → `_schemas/` vendored next to the app package, which serverless
+    bundles (Vercel) populate at build time because the bundle contains only
+    the apps/api subtree.
+    """
+    import os
+
+    override = os.environ.get("DPP_SCHEMA_DIR")
+    if override:
+        return Path(override)
+    for p in _HERE.parents:
+        if (p / "pnpm-workspace.yaml").exists():
+            return p / "packages" / "schema" / "schemas"
+    for p in _HERE.parents:
+        vendored = p / "_schemas"
+        if vendored.is_dir():
+            return vendored
+    raise RuntimeError(
+        "cannot locate the JSON schema directory: no pnpm-workspace.yaml ancestor, "
+        "no vendored _schemas/, and DPP_SCHEMA_DIR is unset"
+    )
+
+
+_SCHEMA_DIR = _find_schema_dir()
 
 
 @cache

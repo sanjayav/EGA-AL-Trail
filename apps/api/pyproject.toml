@@ -117,3 +117,6 @@ ignore_missing_imports = true
 asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "-ra --strict-markers --strict-config"
+
+[tool.vercel]
+entrypoint = "dpp_api.main:app"

@@ -10,6 +10,7 @@
  *   it_administrator   → /console/settings
  */
 
+import type { Route } from 'next'
 import { cookies } from 'next/headers'
 
 export type Role =
@@ -131,7 +132,7 @@ export async function currentUser(): Promise<SessionUser> {
   return DEV_USERS[role] ?? DEV_USERS.dpp_operator
 }
 
-export const DEFAULT_LANDING: Record<Role, string> = {
+export const DEFAULT_LANDING: Record<Role, Route> = {
   platform_admin: '/admin',
   platform_support: '/admin',
   tenant_admin: '/console/overview',
