@@ -23,7 +23,11 @@ import { currentUser, type SessionUser } from './auth'
 const JWT_ISSUER = process.env.DPP_JWT_ISSUER ?? 'https://idp.dpp.ega.local'
 const JWT_AUDIENCE = process.env.DPP_JWT_AUDIENCE ?? 'dpp-api'
 const JWT_DEV_SECRET = process.env.DPP_JWT_DEV_SECRET ?? 'test-jwt-secret-not-for-production-use'
-const IS_PROD = process.env.DPP_ENV === 'production' || process.env.NODE_ENV === 'production'
+// Deliberately keyed on DPP_ENV alone: NODE_ENV is 'production' in every
+// deployed Next.js build (staging included), so using it here would force the
+// OIDC cookie path on deployments that have no IdP and silently blank every
+// data surface. Mirrors the API's settings.is_production semantics.
+const IS_PROD = process.env.DPP_ENV === 'production'
 
 const VERIFIER_DID_BY_USER: Record<string, string> = {
   // Dev affordance: when the in-memory verifier user signs in, mint a token
